@@ -322,22 +322,28 @@ if (
     practiceModeSelect.addEventListener("change", loadPractice);
   }
 }
-if (document.getElementById('typingInput')) {
-    document.getElementById('typingInput').addEventListener('input', function() {
-        const currentInput = this.value.trim();
-        const targetText = document.getElementById('sampleText').innerText.trim();
+function startNSKAutomation() {
+    const typingInput = document.getElementById('typingInput');
+    const sampleText = document.getElementById('sampleText');
+    const nextBtn = document.getElementById('nextSentence');
 
-        // Check karein ki kya text match ho gaya hai
-        if (currentInput === targetText && targetText !== "") {
-            // Input box ko khali karein
-            this.value = "";
-            
-            // Next button ko dhundhein aur click karein
-            const nextBtn = document.getElementById('nextSentence');
-            if (nextBtn) {
-                nextBtn.click();
-                console.log("NSK System: Automatic Next triggered!");
+    if (typingInput && sampleText) {
+        console.log("NSK System: Automation Active!");
+        typingInput.addEventListener('input', function() {
+            let typed = typingInput.value.trim();
+            let target = sampleText.innerText.trim();
+
+            // Agar typing khatam ho jaye
+            if (typed === target && target !== "") {
+                typingInput.value = ""; // Box khali karein
+                if (nextBtn) {
+                    nextBtn.click(); // Agla button dabayein
+                    console.log("NSK System: Next sentence loaded.");
+                }
             }
-        }
-    });
+        });
+    } else {
+        // Agar element nahi mile toh thodi der baad phir koshish karein
+        setTimeout(startNSKAutomation, 500);
+    }
 }
