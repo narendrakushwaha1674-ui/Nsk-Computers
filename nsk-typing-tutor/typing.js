@@ -322,3 +322,22 @@ if (
     practiceModeSelect.addEventListener("change", loadPractice);
   }
 }
+if (document.getElementById('typingInput')) {
+    document.getElementById('typingInput').addEventListener('input', function() {
+        const currentInput = this.value.trim();
+        const targetText = document.getElementById('sampleText').innerText.trim();
+
+        // Check karein ki kya text match ho gaya hai
+        if (currentInput === targetText && targetText !== "") {
+            // Input box ko khali karein
+            this.value = "";
+            
+            // Next button ko dhundhein aur click karein
+            const nextBtn = document.getElementById('nextSentence');
+            if (nextBtn) {
+                nextBtn.click();
+                console.log("NSK System: Automatic Next triggered!");
+            }
+        }
+    });
+}
