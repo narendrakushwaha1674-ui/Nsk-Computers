@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NSK Typing Tutor - Hindi</title>
+  <link rel="stylesheet" href="typing.css">
+</head>
+<body data-mode="hindi" class="font-hindi">
+  <div class="typing-shell">
+    <div class="typing-wrap">
+      <div class="typing-topbar">
+        <div class="typing-brand">
+          <div class="typing-mark">N</div>
+          <div>
+            <strong>NSK Typing Tutor</strong>
+            <p>Hindi Typing Workspace</p>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <a class="typing-home" href="index.html">Home Menu</a>
+        </div>
+      </div>
+
+      <section class="typing-header">
+        <p class="eyebrow">Hindi Practice</p>
+        <h1>Hindi Typing Studio</h1>
+        <p>
+          Hindi sentence aur typing test ke liye dedicated colorful workspace.
+          Numbering, timer aur live stats ke saath focused Hindi practice kijiye.
+        </p>
+      </section>
+
+      <div class="typing-layout">
+        <section class="typing-main">
+          <div class="typing-toolbar">
+            <label class="toolbar-field">
+              Hindi Mode
+              <select id="practiceModeSelect">
+                <option value="sentence">Sentence</option>
+                <option value="sentence-test">Typing Test</option>
+              </select>
+            </label>
+            <label class="toolbar-field">
+              Duration
+              <select id="durationSelect">
+                <option value="60">1 Minute</option>
+                <option value="120">2 Minutes</option>
+                <option value="300">5 Minutes</option>
+                <option value="600">10 Minutes</option>
+                <option value="900">15 Minutes</option>
+                <option value="1800">30 Minutes</option>
+              </select>
+            </label>
+            <button class="typing-button secondary-action" id="prevSentence" type="button">Previous Sentence</button>
+            <button class="typing-button secondary-action" id="nextSentence" type="button">Next Sentence</button>
+            <button class="typing-button" id="resetTyping" type="button">Reset Test</button>
+          </div>
+
+          <div class="typing-sample">
+            <p class="sample-label" id="sampleLabel">Typing Paragraph</p>
+            <p class="sample-total" id="sampleTotal">Total Sentences: 0</p>
+            <p class="sample-number" id="sampleNumber">Sentence 1</p>
+            <p class="sample-text" id="sampleText"></p>
+          </div>
+
+          <div class="typing-input-box">
+            <p class="sample-label">Type Here</p>
+            <textarea id="typingInput" placeholder="यहाँ हिंदी टाइपिंग शुरू करें"></textarea>
+          </div>
+        </section>
+
+        <aside class="typing-side">
+          <div class="info-box">
+            <span>Progress</span>
+            <strong id="progressValue">0%</strong>
+          </div>
+          <div class="info-box">
+            <span>Accuracy</span>
+            <strong id="accuracyValue">100%</strong>
+          </div>
+          <div class="info-box">
+            <span>Speed</span>
+            <strong id="speedValue">0 WPM</strong>
+          </div>
+          <div class="info-box">
+            <span>Previous Speed</span>
+            <strong id="previousSpeedValue">--</strong>
+          </div>
+          <div class="info-box">
+            <span>Timer</span>
+            <strong id="timerValue">60s</strong>
+          </div>
+          <div class="info-box">
+            <span>Status</span>
+            <p class="status-text" id="statusValue">Typing start kijiye. Result live update hoga.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script src="hindi-stories.js"></script>
+  <script src="hindi-tests.js"></script>
+  <script src="typing.js"></script>
+</body>
+</html>
