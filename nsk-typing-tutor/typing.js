@@ -329,21 +329,26 @@ function startNSKAutomation() {
 
     if (typingInput && sampleText) {
         console.log("NSK System: Automation Active!");
+        
         typingInput.addEventListener('input', function() {
-            let typed = typingInput.value.trim();
-            let target = sampleText.innerText.trim();
+            // Sabhi faltu spaces aur hidden characters ko hatakar compare karna
+            let typed = typingInput.value.replace(/\s+/g, ' ').trim();
+            let target = sampleText.innerText.replace(/\s+/g, ' ').trim();
 
-            // Agar typing khatam ho jaye
+            // Agar 100% match ho jaye
             if (typed === target && target !== "") {
-                typingInput.value = ""; // Box khali karein
+                typingInput.value = ""; // Box saaf karein
                 if (nextBtn) {
-                    nextBtn.click(); // Agla button dabayein
-                    console.log("NSK System: Next sentence loaded.");
+                    // Thoda sa delay (100ms) taaki last word count ho jaye
+                    setTimeout(() => {
+                        nextBtn.click();
+                        console.log("NSK System: Next triggered!");
+                    }, 100);
                 }
             }
         });
     } else {
-        // Agar element nahi mile toh thodi der baad phir koshish karein
         setTimeout(startNSKAutomation, 500);
     }
 }
+startNSKAutomation();
