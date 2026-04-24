@@ -322,26 +322,3 @@ if (
     practiceModeSelect.addEventListener("change", loadPractice);
   }
 }
-function checkCompletion() {
-    const currentInput = typingInput.value.trim();
-    const targetText = sampleText.innerText.trim();
-
-    // Agar input text aur target text barabar hain
-    if (currentInput === targetText) {
-        // Automation: Agla sentence ya paragraph nikalne ke liye
-        loadNextContent(); 
-    }
-}
-function loadNextContent() {
-    // Current sentence number badhana
-    currentSentenceIndex++;
-    
-    // Naya content display karna
-    updateDisplay();
-    
-    // Input box khali karna
-    typingInput.value = "";
-    
-    // Status update
-    statusValue.innerText = "Next sentence loaded automatically!";
-}
