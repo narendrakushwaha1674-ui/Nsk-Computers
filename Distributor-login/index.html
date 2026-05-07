@@ -1,1 +1,218 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Maa Shitla Computer Center AND Computer Shop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="login-gate" id="loginGate">
+      <form class="login-box" id="loginForm">
+        <span class="brand-mark login-mark">MS</span>
+        <p class="eyebrow">Secure access</p>
+        <h1>Maa Shitla Computer Center AND Computer Shop</h1>
+        <p class="login-note">Admin panel kholne ke liye apni admin ID aur password dalein.</p>
+        <label>
+          Login ID
+          <input id="loginId" type="text" autocomplete="username" placeholder="Login ID" required />
+        </label>
+        <label>
+          Password
+          <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Password" required />
+        </label>
+        <p class="login-error" id="loginError" role="alert"></p>
+        <button class="primary-btn full" type="submit">Login karein</button>
+        <button class="reset-link" id="openReset" type="button">Admin ID / Password Reset</button>
+      </form>
+    </div>
 
+    <div class="reset-modal hidden" id="resetModal">
+      <form class="reset-box" id="resetForm">
+        <button class="close-form reset-close" id="closeReset" type="button">×</button>
+        <p class="eyebrow">OTP security</p>
+        <h2>Admin ID / Password Reset</h2>
+        <p class="login-note">Har reset ke liye fresh OTP registered Gmail aur mobile dono par jayega. Dono jagah same OTP rahega.</p>
+        <label>Reset Type
+          <select id="resetType">
+            <option value="id">Admin ID Reset</option>
+            <option value="password">Admin Password Reset</option>
+          </select>
+        </label>
+        <label>Registered Email
+          <input id="resetEmail" type="email" value="Narendrakushwaha1674@gmail.com" required />
+        </label>
+        <label>Registered Mobile
+          <input id="resetMobile" type="tel" value="9179424002" required />
+        </label>
+        <button class="secondary-btn full" id="sendOtp" type="button">Send OTP</button>
+        <div class="otp-demo hidden" id="otpDemo"></div>
+        <label>OTP
+          <input id="resetOtp" type="text" placeholder="Email/Mobile par aaya same OTP" />
+        </label>
+        <label id="newLoginIdWrap">New Admin ID
+          <input id="newLoginId" type="text" placeholder="New admin ID" />
+        </label>
+        <label id="newLoginPasswordWrap" class="hidden">New Admin Password
+          <input id="newLoginPassword" type="password" placeholder="New password" />
+        </label>
+        <p class="login-error" id="resetError"></p>
+        <button class="primary-btn full" type="submit">Verify OTP & Reset</button>
+      </form>
+    </div>
+
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="home">
+        <span class="brand-mark">MS</span>
+        <span>
+          <strong id="brandName">Maa Shitla Computer Center AND Computer Shop</strong>
+          <small>Distributor ID System</small>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="public.html" target="_blank" rel="noopener">Maa Shitla Computer center And Computer Shop</a>
+        <a href="#courses">Courses</a>
+        <a href="#distributor">Distributor</a>
+        <a href="#institutes">Institutes</a>
+        <a href="certificate-requests.html" target="_blank" rel="noopener">Certificate Approval</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <button class="nav-action" id="adminLogout" type="button">Admin Logout</button>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="hero-copy">
+          <p class="eyebrow">Online coaching partner portal</p>
+          <h1>Maa Shitla Computer center And Computer Shop</h1>
+          <div class="owner-strip">
+            <strong>Director - Narendra Kushwaha (Nsk)</strong>
+            <span>Mobile: 9179424002</span>
+            <span>Email: Narendrakushwaha1674@gmail.com</span>
+          </div>
+          <div class="hero-actions">
+            <a class="primary-btn" href="#distributor">Distributor ID banao</a>
+            <a class="secondary-btn" href="public.html" target="_blank" rel="noopener">Dusri site kholen</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats" aria-label="Highlights">
+        <div><strong>MS</strong><span>Official branding</span></div>
+        <div><strong>24/7</strong><span>Computer access</span></div>
+        <div><strong>1-click</strong><span>Copy credentials</span></div>
+        <div><strong>Print</strong><span>Ready ID slips</span></div>
+      </section>
+
+      <section class="section" id="courses">
+        <div class="section-heading">
+          <p class="eyebrow">Training modules</p>
+          <h2>Computer education ke popular courses</h2>
+        </div>
+        <div class="course-grid">
+          <article class="course-card"><span>TALLY</span><h3>Tally Prime</h3><p>Accounting, GST billing aur business entry practice.</p></article>
+          <article class="course-card"><span>CCA</span><h3>CCA</h3><p>Computer concepts, office work aur practical basics.</p></article>
+          <article class="course-card"><span>CPCT</span><h3>CPCT</h3><p>Typing, computer knowledge aur exam preparation.</p></article>
+          <article class="course-card"><span>PGDCA</span><h3>PGDCA</h3><p>Advanced computer application aur career-ready training.</p></article>
+          <article class="course-card"><span>EXCEL</span><h3>Advance Excle</h3><p>Formula, data entry, reports aur office automation.</p></article>
+          <article class="course-card"><span>CCC</span><h3>CCC</h3><p>Basic computer literacy aur online work training.</p></article>
+          <article class="course-card"><span>AD</span><h3>AD</h3><p>Advanced diploma style practical computer program.</p></article>
+        </div>
+      </section>
+
+      <section class="workspace" id="distributor">
+        <div class="panel intro-panel">
+          <p class="eyebrow">Distributor panel</p>
+          <h2>Apna master coaching naam set karein</h2>
+          <label>
+            Main coaching name
+            <input id="mainCoaching" type="text" value="Maa Shitla Computer Center AND Computer Shop" />
+          </label>
+          <label>
+            Director name
+            <input id="distributorName" type="text" value="Director - Narendra Kushwaha (Nsk)" />
+          </label>
+          <div class="contact-card">
+            <span>Mobile: 9179424002</span>
+            <span>Email: Narendrakushwaha1674@gmail.com</span>
+          </div>
+          <button class="primary-btn full" id="saveBrand" type="button">Brand save karein</button>
+          <p class="hint">Ye naam har institute ke login card ke top par aayega.</p>
+        </div>
+
+        <form class="panel form-panel" id="credentialForm">
+          <p class="eyebrow">New institute</p>
+          <h2>ID/password generate karein</h2>
+          <div class="form-grid">
+            <label>
+              Institute/coaching name
+              <input id="instituteName" type="text" placeholder="Example: Gupta Science Academy" required />
+            </label>
+            <label>
+              City/area
+              <input id="cityName" type="text" placeholder="Example: Patna" required />
+            </label>
+            <label>
+              Mobile
+              <input id="mobileNo" type="tel" placeholder="Example: 9876543210" />
+            </label>
+            <label>
+              Course access
+              <select id="courseAccess">
+                <option>All Computer Courses</option>
+                <option>Tally Prime</option>
+                <option>CCA</option>
+                <option>CPCT</option>
+                <option>PGDCA</option>
+                <option>Advance Excle</option>
+                <option>CCC</option>
+                <option>AD</option>
+              </select>
+            </label>
+          </div>
+          <button class="primary-btn" type="submit">ID generate karein</button>
+        </form>
+      </section>
+
+      <section class="section institute-section" id="institutes">
+        <div class="section-heading row-heading">
+          <div>
+            <p class="eyebrow">Institute IDs</p>
+            <h2>Jisko bhi ID deni ho, yahan se copy ya print karein</h2>
+          </div>
+          <input class="search" id="searchBox" type="search" placeholder="Search institute..." />
+        </div>
+        <div class="card-grid" id="cardGrid"></div>
+      </section>
+
+      <section class="section faq" id="faq">
+        <div class="section-heading">
+          <p class="eyebrow">FAQ</p>
+          <h2>Common questions</h2>
+        </div>
+        <details open>
+          <summary>ID card me kya dikhega?</summary>
+          <p>Top par aapki main coaching ka naam, niche partner institute ka naam, login ID, password, course access aur distributor detail.</p>
+        </details>
+        <details>
+          <summary>Data kahan save hota hai?</summary>
+          <p>Ye demo browser ke local storage me save karta hai. Real website ke liye backend database aur secure admin login add karna hoga.</p>
+        </details>
+        <details>
+          <summary>Kya main print de sakta hoon?</summary>
+          <p>Haan, har card me print button diya gaya hai.</p>
+        </details>
+      </section>
+    </main>
+
+    <footer>
+      <strong id="footerBrand">Maa Shitla Computer Center AND Computer Shop</strong>
+      <span>Director - Narendra Kushwaha (Nsk) | 9179424002 | Narendrakushwaha1674@gmail.com</span>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin/Branch Login - Maa Shitla Computer Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="branch-body">
+    <main class="branch-login-screen" id="branchLoginScreen">
+      <div class="cyber-ribbon" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <form class="branch-login-box" id="branchLoginForm">
+        <h1>Login Here</h1>
+        <label>
+          Registered Mobile No. / Branch ID *
+          <input id="branchUserId" type="text" placeholder="Enter Mobile No. or Branch ID" required />
+        </label>
+        <label>
+          Password *
+          <input id="branchPassword" type="password" placeholder="Enter Your Password" required />
+        </label>
+        <label class="remember-row">
+          <input id="rememberBranch" type="checkbox" checked />
+          Remember Me
+        </label>
+        <p class="branch-error" id="branchError" role="alert"></p>
+        <button class="branch-submit" type="submit">LOGIN</button>
+        <a class="forgot-link" href="public.html">Forgot password</a>
+      </form>
+    </main>
+
+    <section class="branch-dashboard hidden" id="branchDashboard">
+      <aside class="branch-sidebar" id="branchSidebar">
+        <div class="branch-code" id="sideBranchName">Branch</div>
+        <nav>
+          <a class="active" href="#" data-view="dashboard">Dashboard</a>
+          <a href="#" data-view="students">Students</a>
+          <a href="#" data-view="analytics">Analytics</a>
+          <button id="branchLogout" type="button">Logout</button>
+        </nav>
+      </aside>
+
+      <div class="branch-main">
+        <header class="branch-topbar">
+          <button class="menu-btn" type="button">☰</button>
+          <div class="topbar-actions">
+            <button class="top-logout" id="topBranchLogout" type="button">Logout</button>
+            <div class="avatar"></div>
+          </div>
+        </header>
+        <div class="breadcrumb" id="breadcrumbText">Home</div>
+
+        <section class="branch-view" id="dashboardView">
+          <div class="metric-grid">
+            <article class="metric-card navy"><strong id="totalStudents">0</strong><span>Total Students</span></article>
+            <article class="metric-card red"><strong id="completedCourses">0</strong><span>Course Complete</span></article>
+            <article class="metric-card green"><strong id="continueStudents">0</strong><span>Continue Students</span></article>
+            <article class="metric-card orange"><strong id="totalCourses">0</strong><span>Total Courses</span></article>
+          </div>
+
+          <div class="dashboard-grid">
+            <article class="welcome-panel">
+              <p>Welcome! <span id="welcomeBranchName">Branch</span></p>
+              <h2 id="dashboardInstitute">Maa Shitla Digital institute</h2>
+              <h3 id="dashboardDirector">Director - Narendra Kushwaha (Nsk)</h3>
+              <span id="dashboardMobile">Mob. - 9179424002</span>
+              <span id="dashboardCode">Center Code - MS-MAA-1042</span>
+              <span id="dashboardAddress">Maa Shitla Computer Center AND Computer Shop</span>
+            </article>
+
+            <aside class="profile-panel" aria-label="Branch profile">
+              <div class="profile-icon"></div>
+              <div class="profile-lines"></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="branch-view hidden" id="studentsView">
+          <div class="student-panel">
+            <div class="student-toolbar top">
+              <label class="show-entries">Show
+                <select id="entryLimit">
+                  <option>10</option>
+                  <option>25</option>
+                  <option>50</option>
+                </select>
+                Entries
+              </label>
+              <button class="tool-btn dark" type="button">CSV</button>
+              <label class="student-search">Search:
+                <input id="studentSearch" type="search" />
+              </label>
+            </div>
+
+            <div class="student-toolbar actions">
+              <button class="tool-btn green" type="button">ALL</button>
+              <button class="tool-btn blue" id="newStudentBtn" type="button">NEW</button>
+              <button class="tool-btn gold" id="editStudentBtn" type="button">EDIT</button>
+              <button class="tool-btn gray" type="button">REG. SLIP</button>
+              <button class="tool-btn gray" id="printCertificateBtn" type="button">PRINT_CERTIFICATE</button>
+              <button class="tool-btn gray" id="printMarksheetBtn" type="button">PRINT_MARKSHEET</button>
+              <button class="tool-btn red" id="deleteStudentBtn" type="button">DELETE</button>
+            </div>
+
+            <div class="table-wrap">
+              <table class="student-table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Roll No.</th>
+                    <th>Course</th>
+                    <th>Student Name</th>
+                    <th>Father's/Husband's Name.</th>
+                    <th>Address</th>
+                    <th>Mobile No.</th>
+                    <th>DOB.</th>
+                    <th>Cert. No.</th>
+                    <th>Grade</th>
+                  </tr>
+                </thead>
+                <tbody id="studentRows">
+                  <tr><td colspan="10">No data available in table</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-footer" id="tableFooter">Showing 0 to 0 of 0 entries</div>
+          </div>
+        </section>
+
+        <section class="branch-view hidden" id="newStudentView">
+          <form class="student-form-panel" id="studentForm">
+            <div class="form-title-row">
+              <div>
+                <h2 id="studentFormTitle">Add New Student Here</h2>
+              </div>
+              <button class="close-form" id="backToStudents" type="button">×</button>
+            </div>
+
+            <div class="student-form-grid">
+              <label>Reg. Date *
+                <input id="regDate" type="date" required />
+              </label>
+              <label>Date Of Birth
+                <input id="studentDob" type="date" />
+              </label>
+              <label>Enter Mobile No.
+                <input id="studentMobile" type="tel" />
+              </label>
+
+              <label>Select Center Code
+                <select id="studentCenterCode" disabled>
+                  <option>Maa Shitla Computer Center</option>
+                </select>
+              </label>
+              <label>Reg. No.
+                <input id="studentRegNo" type="text" placeholder="Reg No Here" disabled />
+              </label>
+              <label>Enter Email Id.
+                <input id="studentEmail" type="email" placeholder="someone@email.com" />
+              </label>
+
+              <label>Select Course Name
+                <select id="studentCourse" required>
+                  <option value="">---- Select One ----</option>
+                  <option>Tally Prime</option>
+                  <option>CCA</option>
+                  <option>CPCT</option>
+                  <option>PGDCA</option>
+                  <option>Advance Excle</option>
+                  <option>CCC</option>
+                  <option>AD</option>
+                </select>
+              </label>
+              <label>Select Sex
+                <select id="studentGender">
+                  <option value="">--Select One--</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
+              </label>
+              <label>Address
+                <textarea id="studentAddress"></textarea>
+              </label>
+
+              <label>Student Name
+                <input id="studentName" type="text" placeholder="Student Name Here" required />
+              </label>
+              <label>Select Religion
+                <select id="studentReligion">
+                  <option value="">--Select One--</option>
+                  <option>Hindu</option>
+                  <option>Muslim</option>
+                  <option>Sikh</option>
+                  <option>Christian</option>
+                  <option>Other</option>
+                </select>
+              </label>
+              <label class="send-sms-row">
+                <input id="sendSms" type="checkbox" checked />
+                Send SMS.
+              </label>
+
+              <label>Father's/Husband's Name
+                <input id="fatherName" type="text" placeholder="Father's Name" required />
+              </label>
+              <label>Course Status
+                <select id="studentStatus">
+                  <option>Continue</option>
+                  <option>Complete</option>
+                </select>
+              </label>
+              <div class="photo-upload-field">
+                <label>Upload Photograph
+                  <input id="studentPhoto" type="file" accept="image/*" />
+                </label>
+              </div>
+            </div>
+            <div class="student-preview-wrap">
+              <div class="student-preview" id="studentPreview">Photo Preview</div>
+              <p>Photo upload karne ke baad zoom aur position adjust karein.</p>
+            </div>
+            <div class="save-row">
+              <button class="save-now-btn" type="submit">SAVE NOW</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="branch-view hidden" id="featureView">
+          <div class="feature-panel" id="featurePanel"></div>
+        </section>
+      </div>
+    </section>
+
+    <div class="crop-modal hidden" id="cropModal" role="dialog" aria-modal="true" aria-label="Crop student photo">
+      <div class="crop-dialog">
+        <div class="crop-header">
+          <h2>Crop Photograph</h2>
+          <button class="close-form" id="cancelCrop" type="button">×</button>
+        </div>
+        <div class="crop-stage">
+          <div class="crop-frame" id="cropFrame"></div>
+        </div>
+        <div class="crop-controls">
+          <label>Zoom
+            <input id="modalPhotoZoom" type="range" min="100" max="260" value="100" />
+          </label>
+          <label>Left / Right
+            <input id="modalPhotoX" type="range" min="0" max="100" value="50" />
+          </label>
+          <label>Up / Down
+            <input id="modalPhotoY" type="range" min="0" max="100" value="50" />
+          </label>
+        </div>
+        <div class="crop-actions">
+          <button class="tool-btn gray" id="cancelCropBottom" type="button">Cancel</button>
+          <button class="save-now-btn" id="applyCrop" type="button">Apply Crop</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="document-modal hidden" id="documentModal" role="dialog" aria-modal="true" aria-label="Generated document">
+      <div class="document-shell">
+        <div class="document-actions">
+          <button class="tool-btn gray" id="closeDocument" type="button">Close</button>
+          <button class="tool-btn gray" id="downloadDocument" type="button">Download / Save PDF</button>
+          <button class="save-now-btn" id="printDocument" type="button">Print</button>
+        </div>
+        <p class="document-error hidden" id="documentError"></p>
+        <div id="documentContent"></div>
+      </div>
+    </div>
+
+    <div class="payment-modal hidden" id="paymentModal" role="dialog" aria-modal="true" aria-label="Payment request">
+      <form class="payment-box" id="paymentForm">
+        <button class="close-form reset-close" id="closePayment" type="button">×</button>
+        <p class="eyebrow">Secure payment</p>
+        <h2 id="paymentTitle">Payment Request</h2>
+        <p id="paymentNote">Payment mode select karein. Request distributor panel par approval ke liye jayegi.</p>
+        <label>Amount
+          <input id="paymentAmount" type="number" min="1" value="10" required />
+        </label>
+        <div class="pay-options">
+          <label><input type="radio" name="paymentMode" value="Wallet" checked /> Wallet</label>
+          <label><input type="radio" name="paymentMode" value="UPI QR" /> UPI QR</label>
+          <label><input type="radio" name="paymentMode" value="Google Pay" /> Google Pay</label>
+          <label><input type="radio" name="paymentMode" value="PhonePe" /> PhonePe</label>
+        </div>
+        <div class="upi-box">
+          <div class="qr-box demo-qr"><span></span></div>
+          <strong>UPI ID: nskcomputer@upi</strong>
+          <span>Director - Narendra Kushwaha (Nsk)</span>
+        </div>
+        <p class="payment-status" id="paymentStatus"></p>
+        <button class="primary-btn full" type="submit">Pay & Send Request</button>
+      </form>
+    </div>
+
+    <script src="branch.js"></script>
+  </body>
+</html>
