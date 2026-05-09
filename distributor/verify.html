@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Certificate Verification - Maa Shitla Computer Center</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="verify-body">
+    <main class="verify-shell">
+      <section class="verify-card">
+        <span class="brand-mark">MS</span>
+        <h1>Maa Shitla Computer Center AND Computer Shop</h1>
+        <p>Certificate/Marksheet verify karne ke liye Roll Number aur DOB dalein.</p>
+        <form id="verifyForm">
+          <label>Roll Number
+            <input id="verifyRoll" type="text" required />
+          </label>
+          <label>Date of Birth
+            <input id="verifyDob" type="date" required />
+          </label>
+          <label>Document Type
+            <select id="verifyType">
+              <option value="certificate">Certificate</option>
+              <option value="marksheet">Marksheet</option>
+            </select>
+          </label>
+          <button class="primary-btn full" type="submit">Verify & Open</button>
+        </form>
+        <p class="verify-error" id="verifyError"></p>
+      </section>
+      <section class="verify-result hidden" id="verifyResult"></section>
+    </main>
+    <script src="verify.js"></script>
+  </body>
+</html>
