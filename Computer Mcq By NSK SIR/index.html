@@ -1,1 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+       </div>
+      `;
+    }
 
+    function addNewTest() {
+      data.tests.unshift({
+        id: uid(),
+        title: 'Daily Test ' + (data.tests.length + 1),
+        subject: 'Computer MCQ',
+        date: new Date().toLocaleDateString(),
+        questions: defaultQuestions.map((q, i) => ({
+          id: uid(),
+          text: 'Question ' + (i + 1) + ': New daily computer MCQ?',
+          options: ['Option A', 'Option B', 'Option C', 'Option D'],
+          correct: 0
+        }))
+      });
+      saveData();
+      renderQuestionEditor();
+    }
+
+    function blankQuestion(index) {
+      return {
+        id: uid(),
+        text: 'Question ' + (index + 1) + ':',
+        options: ['', '', '', ''],
+        correct: 0
+      };
+    }
+
+    function clearMcq(testId, questionIndex) {
+      const test = data.tests.find(t => t.id === testId);
+      if (!test) return;
+      test.questions[questionIndex] = blankQuestion(questionIndex);
+      saveData();
+      renderQuestionEditor();
+    }
+
+    function deleteMcq(testId, questionIndex) {
+      const test = data.tests.find(t => t.id === testId);
+      if (!test) return;
+      test.questions.splice(questionIndex, 1);
+      while (test.questions.length < 60) test.questions.push(blankQuestion(test.questions.length));
+      saveData();
+      renderQuestionEditor();
+    }
+
+    function clearAllMcq(testId) {
+      const test = data.tests.find(t => t.id === testId);
+      if (!test) return;
+      test.questions = Array.from({ length: 60 }, (_, i) => blankQuestion(i));
+      saveData();
+      renderQuestionEditor();
+    }
+
+    function saveQuestionEditor() {
+      data.tests = data.tests.map((test, ti) => ({
+        id: test.id || uid(),
+        title: $('testTitle' + ti).value.trim() || test.title,
+        subject: $('testSubject' + ti).value.trim() || test.subject || 'Computer MCQ',
+        date: $('testDate' + ti).value.trim() || test.date,
+        questions: test.questions.map((q, i) => ({
+          id: q.id || uid(),
+          text: $('qt' + ti + '_' + i).value.trim(),
+          options: [0, 1, 2, 3].map(oi => $('qo' + ti + '_' + i + '_' + oi).value.trim()),
+          correct: Number($('qc' + ti + '_' + i).value)
+        }))
+      }));
+      data.questions = data.tests[0]?.questions || defaultQuestions;
+      saveData();
+      toast('Tests save ho gaye.');
+    }
+
+    $('logoutStudent').onclick = () => {
+      clearInterval(timerHandle);
+      if (currentUser) delete data.activeSessions[currentUser.id];
+      saveData();
+      clearSession();
+      currentUser = null;
+      quiz = null;
+      show('authView');
+      setAuthMode('login');
+    };
+
+    $('logoutAdmin').onclick = () => {
+      currentUser = null;
+      clearSession();
+      show('authView');
+      setAuthMode('login');
+    };
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, ch => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }[ch]));
+    }
+
+    window.goQuestion = goQuestion;
+    window.answerQuestion = answerQuestion;
+    window.openReview = openReview;
+    window.toggleBlock = toggleBlock;
+    window.saveQuestionEditor = saveQuestionEditor;
+    window.addNewTest = addNewTest;
+    window.renderAdminTests = renderAdminTests;
+    window.openQuestionEditorForTest = openQuestionEditorForTest;
+    window.deleteTest = deleteTest;
+    window.clearMcq = clearMcq;
+    window.deleteMcq = deleteMcq;
+    window.clearAllMcq = clearAllMcq;
+    window.deleteNotification = deleteNotification;
+    window.clearNotifications = clearNotifications;
+    window.initQuiz = initQuiz;
+
+    const reviewMatch = location.hash.match(/^#review=(.+)$/);
+    if (reviewMatch) renderReview(reviewMatch[1]);
+    else if (!restoreSession()) show('authView');
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
