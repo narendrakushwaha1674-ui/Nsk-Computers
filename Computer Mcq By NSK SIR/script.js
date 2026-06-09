@@ -1,1 +1,0 @@
-// No inline JavaScript found
