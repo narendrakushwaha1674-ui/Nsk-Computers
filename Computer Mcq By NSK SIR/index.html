@@ -425,7 +425,7 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="title">Compute Mcq By NSK SIR</div>
+    <div class="title">Computer Mcq By NSK SIR</div>
     <div id="topUser" class="hint"></div>
   </header>
 
@@ -433,7 +433,7 @@
     <section id="authView" class="hero">
       <div class="brand-panel">
         <div>
-          <h1>Compute Mcq By NSK SIR</h1>
+          <h1>Computer Mcq By NSK SIR</h1>
           <p>Daily 60 MCQ paper practice, 60 minute timer, instant result, readonly answer review, PDF download, student login and admin control in one professional website.</p>
         </div>
         <div class="stats-strip">
@@ -586,7 +586,7 @@
   </main>
 
   <script>
-    const DEFAULT_ADMIN_ID = 'Nsk computers';
+    const DEFAULT_ADMIN_ID = 'Nsk Computerrs';
     const DEFAULT_ADMIN_PASSWORD = 'Nsk@4002';
     const ADMIN_EMAIL = 'Narendrakushwaha1674@gmail.com';
     const ADMIN_MOBILE = '9179424002';
@@ -601,7 +601,7 @@
       const n = i + 1;
       return {
         id: 'q' + n,
-        text: 'Question ' + n + ': Computer practice MCQ ka sahi answer select karein?',
+        text: 'Question ' + n + ': Computerr practice MCQ ka sahi answer select karein?',
         options: [
           'Option A for question ' + n,
           'Option B for question ' + n,
@@ -621,7 +621,7 @@
       tests: [{
         id: 'test-default',
         title: 'Daily Test 1',
-        subject: 'Computer MCQ',
+        subject: 'Computerr MCQ',
         date: new Date().toLocaleDateString(),
         questions: defaultQuestions
       }],
@@ -654,7 +654,7 @@
         parsed.tests = [{
           id: 'test-default',
           title: 'Daily Test 1',
-          subject: 'Computer MCQ',
+          subject: 'Computerr MCQ',
           date: new Date().toLocaleDateString(),
           questions: parsed.questions || defaultQuestions
         }];
@@ -662,7 +662,7 @@
       parsed.tests = parsed.tests.map((test, index) => ({
         id: test.id || uid(),
         title: test.title || 'Daily Test ' + (index + 1),
-        subject: test.subject || test.title || 'Computer MCQ',
+        subject: test.subject || test.title || 'Computerr MCQ',
         date: test.date || new Date().toLocaleDateString(),
         questions: test.questions && test.questions.length ? test.questions : defaultQuestions
       }));
@@ -1090,7 +1090,7 @@
       $('reviewView').innerHTML = `
         <div class="section-title">
           <div>
-            <h2>Compute Mcq By NSK SIR - Answer Review</h2>
+            <h2>Computer Mcq By NSK SIR - Answer Review</h2>
             <p class="hint">${escapeHtml(attempt.testSubject || test?.subject || 'Test')} | ${escapeHtml(attempt.testTitle || test?.title || 'Deleted Test')} | Date: ${escapeHtml(test?.date || 'Old record')} | ${attempt.studentName} | Submitted: ${attempt.submittedAt}</p>
           </div>
           <button class="no-print" onclick="window.print()">Download PDF</button>
@@ -1362,11 +1362,11 @@
       data.tests.unshift({
         id: uid(),
         title: 'Daily Test ' + (data.tests.length + 1),
-        subject: 'Computer MCQ',
+        subject: 'Computerr MCQ',
         date: new Date().toLocaleDateString(),
         questions: defaultQuestions.map((q, i) => ({
           id: uid(),
-          text: 'Question ' + (i + 1) + ': New daily computer MCQ?',
+          text: 'Question ' + (i + 1) + ': New daily Computerr MCQ?',
           options: ['Option A', 'Option B', 'Option C', 'Option D'],
           correct: 0
         }))
@@ -1413,7 +1413,7 @@
       data.tests = data.tests.map((test, ti) => ({
         id: test.id || uid(),
         title: $('testTitle' + ti).value.trim() || test.title,
-        subject: $('testSubject' + ti).value.trim() || test.subject || 'Computer MCQ',
+        subject: $('testSubject' + ti).value.trim() || test.subject || 'Computerr MCQ',
         date: $('testDate' + ti).value.trim() || test.date,
         questions: test.questions.map((q, i) => ({
           id: q.id || uid(),
