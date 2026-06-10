@@ -634,14 +634,14 @@
       }
     });
 
-    let data = loadData();
+    let data = get();
     let currentUser = null;
     let quiz = null;
     let timerHandle = null;
     let forgotMode = 'student';
     let forgotOtpState = null;
 
-    function loadData() {
+    function get() {
       const raw = localStorage.getItem(storeKey);
       if (!raw) {
         const fresh = blankData();
@@ -673,7 +673,7 @@
       return parsed;
     }
 
-    function saveData() {
+    function set() {
       localStorage.setItem(storeKey, JSON.stringify(data));
     }
 
@@ -786,7 +786,7 @@
         text: student.firstName + ' ' + student.surname + ' ne account banaya. Email: ' + student.email + ', Mobile: ' + student.mobile,
         at: new Date().toLocaleString()
       });
-      saveData();
+      set();
       event.target.reset();
       setAuthMode('login');
       toast('Account ban gaya. Ab login karein.');
@@ -822,7 +822,7 @@
       if (forgotOtpState.mode === 'admin') {
         data.admin.id = newId;
         data.admin.password = newPassword;
-        saveData();
+        set();
         toast('Admin ID/password change ho gaya.');
         setAuthMode('admin');
         return;
@@ -840,7 +840,7 @@
         text: student.firstName + ' ' + student.surname + ' ne forgot OTP se ID/password change kiya.',
         at: new Date().toLocaleString()
       });
-      saveData();
+      set();
       toast('Student ID/password change ho gaya. Ab login karein.');
       setAuthMode('login');
     };
@@ -885,7 +885,7 @@
         text: student.firstName + ' ' + student.surname + ' login hua.',
         at: new Date().toLocaleString()
       });
-      saveData();
+      set();
       saveSession({ type: 'student', studentId: student.id, sessionId: data.activeSessions[student.id] });
       currentUser = student;
       startStudent();
@@ -1025,7 +1025,7 @@
         secondsUsed: QUIZ_MINUTES * 60 - quiz.remaining
       };
       data.attempts.unshift(attempt);
-      saveData();
+      set();
       renderResult(attempt);
     }
 
@@ -1158,13 +1158,13 @@
 
     function deleteNotification(notificationId) {
       data.notifications = data.notifications.filter(n => n.id !== notificationId);
-      saveData();
+      set();
       renderAdminDashboard();
     }
 
     function clearNotifications() {
       data.notifications = [];
-      saveData();
+      set();
       renderAdminDashboard();
     }
 
@@ -1178,7 +1178,7 @@
       } else {
         data.blockedContacts = data.blockedContacts.filter(c => c !== student.email && c !== student.mobile);
       }
-      saveData();
+      set();
       renderAdminDashboard();
     }
 
@@ -1272,7 +1272,7 @@
       if (!test) return;
       if (!confirm('"' + test.title + '" test delete karna hai? Student list me ye test phir nahi dikhega.')) return;
       data.tests = data.tests.filter(t => t.id !== testId);
-      saveData();
+      set();
       renderAdminTests();
     }
 
@@ -1371,7 +1371,7 @@
           correct: 0
         }))
       });
-      saveData();
+      set();
       renderQuestionEditor();
     }
 
@@ -1388,7 +1388,7 @@
       const test = data.tests.find(t => t.id === testId);
       if (!test) return;
       test.questions[questionIndex] = blankQuestion(questionIndex);
-      saveData();
+      set();
       renderQuestionEditor();
     }
 
@@ -1397,7 +1397,7 @@
       if (!test) return;
       test.questions.splice(questionIndex, 1);
       while (test.questions.length < 60) test.questions.push(blankQuestion(test.questions.length));
-      saveData();
+      set();
       renderQuestionEditor();
     }
 
@@ -1405,7 +1405,7 @@
       const test = data.tests.find(t => t.id === testId);
       if (!test) return;
       test.questions = Array.from({ length: 60 }, (_, i) => blankQuestion(i));
-      saveData();
+      set();
       renderQuestionEditor();
     }
 
@@ -1423,14 +1423,14 @@
         }))
       }));
       data.questions = data.tests[0]?.questions || defaultQuestions;
-      saveData();
+      set();
       toast('Tests save ho gaye.');
     }
 
     $('logoutStudent').onclick = () => {
       clearInterval(timerHandle);
       if (currentUser) delete data.activeSessions[currentUser.id];
-      saveData();
+      set();
       clearSession();
       currentUser = null;
       quiz = null;
