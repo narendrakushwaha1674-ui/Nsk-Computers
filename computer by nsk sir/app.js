@@ -154,7 +154,7 @@
     };
   }
 
-  function studentLogin() {
+  async function studentLogin() {
     const userId = document.getElementById("studentId").value.trim();
     const password = document.getElementById("studentPass").value;
     const student = state.students.find(function (s) { return s.userId === userId && s.password === password; });
