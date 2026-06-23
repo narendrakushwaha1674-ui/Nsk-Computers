@@ -98,7 +98,7 @@
   }
 
   function header(label) {
-    return '<header class="topbar"><div class="brand">Computer By NSK SIR</div>' + (label ? '<div class="admin-note">' + label + '</div>' : '') + '</header>';
+    return '<header class="topbar"><div class="brand">COMPUTER MCQ BY NSK SIR</div>' + (label ? '<div class="admin-note">' + label + '</div>' : '') + '</header>';
   }
 
   function adminNav() {
@@ -145,7 +145,7 @@
   }
 
   function renderStudentLogin() {
-    app.innerHTML = '<main class="login-shell"><section class="login-card"><div class="brand" style="font-size:34px;margin-bottom:22px;">Computer By Nsk Sir</div><h1>Student Login</h1><label class="field">User ID<input id="studentId" autocomplete="username"></label><label class="field">Password<input id="studentPass" type="password" autocomplete="current-password"></label><div class="error" id="studentError"></div><button class="primary wide" id="studentLoginBtn">Login</button><a class="link-button" id="adminBackLink">Admin Login</a></section></main>';
+    app.innerHTML = '<main class="login-shell"><section class="login-card"><div class="brand" style="font-size:34px;margin-bottom:22px;">COMPUTER MCQ BY NSK SIR</div><h1>Student Login</h1><label class="field">User ID<input id="studentId" autocomplete="username"></label><label class="field">Password<input id="studentPass" type="password" autocomplete="current-password"></label><div class="error" id="studentError"></div><button class="primary wide" id="studentLoginBtn">Login</button><a class="link-button" id="adminBackLink">Admin Login</a></section></main>';
     document.getElementById("studentLoginBtn").onclick = studentLogin;
     document.getElementById("adminBackLink").onclick = function () {
       route = "admin-login";
@@ -274,11 +274,11 @@
   }
 
   function generatedIdCard(student) {
-    return '<section class="id-card"><div class="id-card-head"><h2>Computer By Nsk Sir</h2><p>Authorized institute login</p></div><div class="id-card-body"><h3>' + esc(student.name) + '</h3><p class="muted">' + esc(student.city || "Indergarh") + ' - ' + new Date().toLocaleDateString() + '</p><div class="id-row"><span>ID</span><b>' + esc(student.userId) + '</b></div><div class="id-row"><span>Password</span><b>' + esc(student.password) + '</b></div><div class="id-row"><span>Course</span><b>' + esc(student.course || "All Computer Courses") + '</b></div><div class="id-row"><span>Director</span><b>Director - Nsk Kushwaha (NSK)</b></div><div class="id-row"><span>Contact</span><b>9179424002</b></div><div class="id-row"><span>Email</span><b>Narendrakushwaha1674@gmail.com</b></div><div class="id-actions"><button class="ghost" id="copyGenerated">Copy</button><button class="ghost" id="printGenerated">Print</button><button class="ghost danger-text" id="deleteGenerated">Delete</button></div></div></section>';
+    return '<section class="id-card"><div class="id-card-head"><h2>COMPUTER MCQ BY NSK SIR</h2><p>Authorized institute login</p></div><div class="id-card-body"><h3>' + esc(student.name) + '</h3><p class="muted">' + esc(student.city || "Indergarh") + ' - ' + new Date().toLocaleDateString() + '</p><div class="id-row"><span>ID</span><b>' + esc(student.userId) + '</b></div><div class="id-row"><span>Password</span><b>' + esc(student.password) + '</b></div><div class="id-row"><span>Course</span><b>' + esc(student.course || "All Computer Courses") + '</b></div><div class="id-row"><span>Director</span><b>Director - Nsk Kushwaha (NSK)</b></div><div class="id-row"><span>Contact</span><b>9179424002</b></div><div class="id-row"><span>Email</span><b>Narendrakushwaha1674@gmail.com</b></div><div class="id-actions"><button class="ghost" id="copyGenerated">Copy</button><button class="ghost" id="printGenerated">Print</button><button class="ghost danger-text" id="deleteGenerated">Delete</button></div></div></section>';
   }
 
   function copyGeneratedText(student) {
-    const text = 'Computer By Nsk Sir\nStudent: ' + student.name + '\nID: ' + student.userId + '\nPassword: ' + student.password + '\nCourse: ' + student.course + '\nDirector: Nsk Kushwaha (NSK)\nContact: 9179424002\nEmail: Narendrakushwaha1674@gmail.com';
+    const text = 'COMPUTER MCQ BY NSK SIR\nStudent: ' + student.name + '\nID: ' + student.userId + '\nPassword: ' + student.password + '\nCourse: ' + student.course + '\nDirector: Nsk Kushwaha (NSK)\nContact: 9179424002\nEmail: Narendrakushwaha1674@gmail.com';
     if (navigator.clipboard) navigator.clipboard.writeText(text);
     alert("ID/password copy ho gaya.");
   }
