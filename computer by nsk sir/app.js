@@ -157,7 +157,11 @@
   async function studentLogin() {
     const userId = document.getElementById("studentId").value.trim();
     const password = document.getElementById("studentPass").value;
-    const student = state.students.find(function (s) { return s.userId === userId && s.password === password; });
+   const response = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6qZBOTSwvgHDHXGXTUZi5PP6QslfACAM_6lW1UPxzzMf5tMpgFfAaoatDxWI-nAfBCEQtiyQptTPZ/pub?output=csv");
+
+const csv = await response.text();
+
+console.log(csv);
     const err = document.getElementById("studentError");
     if (!student) return err.textContent = "Student ID ya password galat hai.";
     if (student.blocked) return err.textContent = "Ye account blocked hai.";
