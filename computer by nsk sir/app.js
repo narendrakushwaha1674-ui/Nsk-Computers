@@ -255,6 +255,31 @@
   function adminGenerateId() {
     document.getElementById("adminContent").innerHTML = '<div class="id-page"><h1>ID/password generate karein</h1><div class="form-grid"><label class="field">Student Name<input id="genName" placeholder="Example: Rahul Kumar"></label><label class="field">Course<select id="genCourse"><option>All Computer Courses</option><option>Basic Computer</option><option>DCA</option><option>ADCA</option><option>CPCT</option><option>Tally</option></select></label><label class="field">City<input id="genCity" placeholder="Example: Indergarh"></label><label class="field">Mobile Number<input id="genMobile" placeholder="Example: 9876543210"></label><label class="field span-2">Gmail ID<input id="genEmail" placeholder="Example: student@gmail.com"></label></div><button class="primary" id="generateStudentCard">ID generate karein</button><div id="generatedCardArea"></div></div>';
     document.getElementById("generateStudentCard").onclick = function () {
+      // === GOOGLE SHEETS JODNE KA CODE YAHAN SE SHURU ===
+      let sheetData = {
+          username: loginId,
+          password: password
+      };
+      
+      let googleSheetUrl = "https://script.google.com/macros/s/AKfycbyyM9-KwGrllEFRJVcm2UcM8I5-8NV4WgseP4L5WUQGwVTN1UyUc7kDzSqFdcOH_zhq/exec"; 
+      
+      fetch(googleSheetUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify(sheetData),
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      })
+      .then(() => {
+          console.log("ID-Password Google Sheet me save ho gaya.");
+      })
+      .catch(error => {
+          console.error('Data bhejne me error aayi hai:', error);
+      });
+      // === GOOGLE SHEETS CODE YAHAN KHATAM ===
+
+    }; // Ye pehle se likha hua closing bracket hai
       const name = val("genName");
       const course = val("genCourse") || "All Computer Courses";
       const city = val("genCity") || "Indergarh";
