@@ -163,7 +163,7 @@
     if (student.blocked) return err.textContent = "Ye account blocked hai.";
     if (student.activeSession) return err.textContent = "Ye ID kisi dusri jagah login hai. Admin se logout karwayein.";
     const sid = makeId("session");
-    const sid = makeId("session"); student.lastLoginAt = nowText(); student.loginCount += 1;
+   student.activeSession = { id: sid, device: deviceName(), loginAt: nowText() };
     student.lastLoginAt = student.activeSession.loginAt;
     student.loginCount += 1;
     state.notifications.unshift({ id: makeId("note"), title: "Student login", text: student.name + " login hua.", time: nowText() });
