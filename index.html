@@ -692,10 +692,14 @@
 }
 
 .contact-grid {
-  display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
-  gap: 55px;
-  align-items: center;
+  display: block;
+  width: 100%;
+}
+
+.contact-card {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 /* LEFT SIDE */
@@ -1015,39 +1019,63 @@
   }
 }
 </style>
+<style>
+/* =====================================================
+   HORIZONTAL IMPORTANT INFORMATION
+   ===================================================== */
 
+.info-panel {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  width: 100%;
+}
+
+.info-panel h2 {
+  grid-column: 1 / -1;
+  margin-bottom: 10px;
+}
+
+.info-panel .info-row {
+  padding: 22px 18px;
+  min-height: 95px;
+  border-bottom: none !important;
+  border-right: 1px solid #eee5df;
+}
+
+.info-panel .info-row:last-child {
+  border-right: none;
+}
+
+.info-panel .info-label {
+  display: block;
+  margin-bottom: 7px;
+}
+
+/* MOBILE */
+@media (max-width: 800px) {
+  .info-panel {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .info-panel .info-row {
+    border-right: none;
+    border-bottom: 1px solid #eee5df !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .info-panel {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 
 <section class="contact-section" id="contact">
 
   <div class="container contact-grid">
 
-    <!-- LEFT SIDE -->
-
-    <div class="contact-intro">
-
-      <p class="section-kicker">Contact Us</p>
-
-      <h2>Let's Connect With Us</h2>
-
-      <div class="contact-line"></div>
-
-      <p class="contact-text">
-        Admission, computer courses, typing practice, CPCT guidance,
-        online work, computer repairing, products and other digital
-        services ke liye humse direct contact karein.
-      </p>
-
-      <div class="contact-highlight">
-        <span>📍 OUR CENTER</span>
-
-        <strong>
-          Dhaniram Kushwaha Market, Seondha Road, Indergarh
-        </strong>
-      </div>
-
-    </div>
-
-
+   
     <!-- RIGHT SIDE -->
 
     <div class="contact-card">
@@ -1159,24 +1187,7 @@
       </div>
 
 
-      <div class="contact-item">
-
-        <span class="contact-label">
-          Government Services
-        </span>
-
-        <strong>
-
-          <a
-            href="gov-services.html"
-            class="sarkari-link"
-          >
-            🏛 Open Sarkari Services
-          </a>
-
-        </strong>
-
-      </div>
+     
 
 
       <!-- SOCIAL MEDIA -->
