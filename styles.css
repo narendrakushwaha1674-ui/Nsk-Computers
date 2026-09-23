@@ -822,20 +822,22 @@ a {
   color: #485468;
   line-height: 1.8;
 }
-/* REAL PRODUCT SLIDER */
+/* ==========================================
+   NSK REAL PRODUCT SLIDER
+   ========================================== */
 
 .product-marquee {
   width: 100%;
   overflow: hidden;
   position: relative;
-  padding: 15px 0 25px;
+  padding: 18px 0 30px;
 }
 
 .product-track {
   display: flex;
   width: max-content;
-  gap: 22px;
-  animation: realProductsMove 55s linear infinite;
+  gap: 20px;
+  animation: nskProductMove 65s linear infinite;
   will-change: transform;
 }
 
@@ -844,64 +846,63 @@ a {
 }
 
 .product-card {
-  flex: 0 0 285px;
-  width: 285px;
+  flex: 0 0 250px;
+  width: 250px;
   background: #ffffff;
   border-radius: 18px;
   overflow: hidden;
-  border: 1px solid rgba(15, 76, 92, 0.12);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.product-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
+  border: 1px solid #e9d5ff;
+  box-shadow: 0 8px 22px rgba(124, 58, 237, 0.12);
 }
 
 .product-visual {
   width: 100%;
-  height: 220px;
+  height: 180px;
   background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding: 15px;
+  box-sizing: border-box;
 }
 
 .product-visual img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  padding: 12px;
+  width: auto !important;
+  height: auto !important;
+  max-width: 88% !important;
+  max-height: 150px !important;
+  object-fit: contain !important;
   display: block;
-  transition: transform 0.35s ease;
+  padding: 0 !important;
 }
 
 .product-card:hover .product-visual img {
-  transform: scale(1.06);
+  transform: scale(1.03);
 }
 
 .product-info {
-  padding: 16px 18px 18px;
+  min-height: 105px;
+  padding: 14px 16px 16px;
   background: #ffffff;
 }
 
 .product-info h3 {
   margin: 0 0 7px;
-  font-size: 18px;
+  font-size: 16px;
+  line-height: 1.35;
   font-weight: 700;
-  color: #0f4c5c;
+  color: #24152f;
 }
 
 .product-info p {
   margin: 0;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.55;
-  color: #5d6870;
+  color: #6b5a75;
 }
 
-@keyframes realProductsMove {
+@keyframes nskProductMove {
   from {
     transform: translateX(0);
   }
@@ -915,28 +916,35 @@ a {
 
   .product-track {
     gap: 14px;
-    animation-duration: 45s;
+    animation-duration: 55s;
   }
 
   .product-card {
-    flex: 0 0 235px;
-    width: 235px;
+    flex: 0 0 210px;
+    width: 210px;
   }
 
   .product-visual {
-    height: 185px;
+    height: 155px;
+    padding: 12px;
+  }
+
+  .product-visual img {
+    max-width: 88% !important;
+    max-height: 130px !important;
   }
 
   .product-info {
-    padding: 13px;
+    min-height: 95px;
+    padding: 11px 12px 13px;
   }
 
   .product-info h3 {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .product-info p {
-    font-size: 12px;
+    font-size: 11px;
   }
 }
 
