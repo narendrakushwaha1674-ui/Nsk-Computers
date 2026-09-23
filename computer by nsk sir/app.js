@@ -4,6 +4,7 @@
   const STORAGE_KEY = "computerByNskSirDataV2";
   const SESSION_KEY = "computerByNskSirSession";
   const DEVICE_KEY = "computerByNskSirDevice";
+  const API_URL = "https://script.google.com/macros/s/AKfycbx529-X5lbqExI1Y7hogucZ_yE9PPvhAsGPO5iozn6VozWSUvn1Q4Bu7Vp4rsIFZbmhdw/exec";
   const app = document.getElementById("app");
 
   let state = loadState();
