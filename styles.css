@@ -822,7 +822,123 @@ a {
   color: #485468;
   line-height: 1.8;
 }
+/* REAL PRODUCT SLIDER */
 
+.product-marquee {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 15px 0 25px;
+}
+
+.product-track {
+  display: flex;
+  width: max-content;
+  gap: 22px;
+  animation: realProductsMove 55s linear infinite;
+  will-change: transform;
+}
+
+.product-track:hover {
+  animation-play-state: paused;
+}
+
+.product-card {
+  flex: 0 0 285px;
+  width: 285px;
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(15, 76, 92, 0.12);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
+}
+
+.product-visual {
+  width: 100%;
+  height: 220px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.product-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.product-card:hover .product-visual img {
+  transform: scale(1.06);
+}
+
+.product-info {
+  padding: 16px 18px 18px;
+  background: #ffffff;
+}
+
+.product-info h3 {
+  margin: 0 0 7px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f4c5c;
+}
+
+.product-info p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #5d6870;
+}
+
+@keyframes realProductsMove {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 600px) {
+
+  .product-track {
+    gap: 14px;
+    animation-duration: 45s;
+  }
+
+  .product-card {
+    flex: 0 0 235px;
+    width: 235px;
+  }
+
+  .product-visual {
+    height: 185px;
+  }
+
+  .product-info {
+    padding: 13px;
+  }
+
+  .product-info h3 {
+    font-size: 16px;
+  }
+
+  .product-info p {
+    font-size: 12px;
+  }
+}
 .product-marquee {
   overflow: hidden;
   padding: 10px 0 8px;
