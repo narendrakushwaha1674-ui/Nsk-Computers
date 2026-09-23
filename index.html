@@ -1255,7 +1255,223 @@
               </svg>
 
             </span>
+<script>
 
+const languageData = {
+
+  en: {
+
+    "Home": "Home",
+    "About Us": "About Us",
+    "Courses": "Courses",
+    "Typing": "Typing",
+    "Services": "Services",
+    "Sarkari Services": "Sarkari Services",
+    "Contact Us": "Contact Us",
+    "Highlights": "Highlights",
+
+    "Welcome To Our Institute": "Welcome To Our Institute",
+
+    "Important Information": "Important Information",
+    "Director": "Director",
+    "Address": "Address",
+    "Mobile Number": "Mobile Number",
+    "Speciality": "Speciality",
+
+    "Quick View": "Quick View",
+    "Important Updates": "Important Updates",
+    "Admissions Open": "Admissions Open",
+    "Sarkari Work Available": "Sarkari Work Available",
+    "Personal Guidance": "Personal Guidance",
+
+    "Notice": "Notice",
+
+    "About The Center": "About The Center",
+    "Learn, Practice, And Grow With Confidence": "Learn, Practice, And Grow With Confidence",
+    "Why Choose Us?": "Why Choose Us?",
+
+    "Training": "Training",
+    "Courses We Offer": "Courses We Offer",
+
+    "Shop Services": "Shop Services",
+    "Services Available": "Services Available",
+
+    "Computer Repairing": "Computer Repairing",
+    "Computer Formatting": "Computer Formatting",
+    "Computer Assembling": "Computer Assembling",
+    "Computer Products Sale": "Computer Products Sale",
+    "Computer Sale": "Computer Sale",
+    "Sarkari Online Work": "Sarkari Online Work",
+    "Typing Support": "Typing Support",
+
+    "Shop Products": "Shop Products",
+    "Computer Products Available": "Computer Products Available",
+
+    "Contact Us": "Contact Us",
+    "Let's Connect With Us": "Let's Connect With Us",
+
+    "Center Name": "Center Name",
+    "Email": "Email",
+    "WhatsApp": "WhatsApp",
+    "Government Services": "Government Services",
+    "Follow Us": "Follow Us",
+    "Connect With Us On Social Media": "Connect With Us On Social Media",
+
+    "Email Us": "Email Us",
+    "WhatsApp": "WhatsApp",
+    "Open Sarkari Services": "Open Sarkari Services",
+
+    "Friendly learning environment": "Friendly learning environment",
+    "Practical computer training": "Practical computer training",
+    "Typing and internet support": "Typing and internet support",
+    "Local trusted computer shop": "Local trusted computer shop",
+    "Sarkari online work support": "Sarkari online work support"
+
+  },
+
+  hi: {
+
+    "Home": "होम",
+    "About Us": "हमारे बारे में",
+    "Courses": "कोर्स",
+    "Typing": "टाइपिंग",
+    "Services": "सेवाएँ",
+    "Sarkari Services": "सरकारी सेवाएँ",
+    "Contact Us": "संपर्क करें",
+    "Highlights": "मुख्य जानकारी",
+
+    "Welcome To Our Institute": "हमारे संस्थान में आपका स्वागत है",
+
+    "Important Information": "महत्वपूर्ण जानकारी",
+    "Director": "निर्देशक",
+    "Address": "पता",
+    "Mobile Number": "मोबाइल नंबर",
+    "Speciality": "विशेषता",
+
+    "Quick View": "त्वरित जानकारी",
+    "Important Updates": "महत्वपूर्ण अपडेट",
+    "Admissions Open": "प्रवेश प्रारंभ",
+    "Sarkari Work Available": "सरकारी कार्य उपलब्ध",
+    "Personal Guidance": "व्यक्तिगत मार्गदर्शन",
+
+    "Notice": "सूचना",
+
+    "About The Center": "सेंटर के बारे में",
+    "Learn, Practice, And Grow With Confidence": "सीखें, अभ्यास करें और आत्मविश्वास के साथ आगे बढ़ें",
+    "Why Choose Us?": "हमें क्यों चुनें?",
+
+    "Training": "प्रशिक्षण",
+    "Courses We Offer": "हमारे कोर्स",
+
+    "Shop Services": "शॉप सेवाएँ",
+    "Services Available": "उपलब्ध सेवाएँ",
+
+    "Computer Repairing": "कंप्यूटर रिपेयरिंग",
+    "Computer Formatting": "कंप्यूटर फॉर्मेटिंग",
+    "Computer Assembling": "कंप्यूटर असेंबलिंग",
+    "Computer Products Sale": "कंप्यूटर उत्पाद बिक्री",
+    "Computer Sale": "कंप्यूटर बिक्री",
+    "Sarkari Online Work": "सरकारी ऑनलाइन कार्य",
+    "Typing Support": "टाइपिंग सहायता",
+
+    "Shop Products": "शॉप के उत्पाद",
+    "Computer Products Available": "उपलब्ध कंप्यूटर उत्पाद",
+
+    "Contact Us": "संपर्क करें",
+    "Let's Connect With Us": "हमसे संपर्क करें",
+
+    "Center Name": "सेंटर का नाम",
+    "Email": "ईमेल",
+    "WhatsApp": "व्हाट्सऐप",
+    "Government Services": "सरकारी सेवाएँ",
+    "Follow Us": "हमें फॉलो करें",
+    "Connect With Us On Social Media": "सोशल मीडिया पर हमसे जुड़ें",
+
+    "Email Us": "ईमेल करें",
+    "Open Sarkari Services": "सरकारी सेवाएँ खोलें",
+
+    "Friendly learning environment": "मैत्रीपूर्ण सीखने का वातावरण",
+    "Practical computer training": "प्रायोगिक कंप्यूटर प्रशिक्षण",
+    "Typing and internet support": "टाइपिंग और इंटरनेट सहायता",
+    "Local trusted computer shop": "विश्वसनीय स्थानीय कंप्यूटर शॉप",
+    "Sarkari online work support": "सरकारी ऑनलाइन कार्य सहायता"
+
+  }
+
+};
+
+
+function changeLanguage(lang) {
+
+  localStorage.setItem("selectedLanguage", lang);
+
+  document.documentElement.lang = lang;
+
+  const elements = document.querySelectorAll(
+    "h1, h2, h3, h4, p, span, li, a, strong, .section-kicker, .contact-label"
+  );
+
+  elements.forEach(function(element) {
+
+    if (element.classList.contains("language-btn")) {
+      return;
+    }
+
+    if (element.children.length > 0) {
+      return;
+    }
+
+    let originalText =
+      element.getAttribute("data-original-text");
+
+    if (!originalText) {
+
+      originalText =
+        element.textContent.trim();
+
+      element.setAttribute(
+        "data-original-text",
+        originalText
+      );
+
+    }
+
+    if (lang === "en") {
+
+      if (languageData.en[originalText]) {
+        element.textContent =
+          languageData.en[originalText];
+      }
+
+    }
+
+    if (lang === "hi") {
+
+      if (languageData.hi[originalText]) {
+        element.textContent =
+          languageData.hi[originalText];
+      }
+
+    }
+
+  });
+
+}
+
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    const savedLanguage =
+      localStorage.getItem("selectedLanguage") || "en";
+
+    changeLanguage(savedLanguage);
+
+  }
+);
+
+</script>
             Instagram
 
           </a>
@@ -1277,5 +1493,6 @@
         <p>Designed for local computer education and shop services.</p>
       </div>
     </footer>
+    
   </body>
 </html>
