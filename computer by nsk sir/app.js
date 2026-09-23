@@ -155,26 +155,79 @@
     };
   }
 
-  function studentLogin() {
-    const userId = document.getElementById("studentId").value.trim();
-    const password = document.getElementById("studentPass").value;
-    const student = state.students.find(function (s) { return s.userId === userId && s.password === password; });
-    const err = document.getElementById("studentError");
-    if (!student) return err.textContent = "Student ID ya password galat hai.";
-    if (student.blocked) return err.textContent = "Ye account blocked hai.";
-    if (student.activeSession) return err.textContent = "Ye ID kisi dusri jagah login hai. Admin se logout karwayein.";
-    const sid = makeId("session");
-   student.activeSession = { id: sid, device: deviceName(), loginAt: nowText() };
-    student.lastLoginAt = student.activeSession.loginAt;
-    student.loginCount += 1;
-    state.notifications.unshift({ id: makeId("note"), title: "Student login", text: student.name + " login hua.", time: nowText() });
+ async function studentLogin() {
+  const userId = document.getElementById("studentId").value.trim();
+  const password = document.getElementById("studentPass").value;
+  const err = document.getElementById("studentError");
+
+  err.textContent = "";
+
+  if (!userId || !password) {
+    err.textContent = "Student ID aur Password daliye.";
+    return;
+  }
+
+  try {
+    const url =
+      API_URL +
+      "?action=login" +
+      "&userId=" + encodeURIComponent(userId) +
+      "&password=" + encodeURIComponent(password);
+
+    const response = await fetch(url);
+    const result = await response.json();
+
+    if (!result.success) {
+      err.textContent = result.message || "Student ID ya password galat hai.";
+      return;
+    }
+
+    const student = result.student;
+
+    if (student.blocked) {
+      err.textContent = "Ye account blocked hai.";
+      return;
+    }
+
+    const localStudent = {
+      id: student.id,
+      name: student.name,
+      email: student.email || "",
+      mobile: student.mobile || "",
+      city: student.city || "",
+      course: student.course || "",
+      userId: student.userId,
+      password: password,
+      blocked: student.blocked,
+      loginCount: student.loginCount || 0,
+      activeSession: null,
+      lastLoginAt: student.lastLoginAt || ""
+    };
+
+    state.students = state.students.filter(function (s) {
+      return s.id !== localStudent.id;
+    });
+
+    state.students.push(localStudent);
     saveState();
-    saveSession({ role: "student", studentId: student.id, sessionId: sid, device: deviceName() });
+
+    saveSession({
+      role: "student",
+      studentId: localStudent.id,
+      sessionId: makeId("session"),
+      device: deviceName()
+    });
+
     studentTab = "tests";
     route = "student";
     location.hash = "student";
     render();
+
+  } catch (error) {
+    console.error("Student login error:", error);
+    err.textContent = "Server se connection nahi ho pa raha. Internet check kijiye.";
   }
+}
 
   function renderAdmin() {
     app.innerHTML = header("Admin - Nsk computers") + '<main class="layout wide-layout">' + adminNav() + '<section class="panel" id="adminContent"></section></main>';
@@ -332,26 +385,41 @@
     saveState();
     if (goTestsTab) adminTests();
     else editTest(test.id);
+    [L309] function addNewTest(goTestsTab) {
+[L310]   collectEditors();
+[L311]   const test = { ... };
+[L312]   state.tests.push(test);
+[L313]   saveState();
+[L314]   if (goTestsTab) adminTests();
+[L315]   else editTest(test.id);
+[L316] function renderStudent() {
+ function renderStudent() {
+  const student = studentById(session.studentId);
+
+  if (!student || student.blocked) {
+    saveSession(null);
+    route = "student-login";
+    return renderStudentLogin();
   }
 
-  function renderStudent() {
-    const student = studentById(session.studentId);
-    if (!student || !student.activeSession || student.activeSession.id !== session.sessionId || student.blocked) {
-      saveSession(null);
-      route = "student-login";
-      return renderStudentLogin();
-    }
-    app.innerHTML = header("") + '<main class="layout">' + studentNav() + '<section class="panel" id="studentContent"></section></main>';
-    document.querySelectorAll("[data-student-tab]").forEach(function (btn) {
-      btn.onclick = function () {
-        if (btn.dataset.studentTab === "logout") return logout();
-        studentTab = btn.dataset.studentTab;
-        renderStudent();
-      };
-    });
-    if (studentTab === "results") studentResults();
-    else studentTests();
+  app.innerHTML = header("") + '<main class="layout">' + studentNav() + '<section class="panel" id="studentContent"></section></main>';
+
+  document.querySelectorAll("[data-student-tab]").forEach(function (btn) {
+    btn.onclick = function () {
+      if (btn.dataset.studentTab === "logout") return logout();
+
+      studentTab = btn.dataset.studentTab;
+      renderStudent();
+    };
+  });
+
+  if (studentTab === "results") {
+    studentResults();
+  } else {
+    studentTests();
   }
+}
+   
 
   function studentTests() {
     document.getElementById("studentContent").innerHTML = '<div class="row-between"><div><h1>100 mcq Test Nsk Sir</h1><p class="muted">60 minute timer | Result PDF available</p></div><div class="timer">60:00</div></div>' + state.tests.map(function (t) { return '<div class="test-card"><b>' + esc(t.subject) + '</b><p class="muted">' + esc(t.name) + ' | Date: ' + esc(t.date) + ' | ' + '100 MCQ | 60 minute | Result PDF | Is test ko dobara bhi attempt kar sakte hain.</p><button class="primary" data-start="' + t.id + '">Start Test</button></div>'; }).join("") + '<div class="pager"><button class="light" disabled>Previous</button><div><button class="light" disabled>Next</button> <button class="primary" disabled>Submit</button></div></div>';
