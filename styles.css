@@ -1,13 +1,13 @@
 :root {
-  --primary: #0f4c5c;
-  --primary-dark: #0a2f38;
-  --accent: #ffb703;
-  --surface: #ffffff;
-  --surface-alt: #f7fbfc;
-  --text: #1b2634;
-  --muted: #5f7187;
-  --border: #d8e6ea;
-  --shadow: 0 20px 45px rgba(15, 76, 92, 0.12);
+  --primary: #EA580C;
+  --primary-dark: #991B1B;
+  --accent: #F59E0B;
+  --surface: #FFFFFF;
+  --surface-alt: #FFF7ED;
+  --text: #2B1A14;
+  --muted: #7C6257;
+  --border: #F3C9B0;
+  --shadow: 0 20px 45px rgba(234, 88, 12, 0.12);
 }
 
 * {
