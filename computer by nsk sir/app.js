@@ -881,26 +881,7 @@
       };
     });
 }
-        s.resultReleased = true;
-s.manualResult = "Fail";
-
-saveState();
-adminDashboard();
-};
-});
-
-document
-  .querySelectorAll(
-    "[data-view]"
-  )
-  .forEach(function (b) {
-    b.onclick = function () {
-      showSubmission(
-        b.dataset.view
-      );
-    };
-  });
-}
+     
   function adminReviewResults() {
     return state.submissions
       .map(function (s) {
