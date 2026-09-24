@@ -740,12 +740,15 @@
 
     document.getElementById(
       "clearNotes"
-    ).onclick = function () {
-      state.notifications = [];
-      saveState();
-      adminDashboard();
-    };
+   const clearNotesBtn = document.getElementById("clearNotes");
 
+if (clearNotesBtn) {
+  clearNotesBtn.addEventListener("click", function () {
+    state.notifications = [];
+    saveState();
+    adminDashboard();
+  });
+}
     document
       .querySelectorAll(
         "[data-del-note]"
