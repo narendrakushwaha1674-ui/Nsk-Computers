@@ -43,7 +43,7 @@
   }
 
   function defaultQuestions() {
-    return Array.from({ length: 100 }, function (_, i) {
+    return Array.from({ length: 60 }, function (_, i) {
       return {
         id: makeId("q"),
 
@@ -329,10 +329,10 @@
 
       '<section class="hero-panel">' +
       "<h1>Computer Mcq NSK SIR</h1>" +
-      "<p>Daily 100 MCQ paper practice, 60 minute timer, instant result PDF, secure student login and admin control in one professional website.</p>" +
+      "<p>Daily 60 MCQ paper practice, 60 minute timer, instant result PDF, secure student login and admin control in one professional website.</p>" +
 
       '<div class="hero-stats">' +
-      '<div class="hero-stat"><b>100</b><span>Daily Questions</span></div>' +
+      '<div class="hero-stat"><b>60</b><span>Daily Questions</span></div>' +
       '<div class="hero-stat"><b>60m</b><span>Paper Timer</span></div>' +
       '<div class="hero-stat"><b>PDF</b><span>Result PDF</span></div>' +
       "</div>" +
@@ -2096,7 +2096,7 @@
 
       "<div>" +
 
-      "<h1>100 mcq Test Nsk Sir</h1>" +
+      "<h1>60 mcq Test Nsk Sir</h1>" +
 
       '<p class="muted">60 minute timer | Result PDF available</p>' +
 
@@ -2122,7 +2122,7 @@
             esc(t.date) +
             " | " +
 
-            "100 MCQ | 60 minute | Result PDF | Is test ko dobara bhi attempt kar sakte hain." +
+            "60 MCQ | 60 minute | Result PDF | Is test ko dobara bhi attempt kar sakte hain." +
 
             "</p>" +
 
