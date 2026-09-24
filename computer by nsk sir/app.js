@@ -2645,20 +2645,94 @@ manualResult: ""
 
     if (!test) return;
 
-    openModal(
-      '<div class="row-between">' +
+   const attempted =
+  sub.detail.filter(function (d) {
+    return d.given;
+  }).length;
 
-      "<h2>" +
-      esc(test.name) +
-      " - " +
-      sub.score +
-      "/" +
-      sub.total +
-      "</h2>" +
+const correctCount =
+  sub.detail.filter(function (d) {
+    return d.correct;
+  }).length;
 
-      '<button class="ghost" id="closeModal">Close</button>' +
+const wrongCount =
+  sub.detail.filter(function (d) {
+    return d.given && !d.correct;
+  }).length;
 
-      "</div>" +
+const notAttempted =
+  sub.total - attempted;
+
+const percentage =
+  sub.total
+    ? ((sub.score / sub.total) * 100).toFixed(2)
+    : "0.00";
+
+const grade =
+  gradeFromScore(
+    sub.score,
+    sub.total
+  );
+
+openModal(
+  '<div class="row-between">' +
+
+  "<h2>" +
+  esc(test.name) +
+  "</h2>" +
+
+  '<button class="ghost" id="closeModal">Close</button>' +
+
+  "</div>" +
+
+  '<div class="cards" style="margin:16px 0;">' +
+
+  '<div class="stat"><b>' +
+  sub.total +
+  '</b><span>Total Questions</span></div>' +
+
+  '<div class="stat"><b>' +
+  attempted +
+  '</b><span>Attempted</span></div>' +
+
+  '<div class="stat"><b>' +
+  correctCount +
+  '</b><span>Correct</span></div>' +
+
+  '<div class="stat"><b>' +
+  wrongCount +
+  '</b><span>Wrong</span></div>' +
+
+  '<div class="stat"><b>' +
+  notAttempted +
+  '</b><span>Not Attempted</span></div>' +
+
+  '<div class="stat"><b>' +
+  sub.score +
+  "/" +
+  sub.total +
+  '</b><span>Marks</span></div>' +
+
+  "</div>" +
+
+  '<div class="notice">' +
+
+  "<b>Percentage:</b> " +
+  percentage +
+  "%<br>" +
+
+  "<b>Result:</b> " +
+
+  '<span class="' +
+  grade.cls +
+  '">' +
+
+  esc(grade.text) +
+
+  "</span>" +
+
+  "</div>" +
+
 
       test.questions
         .map(function (q, i) {
