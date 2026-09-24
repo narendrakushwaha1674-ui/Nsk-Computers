@@ -2608,6 +2608,12 @@ function studentTests() {
       startedAt:
         running.startedAt,
       submittedAt:
+  nowText(),
+      submitDate:
+  getTodayKey(),
+      resultReleased: true,
+      
+      submittedAt:
         nowText(),
      resultReleased: true,
 manualResult: ""
