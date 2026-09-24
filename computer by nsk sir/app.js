@@ -741,11 +741,31 @@
   const clearNotesBtn = document.getElementById("clearNotes");
 
 if (clearNotesBtn) {
-  clearNotesBtn.addEventListener("click", function () {
+  clearNotesBtn.onclick = function () {
+    if (!Array.isArray(state.notifications)) {
+      state.notifications = [];
+    }
+
+    if (state.notifications.length === 0) {
+      alert("Clear karne ke liye koi notification nahi hai.");
+      return;
+    }
+
+    const confirmClear = confirm(
+      "Kya aap sabhi notifications ko delete karna chahte hain?"
+    );
+
+    if (!confirmClear) {
+      return;
+    }
+
     state.notifications = [];
+
     saveState();
+
     adminDashboard();
-  });
+  };
+}
 }
     document
       .querySelectorAll(
