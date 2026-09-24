@@ -2310,17 +2310,7 @@ function studentTests() {
 
   renderRunningTest();
 }
-      testId: testId,
-      index: 0,
-      answers: {},
-      startedAt: nowText(),
-      endsAt:
-        Date.now() +
-        60 * 60 * 1000
-    };
-
-    renderRunningTest();
-  }
+     
 
   function renderRunningTest() {
     const test =
