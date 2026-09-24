@@ -2087,85 +2087,229 @@
     }
   }
 
-  function studentTests() {
-    document.getElementById(
-      "studentContent"
-    ).innerHTML =
+ function getTodayKey() {
+  const d = new Date();
 
-      '<div class="row-between">' +
+  return (
+    d.getFullYear() +
+    "-" +
+    String(d.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(d.getDate()).padStart(2, "0")
+  );
+}
 
-      "<div>" +
+function getStudentSubmissions() {
+  return state.submissions
+    .filter(function (s) {
+      return s.studentId === session.studentId;
+    })
+    .sort(function (a, b) {
+      return (
+        new Date(b.submittedAt) -
+        new Date(a.submittedAt)
+      );
+    });
+}
 
-      "<h1>60 mcq Test Nsk Sir</h1>" +
+function getNextAllowedTestIndex() {
+  const submissions = getStudentSubmissions();
 
-      '<p class="muted">60 minute timer | Result PDF available</p>' +
+  // Student ne abhi tak koi test nahi diya
+  if (submissions.length === 0) {
+    return 0;
+  }
 
-      "</div>" +
+  // Aaj ka test already submit kiya hai
+  const today = getTodayKey();
 
-      '<div class="timer">60:00</div>' +
+  const submittedToday = submissions.some(function (s) {
+    return s.submitDate === today;
+  });
 
-      "</div>" +
+  if (submittedToday) {
+    return -1;
+  }
 
-      state.tests
-        .map(function (t) {
-          return (
-            '<div class="test-card">' +
+  // Sabse last completed test ka index
+  const lastSubmission = submissions[0];
 
-            "<b>" +
-            esc(t.subject) +
-            "</b>" +
+  const lastIndex = state.tests.findIndex(function (t) {
+    return t.id === lastSubmission.testId;
+  });
 
-            '<p class="muted">' +
+  if (lastIndex === -1) {
+    return 0;
+  }
 
-            esc(t.name) +
-            " | Date: " +
-            esc(t.date) +
-            " | " +
+  // Agla test
+  return lastIndex + 1;
+}
 
-            "60 MCQ | 60 minute | Result PDF | Is test ko dobara bhi attempt kar sakte hain." +
+function studentTests() {
+  const nextAllowedIndex =
+    getNextAllowedTestIndex();
 
-            "</p>" +
+  document.getElementById(
+    "studentContent"
+  ).innerHTML =
 
+    '<div class="row-between">' +
+
+    "<div>" +
+
+    "<h1>60 MCQ Test Nsk Sir</h1>" +
+
+    '<p class="muted">Ek din me sirf 1 test | Agla test raat 12 baje unlock hoga</p>' +
+
+    "</div>" +
+
+    '<div class="timer">Daily Test</div>' +
+
+    "</div>" +
+
+    state.tests
+      .map(function (t, index) {
+
+        const alreadySubmitted =
+          state.submissions.some(function (s) {
+            return (
+              s.studentId === session.studentId &&
+              s.testId === t.id
+            );
+          });
+
+        let buttonHTML = "";
+
+        if (alreadySubmitted) {
+
+          buttonHTML =
+            '<button class="light" disabled>Completed</button>';
+
+        } else if (nextAllowedIndex === -1) {
+
+          buttonHTML =
+            '<button class="light" disabled>Tomorrow 12:00 AM</button>';
+
+        } else if (index < nextAllowedIndex) {
+
+          buttonHTML =
+            '<button class="light" disabled>Completed</button>';
+
+        } else if (index > nextAllowedIndex) {
+
+          buttonHTML =
+            '<button class="light" disabled>Locked</button>';
+
+        } else {
+
+          buttonHTML =
             '<button class="primary" data-start="' +
             t.id +
-            '">Start Test</button>' +
+            '">Start Test</button>';
+        }
 
-            "</div>"
-          );
-        })
-        .join("") +
+        return (
 
-      '<div class="pager">' +
+          '<div class="test-card">' +
 
-      '<button class="light" disabled>Previous</button>' +
+          "<b>" +
+          esc(t.subject) +
+          "</b>" +
 
-      "<div>" +
+          '<p class="muted">' +
 
-      '<button class="light" disabled>Next</button> ' +
+          esc(t.name) +
 
-      '<button class="primary" disabled>Submit</button>' +
+          " | Date: " +
 
-      "</div>" +
+          esc(t.date) +
 
-      "</div>";
+          " | " +
 
-    document
-      .querySelectorAll(
-        "[data-start]"
-      )
-      .forEach(function (b) {
-        b.onclick = function () {
-          startTest(
-            b.dataset.start
-          );
+          t.questions.length +
+
+          " MCQ | 60 minute" +
+
+          "</p>" +
+
+          buttonHTML +
+
+          "</div>"
+        );
+      })
+      .join("") +
+
+    '<div class="pager">' +
+
+    '<button class="light" disabled>Previous</button>' +
+
+    "<div>" +
+
+    '<button class="light" disabled>Next</button> ' +
+
+    '<button class="primary" disabled>Submit</button>' +
+
+    "</div>" +
+
+    "</div>";
+
+  document
+    .querySelectorAll("[data-start]")
+    .forEach(function (b) {
+
+      b.onclick = function () {
+
+        startTest(
+          b.dataset.start
+        );
+
+      };
+
+    });
+}
         };
       });
   }
 
-  function startTest(
-    testId
-  ) {
-    running = {
+ function startTest(
+  testId
+) {
+
+  const nextAllowedIndex =
+    getNextAllowedTestIndex();
+
+  const selectedIndex =
+    state.tests.findIndex(function (t) {
+      return t.id === testId;
+    });
+
+  if (nextAllowedIndex === -1) {
+    alert(
+      "Aap aaj ka test already submit kar chuke hain. Agla test raat 12:00 baje unlock hoga."
+    );
+    return;
+  }
+
+  if (selectedIndex !== nextAllowedIndex) {
+    alert(
+      "Ye test abhi locked hai. Pehle pichhla test complete karein."
+    );
+    return;
+  }
+
+  running = {
+    testId: testId,
+    index: 0,
+    answers: {},
+    startedAt: nowText(),
+    endsAt:
+      Date.now() +
+      60 * 60 * 1000
+  };
+
+  renderRunningTest();
+}
       testId: testId,
       index: 0,
       answers: {},
