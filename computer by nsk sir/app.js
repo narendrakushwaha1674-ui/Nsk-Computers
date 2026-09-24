@@ -632,217 +632,255 @@
   }
 
   function adminDashboard() {
-    const blocked =
-      state.students.filter(
-        function (s) {
-          return s.blocked;
-        }
-      ).length;
+  const blocked = state.students.filter(function (s) {
+    return s.blocked;
+  }).length;
 
-    document.getElementById(
-      "adminContent"
-    ).innerHTML =
+  const adminContent = document.getElementById("adminContent");
 
-      "<h1>Admin Dashboard</h1>" +
+  if (!adminContent) {
+    return;
+  }
 
-      '<div class="cards">' +
+  adminContent.innerHTML =
+    "<h1>Admin Dashboard</h1>" +
 
-      '<div class="stat"><b>' +
-      state.students.length +
-      "</b><span>Total Students</span></div>" +
+    '<div class="cards">' +
 
-      '<div class="stat"><b>' +
-      state.tests.length +
-      "</b><span>Total Tests</span></div>" +
+    '<div class="stat"><b>' +
+    state.students.length +
+    "</b><span>Total Students</span></div>" +
 
-      '<div class="stat"><b>' +
-      blocked +
-      "</b><span>Blocked Accounts</span></div>" +
+    '<div class="stat"><b>' +
+    state.tests.length +
+    "</b><span>Total Tests</span></div>" +
 
-      "</div>" +
+    '<div class="stat"><b>' +
+    blocked +
+    "</b><span>Blocked Accounts</span></div>" +
 
-      '<div class="row-between">' +
-      "<h2>Notifications</h2>" +
-      '<button class="danger" id="clearNotes">Clear All</button>' +
-      "</div>" +
+    "</div>" +
 
-      "<div>" +
+    '<div class="row-between">' +
+    "<h2>Notifications</h2>" +
+    '<button type="button" class="danger" id="clearNotes">Clear All</button>' +
+    "</div>" +
 
-      (
-        state.notifications.length
-          ? state.notifications
-              .map(function (n) {
-                return (
-                  '<div class="notice">' +
-                  "<div>" +
-                  "<b>" +
-                  esc(n.title) +
-                  "</b><br>" +
-                  esc(n.text) +
-                  "<br>" +
-                  '<span class="muted">' +
-                  esc(n.time) +
-                  "</span>" +
-                  "</div>" +
+    "<div>" +
 
-                  '<button class="danger mini-btn" data-del-note="' +
-                  n.id +
-                  '">Delete</button>' +
+    (
+      state.notifications.length
+        ? state.notifications
+            .map(function (n) {
+              return (
+                '<div class="notice">' +
 
-                  "</div>"
-                );
-              })
-              .join("")
-          : '<p class="muted">Abhi koi notification nahi hai.</p>'
-      ) +
+                "<div>" +
 
-      "</div>" +
+                "<b>" +
+                esc(n.title) +
+                "</b><br>" +
 
-      "<h2>Submitted Tests</h2>" +
+                esc(n.text) +
+                "<br>" +
 
-      (
-        state.submissions.length
-          ? adminReviewResults()
-          : '<p class="muted">Abhi koi test submit nahi hua.</p>'
-      ) +
+                '<span class="muted">' +
+                esc(n.time) +
+                "</span>" +
 
-      "<h2>Help Requests</h2>" +
+                "</div>" +
 
-      (
-        state.help.length
-          ? state.help
-              .map(function (h) {
-                return (
-                  '<div class="notice">' +
-                  "<div>" +
-                  "<b>" +
-                  esc(h.student) +
-                  "</b> - " +
-                  esc(h.test) +
-                  "<br>" +
-                  esc(h.text) +
-                  "<br>" +
-                  '<span class="muted">' +
-                  esc(h.time) +
-                  "</span>" +
-                  "</div>" +
+                '<button type="button" class="danger mini-btn" data-del-note="' +
+                n.id +
+                '">Delete</button>' +
 
-                  '<button class="danger mini-btn" data-del-help="' +
-                  h.id +
-                  '">Delete</button>' +
+                "</div>"
+              );
+            })
+            .join("")
 
-                  "</div>"
-                );
-              })
-              .join("")
-          : '<p class="muted">Abhi koi help request nahi hai.</p>'
-      );
+        : '<p class="muted">Abhi koi notification nahi hai.</p>'
+    ) +
 
-  const clearNotesBtn = document.getElementById("clearNotes");
+    "</div>" +
 
-if (clearNotesBtn) {
-  clearNotesBtn.onclick = function () {
-    if (!Array.isArray(state.notifications)) {
-      state.notifications = [];
-    }
+    "<h2>Submitted Tests</h2>" +
 
-    if (state.notifications.length === 0) {
-      alert("Clear karne ke liye koi notification nahi hai.");
-      return;
-    }
+    (
+      state.submissions.length
+        ? adminReviewResults()
+        : '<p class="muted">Abhi koi test submit nahi hua.</p>'
+    ) +
 
-    const confirmClear = confirm(
-      "Kya aap sabhi notifications ko delete karna chahte hain?"
+    "<h2>Help Requests</h2>" +
+
+    (
+      state.help.length
+        ? state.help
+            .map(function (h) {
+              return (
+                '<div class="notice">' +
+
+                "<div>" +
+
+                "<b>" +
+                esc(h.student) +
+                "</b> - " +
+                esc(h.test) +
+                "<br>" +
+
+                esc(h.text) +
+                "<br>" +
+
+                '<span class="muted">' +
+                esc(h.time) +
+                "</span>" +
+
+                "</div>" +
+
+                '<button type="button" class="danger mini-btn" data-del-help="' +
+                h.id +
+                '">Delete</button>' +
+
+                "</div>"
+              );
+            })
+            .join("")
+
+        : '<p class="muted">Abhi koi help request nahi hai.</p>'
     );
 
-    if (!confirmClear) {
-      return;
-    }
+  // CLEAR ALL NOTIFICATIONS
+  const clearNotesBtn =
+    document.getElementById("clearNotes");
 
-    state.notifications = [];
+  if (clearNotesBtn) {
+    clearNotesBtn.onclick = function () {
 
-    saveState();
+      if (!state.notifications) {
+        state.notifications = [];
+      }
 
-    adminDashboard();
-  };
+      if (state.notifications.length === 0) {
+        alert("Clear karne ke liye koi notification nahi hai.");
+        return;
+      }
+
+      const confirmClear = confirm(
+        "Kya aap sabhi notifications ko delete karna chahte hain?"
+      );
+
+      if (!confirmClear) {
+        return;
+      }
+
+      state.notifications = [];
+
+      saveState();
+
+      adminDashboard();
+    };
+  }
+
+  // DELETE SINGLE NOTIFICATION
+  document
+    .querySelectorAll("[data-del-note]")
+    .forEach(function (b) {
+
+      b.onclick = function () {
+
+        state.notifications =
+          state.notifications.filter(function (n) {
+
+            return n.id !== b.dataset.delNote;
+
+          });
+
+        saveState();
+
+        adminDashboard();
+      };
+    });
+
+  // DELETE HELP REQUEST
+  document
+    .querySelectorAll("[data-del-help]")
+    .forEach(function (b) {
+
+      b.onclick = function () {
+
+        state.help =
+          state.help.filter(function (h) {
+
+            return h.id !== b.dataset.delHelp;
+
+          });
+
+        saveState();
+
+        adminDashboard();
+      };
+    });
+
+  // RELEASE RESULT
+  document
+    .querySelectorAll("[data-pass]")
+    .forEach(function (b) {
+
+      b.onclick = function () {
+
+        const s =
+          submissionById(b.dataset.pass);
+
+        if (!s) {
+          return;
+        }
+
+        s.resultReleased = true;
+        s.manualResult = "";
+
+        saveState();
+
+        adminDashboard();
+      };
+    });
+
+  // FAIL RESULT
+  document
+    .querySelectorAll("[data-fail]")
+    .forEach(function (b) {
+
+      b.onclick = function () {
+
+        const s =
+          submissionById(b.dataset.fail);
+
+        if (!s) {
+          return;
+        }
+
+        s.resultReleased = true;
+        s.manualResult = "Fail";
+
+        saveState();
+
+        adminDashboard();
+      };
+    });
+
+  // VIEW RESULT
+  document
+    .querySelectorAll("[data-view]")
+    .forEach(function (b) {
+
+      b.onclick = function () {
+
+        showSubmission(
+          b.dataset.view
+        );
+      };
+    });
 }
-}
-    document
-      .querySelectorAll(
-        "[data-del-note]"
-      )
-      .forEach(function (b) {
-        b.onclick = function () {
-          state.notifications =
-            state.notifications.filter(
-              function (n) {
-                return (
-                  n.id !==
-                  b.dataset.delNote
-                );
-              }
-            );
-
-          saveState();
-          adminDashboard();
-        };
-      });
-
-    document
-      .querySelectorAll(
-        "[data-del-help]"
-      )
-      .forEach(function (b) {
-        b.onclick = function () {
-          state.help =
-            state.help.filter(
-              function (h) {
-                return (
-                  h.id !==
-                  b.dataset.delHelp
-                );
-              }
-            );
-
-          saveState();
-          adminDashboard();
-        };
-      });
-
-    document
-      .querySelectorAll(
-        "[data-pass]"
-      )
-      .forEach(function (b) {
-        b.onclick = function () {
-          const s =
-            submissionById(
-              b.dataset.pass
-            );
-
-          if (!s) return;
-
-          s.resultReleased = true;
-          s.manualResult = "";
-
-          saveState();
-          adminDashboard();
-        };
-      });
-
-    document
-      .querySelectorAll(
-        "[data-fail]"
-      )
-      .forEach(function (b) {
-        b.onclick = function () {
-          const s =
-            submissionById(
-              b.dataset.fail
-            );
-
-          if (!s) return;
-
           s.resultReleased = true;
           s.manualResult = "Fail";
 
