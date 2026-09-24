@@ -244,8 +244,7 @@
       ["students", "Student Accounts"],
       ["tests", "Test Names"],
       ["questions", "Questions"],
-      ["generate", "ID/Password Generate"],
-      ["logout", "Logout"]
+            ["logout", "Logout"]
     ];
 
     return (
