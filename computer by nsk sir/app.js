@@ -823,51 +823,7 @@
     });
 
   // RELEASE RESULT
-  document
-    .querySelectorAll("[data-pass]")
-    .forEach(function (b) {
-
-      b.onclick = function () {
-
-        const s =
-          submissionById(b.dataset.pass);
-
-        if (!s) {
-          return;
-        }
-
-        s.resultReleased = true;
-        s.manualResult = "";
-
-        saveState();
-
-        adminDashboard();
-      };
-    });
-
-  // FAIL RESULT
-  document
-    .querySelectorAll("[data-fail]")
-    .forEach(function (b) {
-
-      b.onclick = function () {
-
-        const s =
-          submissionById(b.dataset.fail);
-
-        if (!s) {
-          return;
-        }
-
-        s.resultReleased = true;
-        s.manualResult = "Fail";
-
-        saveState();
-
-        adminDashboard();
-      };
-    });
-
+ 
   // VIEW RESULT
   document
     .querySelectorAll("[data-view]")
@@ -962,16 +918,7 @@
           "</div>" +
 
           "<div>" +
-
-          '<button class="primary mini-btn" data-pass="' +
-          s.id +
-          '">Release Result</button> ' +
-
-          '<button class="danger mini-btn" data-fail="' +
-          s.id +
-          '">Fail</button> ' +
-
-          '<button class="ghost mini-btn" data-view="' +
+                    '<button class="ghost mini-btn" data-view="' +
           s.id +
           '">View</button>' +
 
@@ -2518,8 +2465,8 @@
         running.startedAt,
       submittedAt:
         nowText(),
-      resultReleased: false,
-      manualResult: ""
+     resultReleased: true,
+manualResult: ""
     });
 
     const student =
