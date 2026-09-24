@@ -2597,17 +2597,17 @@ function studentTests() {
       detail: detail,
       startedAt:
         running.startedAt,
-      submittedAt:
-  nowText(),
-      submitDate:
-  getTodayKey(),
-      resultReleased: true,
-      
-      submittedAt:
+           submittedAt:
         nowText(),
-     resultReleased: true,
-manualResult: ""
-    });
+
+      submitDate:
+        getTodayKey(),
+
+      resultReleased:
+        true,
+
+      manualResult:
+        ""
 
     const student =
       studentById(
