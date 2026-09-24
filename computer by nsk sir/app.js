@@ -738,9 +738,7 @@
           : '<p class="muted">Abhi koi help request nahi hai.</p>'
       );
 
-    document.getElementById(
-      "clearNotes"
-   const clearNotesBtn = document.getElementById("clearNotes");
+  const clearNotesBtn = document.getElementById("clearNotes");
 
 if (clearNotesBtn) {
   clearNotesBtn.addEventListener("click", function () {
