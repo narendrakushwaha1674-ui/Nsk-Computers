@@ -1,6 +1,6 @@
 (function () {
-  const ADMIN_ID = "Nsk computers";
-  const ADMIN_PASSWORD = "Nsk@4002";
+  const ADMIN_ID = "maashitlacomputers";
+  const ADMIN_PASSWORD = "Maashitla@4002";
 
   const STORAGE_KEY = "computerByNskSirDataV2";
   const SESSION_KEY = "computerByNskSirSession";
