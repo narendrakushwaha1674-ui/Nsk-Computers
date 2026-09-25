@@ -836,7 +836,36 @@ if (
       };
     });
 }
-     
+  function adminSubmissions() {
+  const adminContent =
+    document.getElementById("adminContent");
+
+  if (!adminContent) {
+    return;
+  }
+
+  adminContent.innerHTML =
+    '<div class="row-between">' +
+    "<h1>Submitted Tests</h1>" +
+    '<span class="muted">Students ke submit kiye hue sabhi tests yahan dikhte hain.</span>' +
+    "</div>" +
+
+    (
+      state.submissions.length
+        ? adminReviewResults()
+        : '<p class="muted">Abhi koi test submit nahi hua.</p>'
+    );
+
+  document
+    .querySelectorAll("[data-view]")
+    .forEach(function (b) {
+      b.onclick = function () {
+        showSubmission(
+          b.dataset.view
+        );
+      };
+    });
+}   
   function adminReviewResults() {
     return state.submissions
       .map(function (s) {
