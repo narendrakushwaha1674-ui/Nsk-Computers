@@ -2268,11 +2268,7 @@ function studentTests() {
 
     });
 }
-        };
-      });
-  }
-
- function startTest(
+     function startTest(
   testId
 ) {
 
@@ -2606,8 +2602,10 @@ function studentTests() {
       resultReleased:
         true,
 
-      manualResult:
+           manualResult:
         ""
+
+    });
 
     const student =
       studentById(
