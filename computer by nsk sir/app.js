@@ -634,8 +634,6 @@ if (
   adminDashboard();
 }
     }
-  }
-
   function adminDashboard() {
   const blocked = state.students.filter(function (s) {
     return s.blocked;
