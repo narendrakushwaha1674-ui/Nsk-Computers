@@ -242,6 +242,7 @@
     const items = [
       ["dashboard", "Dashboard"],
       ["students", "Student Accounts"],
+      ["submissions", "Submitted Tests"],
       ["tests", "Test Names"],
       ["questions", "Questions"],
             ["logout", "Logout"]
@@ -609,25 +610,29 @@
           renderAdmin();
         };
       });
-
-    if (
-      adminTab === "students"
-    ) {
-      adminStudents();
-    } else if (
-      adminTab === "tests"
-    ) {
-      adminTests();
-    } else if (
-      adminTab === "questions"
-    ) {
-      adminQuestions();
-    } else if (
-      adminTab === "generate"
-    ) {
-      adminGenerateId();
-    } else {
-      adminDashboard();
+if (
+  adminTab === "students"
+) {
+  adminStudents();
+} else if (
+  adminTab === "submissions"
+) {
+  adminSubmissions();
+} else if (
+  adminTab === "tests"
+) {
+  adminTests();
+} else if (
+  adminTab === "questions"
+) {
+  adminQuestions();
+} else if (
+  adminTab === "generate"
+) {
+  adminGenerateId();
+} else {
+  adminDashboard();
+}
     }
   }
 
@@ -704,13 +709,7 @@
 
     "</div>" +
 
-    "<h2>Submitted Tests</h2>" +
-
-    (
-      state.submissions.length
-        ? adminReviewResults()
-        : '<p class="muted">Abhi koi test submit nahi hua.</p>'
-    ) +
+    
 
     "<h2>Help Requests</h2>" +
 
