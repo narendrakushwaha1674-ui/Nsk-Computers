@@ -19,8 +19,7 @@ const elements = {
   mainCoaching: document.querySelector("#mainCoaching"),
   distributorName: document.querySelector("#distributorName"),
   saveBrand: document.querySelector("#saveBrand"),
-  form: document.querySelector("#credentialForm"),
-  cardGrid: document.querySelector("#cardGrid"),
+ cardGrid: document.querySelector("#cardGrid"),
   searchBox: document.querySelector("#searchBox"),
 };
 
@@ -29,33 +28,6 @@ function saveState() {
   localStorage.setItem("distributorName", state.distributor);
   localStorage.setItem("institutes", JSON.stringify(state.institutes));
 }
-
-function cleanCode(value) {
-  return value
-    .toUpperCase()
-    .replace(/[^A-Z0-9 ]/g, "")
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((word) => word.slice(0, 6))
-    .join("-");
-}
-
-function makePassword(institute) {
-  const prefix = institute
-    .replace(/[^a-zA-Z]/g, "")
-    .slice(0, 3)
-    .toUpperCase()
-    .padEnd(3, "X");
-  return `${prefix}@${Math.floor(1000 + Math.random() * 9000)}`;
-}
-
-function makeCredential(institute) {
-  const code = cleanCode(institute) || "INST";
-  const number = Math.floor(1000 + Math.random() * 9000);
-  return `MS-${code}-${number}`;
-}
-
 function todayLabel() {
   return new Intl.DateTimeFormat("en-IN", {
     day: "2-digit",
@@ -200,7 +172,6 @@ elements.loginForm.addEventListener("submit", (event) => {
     elements.loginForm.reset();
     return;
   }
-
   elements.loginError.textContent = "Login ID ya password galat hai.";
 });
 elements.adminLogout.addEventListener("click", () => {
@@ -208,36 +179,10 @@ elements.adminLogout.addEventListener("click", () => {
   elements.loginGate.classList.remove("hidden");
   elements.loginError.textContent = "Admin logout ho gaya. Dobara login karein.";
 });
-
-elements.form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const institute = document.querySelector("#instituteName").value.trim();
-  const city = document.querySelector("#cityName").value.trim();
-  const mobile = document.querySelector("#mobileNo").value.trim();
-  const course = document.querySelector("#courseAccess").value;
-
-  state.institutes.unshift({
-    institute,
-    city,
-    mobile,
-    course,
-    id: makeCredential(institute),
-    password: makePassword(institute),
-    created: todayLabel(),
-  });
-
-  saveState();
-  renderCards();
-  elements.form.reset();
-  document.querySelector("#institutes").scrollIntoView({ behavior: "smooth" });
-});
-
 elements.searchBox.addEventListener("input", renderCards);
-
 if (sessionStorage.getItem("maaShitlaLoggedIn") === "yes") {
   elements.loginGate.classList.add("hidden");
 }
-
 applyBrand();
 saveState();
 renderCards();
