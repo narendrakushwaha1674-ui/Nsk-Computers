@@ -457,6 +457,10 @@
    * server se verify honge.
    */
   async function studentLogin() {
+
+    const loginBtn =
+      document.getElementById("studentLoginBtn");
+
     const userId =
       document
         .getElementById("studentId")
@@ -591,23 +595,24 @@
 
       render();
 
-      } catch (error) {
-      console.error(
-        "Student login error:",
-        error
-      );
+            } catch (error) {
 
-      if (loginBtn) {
-        loginBtn.disabled = false;
-        loginBtn.textContent = "Login";
+        console.error(
+          "Student login error:",
+          error
+        );
+
+        if (loginBtn) {
+          loginBtn.disabled = false;
+          loginBtn.textContent = "Login";
+        }
+
+        err.textContent =
+          "Server se connection nahi ho pa raha. Internet check kijiye.";
       }
-
-      err.textContent =
-        "Server se connection nahi ho pa raha. Internet check kijiye.";
-    }
-
+  }
   function renderAdmin() {
-    app.innerHTML =
+      app.innerHTML =
       header(
         "Admin - Nsk computers"
       ) +
