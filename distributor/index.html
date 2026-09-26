@@ -76,7 +76,8 @@
         <a href="public.html" target="_blank" rel="noopener">Maa Shitla Computer center And Computer Shop</a>
         <a href="#courses">Courses</a>
         <a href="#distributor">Distributor</a>
-              <a href="certificate-requests.html" target="_blank" rel="noopener">Certificate Approval</a>
+        <a href="#institutes">Institutes</a>
+        <a href="certificate-requests.html" target="_blank" rel="noopener">Certificate Approval</a>
         <a href="#faq">FAQ</a>
       </nav>
       <button class="nav-action" id="adminLogout" type="button">Admin Logout</button>
@@ -121,7 +122,73 @@
           <article class="course-card"><span>AD</span><h3>AD</h3><p>Advanced diploma style practical computer program.</p></article>
         </div>
       </section>
-              <section class="section faq" id="faq">
+
+      <section class="workspace" id="distributor">
+        <div class="panel intro-panel">
+          <p class="eyebrow">Distributor panel</p>
+          <h2>Apna master coaching naam set karein</h2>
+          <label>
+            Main coaching name
+            <input id="mainCoaching" type="text" value="Maa Shitla Computer Center AND Computer Shop" />
+          </label>
+          <label>
+            Director name
+            <input id="distributorName" type="text" value="Director - Narendra Kushwaha (Nsk)" />
+          </label>
+          <div class="contact-card">
+            <span>Mobile: 9179424002</span>
+            <span>Email: Narendrakushwaha1674@gmail.com</span>
+          </div>
+          <button class="primary-btn full" id="saveBrand" type="button">Brand save karein</button>
+          <p class="hint">Ye naam har institute ke login card ke top par aayega.</p>
+        </div>
+
+        <form class="panel form-panel" id="credentialForm">
+          <p class="eyebrow">New institute</p>
+          <h2>ID/password generate karein</h2>
+          <div class="form-grid">
+            <label>
+              Institute/coaching name
+              <input id="instituteName" type="text" placeholder="Example: Gupta Science Academy" required />
+            </label>
+            <label>
+              City/area
+              <input id="cityName" type="text" placeholder="Example: Patna" required />
+            </label>
+            <label>
+              Mobile
+              <input id="mobileNo" type="tel" placeholder="Example: 9876543210" />
+            </label>
+            <label>
+              Course access
+              <select id="courseAccess">
+                <option>All Computer Courses</option>
+                <option>Tally Prime</option>
+                <option>CCA</option>
+                <option>CPCT</option>
+                <option>PGDCA</option>
+                <option>Advance Excle</option>
+                <option>CCC</option>
+                <option>AD</option>
+              </select>
+            </label>
+          </div>
+          <button class="primary-btn" type="submit">ID generate karein</button>
+        </form>
+      </section>
+
+      <section class="section institute-section" id="institutes">
+        <div class="section-heading row-heading">
+          <div>
+            <p class="eyebrow">Institute IDs</p>
+            <h2>Jisko bhi ID deni ho, yahan se copy ya print karein</h2>
+          </div>
+          <input class="search" id="searchBox" type="search" placeholder="Search institute..." />
+        </div>
+        <div class="card-grid" id="cardGrid"></div>
+      </section>
+
+      <section class="section faq" id="faq">
         <div class="section-heading">
           <p class="eyebrow">FAQ</p>
           <h2>Common questions</h2>
