@@ -429,8 +429,17 @@
       "</main>";
 
     document.getElementById(
-      "studentLoginBtn"
-    ).onclick = studentLogin;
+  "studentLoginBtn"
+).onclick = function () {
+  const btn = document.getElementById("studentLoginBtn");
+
+  if (btn.disabled) return;
+
+  btn.disabled = true;
+  btn.textContent = "Logging in...";
+
+  studentLogin();
+};
 
     document.getElementById(
       "adminBackLink"
@@ -493,21 +502,31 @@
         await response.json();
 
       if (!result.success) {
-        err.textContent =
-          result.message ||
-          "Student ID ya password galat hai.";
-        return;
-      }
+  if (loginBtn) {
+    loginBtn.disabled = false;
+    loginBtn.textContent = "Login";
+  }
+
+  err.textContent =
+    result.message ||
+    "Student ID ya password galat hai.";
+  return;
+}
 
       const student =
         result.student;
 
-      if (student.blocked) {
-        err.textContent =
-          "Ye account blocked hai.";
-        return;
-      }
+     if (student.blocked) {
+  if (loginBtn) {
+    loginBtn.disabled = false;
+    loginBtn.textContent = "Login";
+  }
 
+  err.textContent =
+    "Ye account blocked hai.";
+  return;
+}
+ 
       /*
        * Server se mila student local browser
        * me temporary copy ke roop me rakha ja raha hai.
@@ -572,16 +591,20 @@
 
       render();
 
-    } catch (error) {
+      } catch (error) {
       console.error(
         "Student login error:",
         error
       );
 
+      if (loginBtn) {
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Login";
+      }
+
       err.textContent =
         "Server se connection nahi ho pa raha. Internet check kijiye.";
     }
-  }
 
   function renderAdmin() {
     app.innerHTML =
@@ -1917,22 +1940,35 @@ function studentTests() {
     "</div>";
 
   document
-    .querySelectorAll("[data-start]")
-    .forEach(function (b) {
+  .querySelectorAll("[data-start]")
+  .forEach(function (b) {
 
-      b.onclick = function () {
+    b.onclick = function () {
 
-        startTest(
-          b.dataset.start
-        );
+      if (b.disabled) return;
 
-      };
+      b.disabled = true;
+      b.textContent = "Opening Test...";
 
-    });
+      startTest(
+        b.dataset.start
+      );
+
+    };
+
+  });
 }
      function startTest(
   testId
 ) {
+         if (running) {
+    return;
+  }
+
+  if (timerHandle) {
+    clearInterval(timerHandle);
+    timerHandle = null;
+  }
 
   const nextAllowedIndex =
     getNextAllowedTestIndex();
@@ -2162,12 +2198,14 @@ function studentTests() {
 
     tickTimer();
 
-    timerHandle =
-      setInterval(
-        tickTimer,
-        1000
-      );
-  }
+if (timerHandle) {
+  clearInterval(timerHandle);
+}
+
+timerHandle = setInterval(
+  tickTimer,
+  1000
+);
 
   function tickTimer() {
     if (!running) return;
