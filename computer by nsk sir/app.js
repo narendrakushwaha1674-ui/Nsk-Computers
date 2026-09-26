@@ -2212,7 +2212,9 @@ timerHandle = setInterval(
   1000
 );
 
-  function tickTimer() {
+}
+
+function tickTimer() {
     if (!running) return;
 
     const left =
