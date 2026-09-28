@@ -42,10 +42,73 @@
     return id + " / " + navigator.platform;
   }
 
+  /* =========================
+   * CROSS-DEVICE DATA HELPERS
+   * ========================= */
+
+  function stableTestId(index) {
+    return "test-" + (index + 1);
+  }
+
+  function stableQuestionId(testIndex, questionIndex) {
+    return (
+      "test-" +
+      (testIndex + 1) +
+      "-q-" +
+      (questionIndex + 1)
+    );
+  }
+
+  function normalizeStateIds(data) {
+    if (!data || !Array.isArray(data.tests)) {
+      return data;
+    }
+
+    const oldTestIds = {};
+
+    data.tests.forEach(function (test, testIndex) {
+      oldTestIds[test.id] = stableTestId(testIndex);
+      test.id = stableTestId(testIndex);
+
+      if (Array.isArray(test.questions)) {
+        test.questions.forEach(function (question, questionIndex) {
+          question.id = stableQuestionId(
+            testIndex,
+            questionIndex
+          );
+        });
+      }
+    });
+
+    if (Array.isArray(data.submissions)) {
+      data.submissions.forEach(function (submission) {
+        if (oldTestIds[submission.testId]) {
+          submission.testId = oldTestIds[submission.testId];
+        }
+
+        if (Array.isArray(submission.detail)) {
+          const test = data.tests.find(function (t) {
+            return t.id === submission.testId;
+          });
+
+          if (test && Array.isArray(test.questions)) {
+            submission.detail.forEach(function (item, qIndex) {
+              if (test.questions[qIndex]) {
+                item.qid = test.questions[qIndex].id;
+              }
+            });
+          }
+        }
+      });
+    }
+
+    return data;
+  }
+
   function defaultQuestions() {
     return Array.from({ length: 60 }, function (_, i) {
       return {
-        id: makeId("q"),
+        id: stableQuestionId(0, i),
 
         text:
           i === 0
@@ -86,7 +149,7 @@
 
       tests: [
         {
-          id: makeId("test"),
+          id: stableTestId(0),
           subject: "Computerr MCQ",
           name: "Daily Test 1",
           date: "6/9/2026",
@@ -118,6 +181,8 @@
             s.userId !== "Nskkushwaha"
           );
         });
+
+        normalizeStateIds(saved);
 
         localStorage.setItem(
           STORAGE_KEY,
@@ -570,6 +635,10 @@
       );
 
       saveState();
+
+      await loadStudentSubmissionsFromServer(
+        localStudent.id
+      );
 
       /*
        * IMPORTANT:
@@ -1687,8 +1756,10 @@ if (
   ) {
     collectEditors();
 
+    const testIndex = state.tests.length;
+
     const test = {
-      id: makeId("test"),
+      id: stableTestId(testIndex),
       subject: "Computer MCQ",
       name:
         "Daily Test " +
@@ -1698,7 +1769,13 @@ if (
         new Date().toLocaleDateString(),
       attempts: 1,
       questions:
-        defaultQuestions()
+        defaultQuestions().map(function (question, questionIndex) {
+          question.id = stableQuestionId(
+            testIndex,
+            questionIndex
+          );
+          return question;
+        })
     };
 
     state.tests.push(test);
@@ -1800,6 +1877,70 @@ function getStudentSubmissions() {
         new Date(a.submittedAt)
       );
     });
+}
+
+async function loadStudentSubmissionsFromServer(studentId) {
+  try {
+    const url =
+      API_URL +
+      "?action=getSubmissions" +
+      "&studentId=" +
+      encodeURIComponent(studentId);
+
+    const response = await fetch(url);
+    const result = await response.json();
+
+    if (result && result.ok && Array.isArray(result.submissions)) {
+      const serverSubmissions = result.submissions;
+      const localSubmissions = state.submissions.filter(function (item) {
+        return item.studentId !== studentId;
+      });
+
+      state.submissions =
+        serverSubmissions.concat(localSubmissions);
+
+      saveState();
+      return true;
+    }
+  } catch (error) {
+    console.error(
+      "Student submissions load error:",
+      error
+    );
+  }
+
+  return false;
+}
+
+async function saveSubmissionToServer(submission) {
+  try {
+    const url =
+      API_URL +
+      "?action=saveSubmission" +
+      "&data=" +
+      encodeURIComponent(
+        JSON.stringify(submission)
+      );
+
+    const response = await fetch(url);
+    const result = await response.json();
+
+    if (!result || !result.ok) {
+      console.error(
+        "Submission server save failed:",
+        result ? result.message : "Unknown server response"
+      );
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error(
+      "Submission server save error:",
+      error
+    );
+    return false;
+  }
 }
 
 function getNextAllowedTestIndex() {
@@ -2254,7 +2395,7 @@ function tickTimer() {
     }
   }
 
-  function submitRunningTest() {
+  async function submitRunningTest() {
     if (!running) return;
 
     const test =
@@ -2289,7 +2430,7 @@ function tickTimer() {
         }
       );
 
-    state.submissions.unshift({
+    const submission = {
       id: makeId("sub"),
       studentId:
         session.studentId,
@@ -2298,21 +2439,24 @@ function tickTimer() {
       total:
         test.questions.length,
       detail: detail,
-      startedAt:
-        running.startedAt,
-           submittedAt:
+      startedAt: running.startedAt,
+      submittedAt:
         nowText(),
-
       submitDate:
         getTodayKey(),
-
       resultReleased:
         true,
-
-           manualResult:
+      manualResult:
         ""
+    };
 
-    });
+    state.submissions.unshift(
+      submission
+    );
+
+    await saveSubmissionToServer(
+      submission
+    );
 
     const student =
       studentById(
