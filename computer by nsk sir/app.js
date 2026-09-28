@@ -222,14 +222,122 @@
 
     return fresh;
   }
+let serverSaveTimer = null;
 
-  function saveState() {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(state)
+function saveState() {
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(state)
+  );
+
+  clearTimeout(serverSaveTimer);
+
+  serverSaveTimer = setTimeout(function () {
+    saveFullStateToServer();
+  }, 500);
+}
+ async function saveFullStateToServer() {
+  try {
+    const response = await fetch(
+      API_URL +
+        "?action=saveState" +
+        "&data=" +
+        encodeURIComponent(
+          JSON.stringify(state)
+        ),
+      {
+        method: "GET",
+        cache: "no-store"
+      }
+    );
+
+    const result =
+      await response.json();
+
+    if (
+      !result ||
+      (
+        result.success !== true &&
+        result.ok !== true
+      )
+    ) {
+      console.error(
+        "Server state save failed:",
+        result
+      );
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Full state server save error:",
+      error
     );
   }
+}
+  async function loadFullStateFromServer() {
+  try {
+    const response = await fetch(
+      API_URL + "?action=getState",
+      {
+        method: "GET",
+        cache: "no-store"
+      }
+    );
 
+    if (!response.ok) {
+      throw new Error(
+        "HTTP " + response.status
+      );
+    }
+
+    const result =
+      await response.json();
+
+    if (
+      !result ||
+      (
+        result.success !== true &&
+        result.ok !== true
+      )
+    ) {
+      console.warn(
+        "Server state response invalid:",
+        result
+      );
+      return false;
+    }
+
+    if (
+      result.state &&
+      result.state.students &&
+      result.state.tests
+    ) {
+      state =
+        normalizeStateIds(
+          result.state
+        );
+
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(state)
+      );
+
+      return true;
+    }
+
+    return false;
+
+  } catch (error) {
+
+    console.error(
+      "Full state load error:",
+      error
+    );
+
+    return false;
+  }
+}
   function loadSession() {
     try {
       return JSON.parse(
