@@ -308,7 +308,6 @@ function saveState() {
       return false;
     }
 
-    if (
      if (
   result.state &&
   result.state.students &&
@@ -3289,8 +3288,7 @@ openModal(
 
       render();
     };
-
-async function startApp() {
+  async function startApp() {
   render();
 
   const loaded =
