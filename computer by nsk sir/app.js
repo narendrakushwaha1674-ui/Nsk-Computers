@@ -42,6 +42,26 @@
     return id + " / " + navigator.platform;
   }
 
+
+  /*
+   * CROSS-DEVICE STUDENT KEY
+   * -------------------------
+   * Server sync ke liye userId ko stable identity
+   * ke roop me bheja jata hai. Student id bhi saath
+   * bheji jati hai taaki existing data compatible rahe.
+   */
+  function currentStudentUserId() {
+    if (!session || session.role !== "student") {
+      return "";
+    }
+
+    const student = studentById(session.studentId);
+
+    return student && student.userId
+      ? String(student.userId).trim()
+      : "";
+  }
+
   /* =========================
    * CROSS-DEVICE DATA HELPERS
    * ========================= */
@@ -637,7 +657,8 @@
       saveState();
 
       await loadStudentSubmissionsFromServer(
-        localStudent.id
+        localStudent.id,
+        localStudent.userId
       );
 
       /*
@@ -652,6 +673,8 @@
         role: "student",
         studentId:
           localStudent.id,
+        userId:
+          localStudent.userId,
         sessionId:
           makeId("session"),
         device:
@@ -1867,9 +1890,38 @@ if (
 }
 
 function getStudentSubmissions() {
+  const student =
+    studentById(session.studentId);
+
+  const localId =
+    String(session.studentId || "");
+
+  const userId =
+    String(
+      (session && session.userId) ||
+      (student && student.userId) ||
+      ""
+    );
+
   return state.submissions
     .filter(function (s) {
-      return s.studentId === session.studentId;
+      const submissionStudentId =
+        String(s.studentId || "");
+
+      const submissionUserId =
+        String(
+          s.userId ||
+          s.studentUserId ||
+          ""
+        );
+
+      return (
+        submissionStudentId === localId ||
+        (
+          userId &&
+          submissionUserId === userId
+        )
+      );
     })
     .sort(function (a, b) {
       return (
@@ -1879,29 +1931,114 @@ function getStudentSubmissions() {
     });
 }
 
-async function loadStudentSubmissionsFromServer(studentId) {
+async function loadStudentSubmissionsFromServer(studentId, userId) {
   try {
     const url =
       API_URL +
       "?action=getSubmissions" +
       "&studentId=" +
-      encodeURIComponent(studentId);
+      encodeURIComponent(studentId || "") +
+      "&userId=" +
+      encodeURIComponent(userId || "");
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: "GET",
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error("HTTP " + response.status);
+    }
+
     const result = await response.json();
 
-    if (result && result.ok && Array.isArray(result.submissions)) {
-      const serverSubmissions = result.submissions;
-      const localSubmissions = state.submissions.filter(function (item) {
-        return item.studentId !== studentId;
+    /*
+     * Server response compatibility:
+     * kuch Apps Script versions {ok:true} bhej sakte hain,
+     * kuch {success:true}. Dono accept kiye ja rahe hain.
+     */
+    const serverOK =
+      result &&
+      (result.ok === true || result.success === true);
+
+    if (!serverOK || !Array.isArray(result.submissions)) {
+      console.warn(
+        "Server submissions response invalid:",
+        result
+      );
+      return false;
+    }
+
+    const serverSubmissions = result.submissions.map(function (item) {
+      const copy = Object.assign({}, item);
+
+      /*
+       * Server agar userId ko studentId field me bheje,
+       * tab bhi local student identity ko match kar sake.
+       */
+      if (
+        userId &&
+        (
+          String(copy.studentId || "").trim() ===
+            String(userId).trim() ||
+          String(copy.userId || "").trim() ===
+            String(userId).trim() ||
+          String(copy.studentUserId || "").trim() ===
+            String(userId).trim()
+        )
+      ) {
+        copy.studentId = studentId;
+      }
+
+      return copy;
+    });
+
+    const localOtherStudents =
+      state.submissions.filter(function (item) {
+        return (
+          String(item.studentId || "") !==
+          String(studentId || "")
+        );
       });
 
-      state.submissions =
-        serverSubmissions.concat(localSubmissions);
+    /*
+     * Server data ko primary source banaya jata hai.
+     * Same submission do baar aaye to duplicate nahi rahega.
+     */
+    const merged = [];
+    const seen = {};
 
-      saveState();
-      return true;
-    }
+    serverSubmissions
+      .concat(
+        state.submissions.filter(function (item) {
+          return (
+            String(item.studentId || "") ===
+            String(studentId || "")
+          );
+        })
+      )
+      .forEach(function (item) {
+        const key =
+          String(item.id || "") ||
+          (
+            String(item.studentId || "") +
+            "|" +
+            String(item.testId || "") +
+            "|" +
+            String(item.submitDate || "")
+          );
+
+        if (!seen[key]) {
+          seen[key] = true;
+          merged.push(item);
+        }
+      });
+
+    state.submissions =
+      merged.concat(localOtherStudents);
+
+    saveState();
+    return true;
   } catch (error) {
     console.error(
       "Student submissions load error:",
@@ -1914,31 +2051,97 @@ async function loadStudentSubmissionsFromServer(studentId) {
 
 async function saveSubmissionToServer(submission) {
   try {
+    const student =
+      studentById(
+        submission.studentId
+      );
+
+    const payload = Object.assign(
+      {},
+      submission,
+      {
+        userId:
+          student && student.userId
+            ? student.userId
+            : "",
+        studentUserId:
+          student && student.userId
+            ? student.userId
+            : ""
+      }
+    );
+
     const url =
       API_URL +
       "?action=saveSubmission" +
       "&data=" +
       encodeURIComponent(
-        JSON.stringify(submission)
+        JSON.stringify(payload)
       );
 
-    const response = await fetch(url);
-    const result = await response.json();
+    /*
+     * Network/server response ko 2 attempts tak try kiya
+     * jisse temporary network failure se submission miss
+     * hone ka chance kam ho.
+     */
+    let lastError = null;
 
-    if (!result || !result.ok) {
-      console.error(
-        "Submission server save failed:",
-        result ? result.message : "Unknown server response"
-      );
-      return false;
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            "HTTP " + response.status
+          );
+        }
+
+        const result =
+          await response.json();
+
+        const serverOK =
+          result &&
+          (
+            result.ok === true ||
+            result.success === true
+          );
+
+        if (serverOK) {
+          return true;
+        }
+
+        lastError =
+          new Error(
+            result && result.message
+              ? result.message
+              : "Server ne submission accept nahi ki."
+          );
+      } catch (error) {
+        lastError = error;
+      }
+
+      if (attempt < 2) {
+        await new Promise(function (resolve) {
+          setTimeout(resolve, 700);
+        });
+      }
     }
 
-    return true;
+    console.error(
+      "Submission server save failed:",
+      lastError
+    );
+
+    return false;
   } catch (error) {
     console.error(
       "Submission server save error:",
       error
     );
+
     return false;
   }
 }
@@ -2002,10 +2205,25 @@ function studentTests() {
     state.tests
       .map(function (t, index) {
 
+        const currentUserId =
+          currentStudentUserId();
+
         const alreadySubmitted =
           state.submissions.some(function (s) {
             return (
-              s.studentId === session.studentId &&
+              (
+                String(s.studentId || "") ===
+                  String(session.studentId || "") ||
+                (
+                  currentUserId &&
+                  String(
+                    s.userId ||
+                    s.studentUserId ||
+                    ""
+                  ) ===
+                    currentUserId
+                )
+              ) &&
               s.testId === t.id
             );
           });
@@ -2434,6 +2652,10 @@ function tickTimer() {
       id: makeId("sub"),
       studentId:
         session.studentId,
+      userId:
+        currentStudentUserId(),
+      studentUserId:
+        currentStudentUserId(),
       testId: test.id,
       score: score,
       total:
@@ -2454,9 +2676,10 @@ function tickTimer() {
       submission
     );
 
-    await saveSubmissionToServer(
-      submission
-    );
+    const serverSaved =
+      await saveSubmissionToServer(
+        submission
+      );
 
     const student =
       studentById(
@@ -2480,6 +2703,12 @@ function tickTimer() {
     });
 
     saveState();
+
+    if (!serverSaved) {
+      alert(
+        "Test is device par save ho gaya hai, lekin Google Sheet/server par sync nahi ho paya. Internet check karke test dobara submit na karein; pehle server connection verify karein."
+      );
+    }
 
     running = null;
 
