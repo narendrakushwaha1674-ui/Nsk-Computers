@@ -3288,5 +3288,16 @@ openModal(
       render();
     };
 
+async function startApp() {
   render();
+
+  const loaded =
+    await loadFullStateFromServer();
+
+  if (loaded) {
+    render();
+  }
+}
+
+startApp();
 })();
