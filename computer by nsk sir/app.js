@@ -309,10 +309,12 @@ function saveState() {
     }
 
     if (
-      result.state &&
-      result.state.students &&
-      result.state.tests
-    ) {
+     if (
+  result.state &&
+  result.state.students &&
+  Array.isArray(result.state.tests) &&
+  result.state.tests.length > 0
+) {
       state =
         normalizeStateIds(
           result.state
