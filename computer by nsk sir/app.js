@@ -2463,12 +2463,14 @@ function studentTests() {
         return;
       }
 
-      showSubmission(submissionId);
+            showSubmission(submissionId);
     };
 
   });
 
-     function startTest(
+}
+
+function startTest(
   testId
 ) {
          if (running) {
