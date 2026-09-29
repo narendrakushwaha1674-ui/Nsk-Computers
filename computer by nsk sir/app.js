@@ -2317,47 +2317,18 @@ function studentTests() {
         const currentUserId =
           currentStudentUserId();
 
-        const alreadySubmitted =
-          state.submissions.some(function (s) {
-            return (
-              (
-                String(s.studentId || "") ===
-                  String(session.studentId || "") ||
-                (
-                  currentUserId &&
-                  String(
-                    s.userId ||
-                    s.studentUserId ||
-                    ""
-                  ) ===
-                    currentUserId
-                )
-              ) &&
-              s.testId === t.id
-            );
-          });
+       const alreadySubmitted =
+  getStudentSubmissions().some(function (s) {
+    return String(s.testId || "") === String(t.id || "");
+  });
 
         let buttonHTML = "";
 
        if (alreadySubmitted) {
 
-  const submittedResult = state.submissions.find(function (s) {
-    return (
-      (
-        String(s.studentId || "") ===
-          String(session.studentId || "") ||
-        (
-          currentUserId &&
-          String(
-            s.userId ||
-            s.studentUserId ||
-            ""
-          ) === currentUserId
-        )
-      ) &&
-      s.testId === t.id
-    );
-  });
+ const submittedResult = getStudentSubmissions().find(function (s) {
+  return String(s.testId || "") === String(t.id || "");
+});
 
   buttonHTML =
     '<button class="primary" data-view-student-result="' +
