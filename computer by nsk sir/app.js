@@ -1118,7 +1118,34 @@ if (
 
     state.submissions =
       result.submissions;
+    const studentsUrl =
+      API_URL +
+      "?action=getStudents" +
+      "&role=admin" +
+      "&adminId=" +
+      encodeURIComponent(ADMIN_ID) +
+      "&password=" +
+      encodeURIComponent(ADMIN_PASSWORD);
 
+    const studentsResponse =
+      await fetch(studentsUrl, {
+        method: "GET",
+        cache: "no-store"
+      });
+
+    if (studentsResponse.ok) {
+
+      const studentsResult =
+        await studentsResponse.json();
+
+      if (
+        studentsResult &&
+        Array.isArray(studentsResult.students)
+      ) {
+        state.students =
+          studentsResult.students;
+      }
+    }
     adminContent.innerHTML =
       '<div class="row-between">' +
       "<h1>Submitted Tests</h1>" +
