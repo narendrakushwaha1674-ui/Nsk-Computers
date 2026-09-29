@@ -2182,7 +2182,7 @@ async function saveSubmissionToServer(submission) {
 
     const url =
       API_URL +
-      "?action=getSubmissions" +
+    "?action=saveSubmission" +
       "&data=" +
       encodeURIComponent(
         JSON.stringify(payload)
