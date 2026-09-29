@@ -1064,36 +1064,102 @@ if (
     });
 }
  async function adminSubmissions() {
-  await loadFullStateFromServer();
-   const adminContent =
+
+  const adminContent =
     document.getElementById("adminContent");
 
   if (!adminContent) {
     return;
   }
 
-  adminContent.innerHTML =
-    '<div class="row-between">' +
-    "<h1>Submitted Tests</h1>" +
-    '<span class="muted">Students ke submit kiye hue sabhi tests yahan dikhte hain.</span>' +
-    "</div>" +
+  try {
 
-    (
-      state.submissions.length
-        ? adminReviewResults()
-        : '<p class="muted">Abhi koi test submit nahi hua.</p>'
+    const url =
+      API_URL +
+      "?action=getSubmissions" +
+      "&role=admin" +
+      "&adminId=" +
+      encodeURIComponent(ADMIN_ID) +
+      "&password=" +
+      encodeURIComponent(ADMIN_PASSWORD);
+
+    const response =
+      await fetch(url, {
+        method: "GET",
+        cache: "no-store"
+      });
+
+    if (!response.ok) {
+      throw new Error(
+        "HTTP " + response.status
+      );
+    }
+
+    const result =
+      await response.json();
+
+    const serverOK =
+      result &&
+      (
+        result.ok === true ||
+        result.success === true
+      );
+
+    if (
+      !serverOK ||
+      !Array.isArray(result.submissions)
+    ) {
+      throw new Error(
+        result && result.message
+          ? result.message
+          : "Server se submissions nahi mili."
+      );
+    }
+
+    state.submissions =
+      result.submissions;
+
+    adminContent.innerHTML =
+      '<div class="row-between">' +
+      "<h1>Submitted Tests</h1>" +
+      '<span class="muted">Students ke submit kiye hue sabhi tests yahan dikhte hain.</span>' +
+      "</div>" +
+
+      (
+        state.submissions.length
+          ? adminReviewResults()
+          : '<p class="muted">Abhi koi test submit nahi hua.</p>'
+      );
+
+    document
+      .querySelectorAll("[data-view]")
+      .forEach(function (b) {
+
+        b.onclick = function () {
+
+          showSubmission(
+            b.dataset.view
+          );
+
+        };
+
+      });
+
+  } catch (error) {
+
+    console.error(
+      "Admin submissions load error:",
+      error
     );
 
-  document
-    .querySelectorAll("[data-view]")
-    .forEach(function (b) {
-      b.onclick = function () {
-        showSubmission(
-          b.dataset.view
-        );
-      };
-    });
-}   
+    adminContent.innerHTML =
+      "<h1>Submitted Tests</h1>" +
+      '<p class="muted">' +
+      "Server se submitted tests load nahi ho pa rahe hain. " +
+      "Internet ya server connection check karein." +
+      "</p>";
+  }
+}  
   function adminReviewResults() {
     return state.submissions
       .map(function (s) {
@@ -2198,11 +2264,22 @@ async function saveSubmissionToServer(submission) {
 
     for (let attempt = 1; attempt <= 2; attempt++) {
       try {
-        const response = await fetch(url, {
-          method: "GET",
-          cache: "no-store"
-        });
-
+       const response = await fetch(
+  API_URL + "?action=saveSubmission",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type":
+        "application/x-www-form-urlencoded;charset=UTF-8"
+    },
+    body:
+      "data=" +
+      encodeURIComponent(
+        JSON.stringify(payload)
+      ),
+    cache: "no-store"
+  }
+);
         if (!response.ok) {
           throw new Error(
             "HTTP " + response.status
