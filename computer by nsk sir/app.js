@@ -1063,8 +1063,9 @@ if (
       };
     });
 }
-  function adminSubmissions() {
-  const adminContent =
+ async function adminSubmissions() {
+  await loadFullStateFromServer();
+   const adminContent =
     document.getElementById("adminContent");
 
   if (!adminContent) {
