@@ -2339,12 +2339,32 @@ function studentTests() {
 
         let buttonHTML = "";
 
-        if (alreadySubmitted) {
+       if (alreadySubmitted) {
 
-          buttonHTML =
-            '<button class="light" disabled>Completed</button>';
+  const submittedResult = state.submissions.find(function (s) {
+    return (
+      (
+        String(s.studentId || "") ===
+          String(session.studentId || "") ||
+        (
+          currentUserId &&
+          String(
+            s.userId ||
+            s.studentUserId ||
+            ""
+          ) === currentUserId
+        )
+      ) &&
+      s.testId === t.id
+    );
+  });
 
-        } else if (nextAllowedIndex === -1) {
+  buttonHTML =
+    '<button class="primary" data-view-student-result="' +
+    (submittedResult ? submittedResult.id : "") +
+    '">View Result</button>';
+
+} else if (nextAllowedIndex === -1) {
 
           buttonHTML =
             '<button class="light" disabled>Tomorrow 12:00 AM</button>';
@@ -2428,9 +2448,26 @@ function studentTests() {
       );
 
     };
+     });
+  document
+  .querySelectorAll("[data-view-student-result]")
+  .forEach(function (b) {
+
+    b.onclick = function () {
+
+      const submissionId =
+        b.dataset.viewStudentResult;
+
+      if (!submissionId) {
+        alert("Result nahi mila.");
+        return;
+      }
+
+      showSubmission(submissionId);
+    };
 
   });
-}
+
      function startTest(
   testId
 ) {
@@ -2445,7 +2482,54 @@ function studentTests() {
 
   const nextAllowedIndex =
     getNextAllowedTestIndex();
+  const currentUserId =
+    currentStudentUserId();
 
+  const alreadySubmitted =
+    state.submissions.some(function (s) {
+      return (
+        (
+          String(s.studentId || "") ===
+            String(session.studentId || "") ||
+          (
+            currentUserId &&
+            String(
+              s.userId ||
+              s.studentUserId ||
+              ""
+            ) === currentUserId
+          )
+        ) &&
+        s.testId === testId
+      );
+    });
+
+  if (alreadySubmitted) {
+    const submittedResult =
+      state.submissions.find(function (s) {
+        return (
+          (
+            String(s.studentId || "") ===
+              String(session.studentId || "") ||
+            (
+              currentUserId &&
+              String(
+                s.userId ||
+                s.studentUserId ||
+                ""
+              ) === currentUserId
+            )
+          ) &&
+          s.testId === testId
+        );
+      });
+
+    if (submittedResult) {
+      showSubmission(submittedResult.id);
+    }
+
+    return;
+  }
   const selectedIndex =
     state.tests.findIndex(function (t) {
       return t.id === testId;
