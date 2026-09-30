@@ -2355,41 +2355,58 @@ async function saveSubmissionToServer(submission) {
     return false;
   }
 }
-
 function getNextAllowedTestIndex() {
   const submissions = getStudentSubmissions();
 
-  // Student ne abhi tak koi test nahi diya
+  // Student ne abhi tak koi test submit nahi kiya
   if (submissions.length === 0) {
     return 0;
   }
 
-  // Aaj ka test already submit kiya hai
-  const today = getTodayKey();
-
-  const submittedToday = submissions.some(function (s) {
-    return s.submitDate === today;
-  });
-
-  if (submittedToday) {
-    return -1;
-  }
-
-  // Sabse last completed test ka index
+  // Sabse recent submission
   const lastSubmission = submissions[0];
 
   const lastIndex = state.tests.findIndex(function (t) {
     return t.id === lastSubmission.testId;
   });
 
+  // Agar previous test system me nahi mila
   if (lastIndex === -1) {
     return 0;
   }
 
-  // Agla test
-  return lastIndex + 1;
-}
+  // Agla test ka index
+  const nextIndex = lastIndex + 1;
 
+  // Agar last test complete ho gaya
+  if (nextIndex >= state.tests.length) {
+    return -1;
+  }
+
+  // Submission kis date/time par hua
+  const submittedTime = new Date(
+    lastSubmission.submittedAt
+  );
+
+  if (isNaN(submittedTime.getTime())) {
+    return -1;
+  }
+
+  // Agli raat 12:00 AM
+  const nextMidnight = new Date(
+    submittedTime
+  );
+
+  nextMidnight.setHours(24, 0, 0, 0);
+
+  // Abhi agla test unlock nahi hua
+  if (new Date() < nextMidnight) {
+    return -1;
+  }
+
+  // Raat 12 ke baad agla test unlock
+  return nextIndex;
+}
 function studentTests() {
   const nextAllowedIndex =
     getNextAllowedTestIndex();
@@ -2402,54 +2419,60 @@ function studentTests() {
 
     "<div>" +
 
-    "<h1>60 MCQ Test Nsk Sir</h1>" +
+    "<h1>100 MCQ Tests - Nsk Sir</h1>" +
 
     '<p class="muted">Ek din me sirf 1 test | Agla test raat 12 baje unlock hoga</p>' +
 
     "</div>" +
 
-    '<div class="timer">Daily Test</div>' +
+    '<div class="timer">Daily Tests</div>' +
 
     "</div>" +
 
     state.tests
       .map(function (t, index) {
 
-        const currentUserId =
-          currentStudentUserId();
+        const submissions =
+          getStudentSubmissions();
 
-       const alreadySubmitted =
-  getStudentSubmissions().some(function (s) {
-    return String(s.testId || "") === String(t.id || "");
-  });
+        const submittedResult =
+          submissions.find(function (s) {
+            return String(s.testId || "") ===
+              String(t.id || "");
+          });
+
+        const alreadySubmitted =
+          !!submittedResult;
 
         let buttonHTML = "";
 
-       if (alreadySubmitted) {
-
- const submittedResult = getStudentSubmissions().find(function (s) {
-  return String(s.testId || "") === String(t.id || "");
-});
-
-  buttonHTML =
-    '<button class="primary" data-view-student-result="' +
-    (submittedResult ? submittedResult.id : "") +
-    '">View Result</button>';
-
-} else if (nextAllowedIndex === -1) {
+        if (alreadySubmitted) {
 
           buttonHTML =
-            '<button class="light" disabled>Tomorrow 12:00 AM</button>';
+            '<button class="primary" data-view-student-result="' +
+            submittedResult.id +
+            '">View Result</button>';
 
-        } else if (index < nextAllowedIndex) {
+        } else if (
+          nextAllowedIndex === -1
+        ) {
+
+          buttonHTML =
+            '<button class="light" disabled>Next Test 12:00 AM</button>';
+
+        } else if (
+          index < nextAllowedIndex
+        ) {
 
           buttonHTML =
             '<button class="light" disabled>Completed</button>';
 
-        } else if (index > nextAllowedIndex) {
+        } else if (
+          index > nextAllowedIndex
+        ) {
 
           buttonHTML =
-            '<button class="light" disabled>Locked</button>';
+            '<button class="light" data-locked-test="true">Locked - Next Test 12:00 AM</button>';
 
         } else {
 
@@ -2462,6 +2485,12 @@ function studentTests() {
         return (
 
           '<div class="test-card">' +
+
+          "<b>Test " +
+          (index + 1) +
+          "</b>" +
+
+          "<br>" +
 
           "<b>" +
           esc(t.subject) +
@@ -2505,41 +2534,61 @@ function studentTests() {
     "</div>";
 
   document
-  .querySelectorAll("[data-start]")
-  .forEach(function (b) {
+    .querySelectorAll("[data-start]")
+    .forEach(function (b) {
 
-    b.onclick = function () {
+      b.onclick = function () {
 
-      if (b.disabled) return;
+        if (b.disabled) return;
 
-      b.disabled = true;
-      b.textContent = "Opening Test...";
+        b.disabled = true;
+        b.textContent = "Opening Test...";
 
-      startTest(
-        b.dataset.start
-      );
+        startTest(
+          b.dataset.start
+        );
 
-    };
-     });
+      };
+
+    });
+
   document
-  .querySelectorAll("[data-view-student-result]")
-  .forEach(function (b) {
+    .querySelectorAll("[data-view-student-result]")
+    .forEach(function (b) {
 
-    b.onclick = function () {
+      b.onclick = function () {
 
-      const submissionId =
-        b.dataset.viewStudentResult;
+        const submissionId =
+          b.dataset.viewStudentResult;
 
-      if (!submissionId) {
-        alert("Result nahi mila.");
-        return;
-      }
+        if (!submissionId) {
+          alert("Result nahi mila.");
+          return;
+        }
 
-            showSubmission(submissionId);
-    };
+        showSubmission(
+          submissionId
+        );
 
-  });
+      };
 
+    });
+
+  document
+    .querySelectorAll("[data-locked-test]")
+    .forEach(function (b) {
+
+      b.onclick = function () {
+
+        alert(
+          "Ye test abhi locked hai.\n\n" +
+          "Pehle current test submit kijiye.\n" +
+          "Agla test raat 12:00 AM par unlock hoga."
+        );
+
+      };
+
+    });
 }
 
 function startTest(
