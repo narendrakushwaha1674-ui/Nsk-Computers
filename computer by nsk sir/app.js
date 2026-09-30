@@ -236,45 +236,41 @@ function saveState() {
     saveFullStateToServer();
   }, 500);
 }
- async function saveFullStateToServer() {
-  try {
-    const response = await fetch(
-      API_URL +
-        "?action=saveState" +
-        "&data=" +
-        encodeURIComponent(
-          JSON.stringify(state)
-        ),
-      {
-        method: "GET",
-        cache: "no-store"
+  async function saveFullStateToServer() {
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify({
+          action: "saveState",
+          data: JSON.stringify(state)
+        })
+      });
+
+      const result = await response.json();
+
+      if (
+        !result ||
+        (
+          result.success !== true &&
+          result.ok !== true
+        )
+      ) {
+        console.error(
+          "Server state save failed:",
+          result
+        );
       }
-    );
 
-    const result =
-      await response.json();
-
-    if (
-      !result ||
-      (
-        result.success !== true &&
-        result.ok !== true
-      )
-    ) {
+    } catch (error) {
       console.error(
-        "Server state save failed:",
-        result
+        "Full state server save error:",
+        error
       );
     }
-
-  } catch (error) {
-
-    console.error(
-      "Full state server save error:",
-      error
-    );
   }
-}
   async function loadFullStateFromServer() {
   try {
     const response = await fetch(
