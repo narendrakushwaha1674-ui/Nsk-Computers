@@ -1782,15 +1782,16 @@ if (
       .querySelectorAll(
         "[data-clear-q]"
       )
-      .forEach(function (b) {
-        b.onclick = function () {
-          const q =
-            test.questions[
-              Number(
-                b.dataset.clearQ
-              )
-            ];
+     .forEach(function (b) {
+  b.onclick = function () {
+    collectEditors();
 
+    const q =
+      test.questions[
+        Number(
+          b.dataset.clearQ
+        )
+      ];
           if (!q) return;
 
           q.text =
