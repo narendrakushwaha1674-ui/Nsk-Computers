@@ -1183,98 +1183,144 @@ if (
       "</p>";
   }
 }  
-  function adminReviewResults() {
-    return state.submissions
-      .map(function (s) {
-        const student =
-          studentById(
-            s.studentId
-          );
+ function adminReviewResults() {
+    const groups = {};
 
-        const test =
-          testById(
-            s.testId
-          );
+    state.submissions.forEach(function (s) {
+      const test = testById(s.testId);
+      const testId = s.testId || "unknown-test";
 
-        const grade =
-          gradeFromScore(
-            s.score,
-            s.total
-          );
+      if (!groups[testId]) {
+        groups[testId] = {
+          test: test,
+          submissions: []
+        };
+      }
+
+      groups[testId].submissions.push(s);
+    });
+
+    return Object.keys(groups)
+      .sort(function (a, b) {
+        return a.localeCompare(b, undefined, {
+          numeric: true
+        });
+      })
+      .map(function (testId) {
+        const group = groups[testId];
+
+        const results = group.submissions
+          .map(function (s) {
+            const student =
+              studentById(
+                s.studentId
+              );
+
+            const test =
+              testById(
+                s.testId
+              );
+
+            const grade =
+              gradeFromScore(
+                s.score,
+                s.total
+              );
+
+            return (
+              '<div class="notice">' +
+
+              "<div>" +
+
+              "<b>" +
+              esc(
+                student
+                  ? student.name
+                  : "Student"
+              ) +
+              "</b> - " +
+
+              esc(
+                test
+                  ? test.name
+                  : "Test"
+              ) +
+
+              "<br>" +
+
+              s.score +
+              "/" +
+              s.total +
+              " | Login: " +
+
+              esc(
+                student
+                  ? student.lastLoginAt
+                  : "-"
+              ) +
+
+              " | Submit: " +
+
+              esc(
+                s.submittedAt
+              ) +
+
+              "<br>" +
+
+              '<span class="' +
+              (s.resultReleased
+                ? grade.cls
+                : "pending-text") +
+              '">' +
+
+              (
+                s.resultReleased
+                  ? (
+                      s.manualResult ||
+                      grade.text
+                    )
+                  : "Pending"
+              ) +
+
+              "</span> " +
+
+              '<span class="pdf-badge">Result PDF</span>' +
+
+              "</div>" +
+
+              "<div>" +
+
+              '<button class="ghost mini-btn" data-view="' +
+              s.id +
+              '">View</button>' +
+
+              "</div>" +
+
+              "</div>"
+            );
+          })
+          .join("");
 
         return (
-          '<div class="notice">' +
+          '<div class="test-result-group">' +
 
-          "<div>" +
-
-          "<b>" +
-          esc(
-            student
-              ? student.name
-              : "Student"
-          ) +
-          "</b> - " +
+          "<h2>" +
 
           esc(
-            test
-              ? test.name
+            group.test
+              ? group.test.name
               : "Test"
           ) +
 
-          "<br>" +
+          "</h2>" +
 
-          s.score +
-          "/" +
-          s.total +
-          " | Login: " +
-
-          esc(
-            student
-              ? student.lastLoginAt
-              : "-"
-          ) +
-
-          " | Submit: " +
-          esc(
-            s.submittedAt
-          ) +
-
-          "<br>" +
-
-          '<span class="' +
-          (s.resultReleased
-            ? grade.cls
-            : "pending-text") +
-          '">' +
-
-          (
-            s.resultReleased
-              ? (
-                  s.manualResult ||
-                  grade.text
-                )
-              : "Pending"
-          ) +
-
-          "</span> " +
-
-          '<span class="pdf-badge">Result PDF</span>' +
-
-          "</div>" +
-
-          "<div>" +
-                    '<button class="ghost mini-btn" data-view="' +
-          s.id +
-          '">View</button>' +
-
-          "</div>" +
+          results +
 
           "</div>"
         );
       })
       .join("");
   }
-
   function adminStudents() {
     const rows =
       state.students
