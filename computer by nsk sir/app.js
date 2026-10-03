@@ -1286,7 +1286,7 @@ if (
 
               '<button class="warning mini-btn" data-pdf="' +
 s.id +
-'">Result PDF</button>' + +
+'">Result PDF</button>' +
 
               "</div>" +
 
@@ -2779,14 +2779,13 @@ function startTest(
 '<div id="questionNumbers" style="display:grid;grid-template-columns:repeat(10,38px);gap:6px;margin:12px 0 16px;max-height:150px;overflow-y:auto;">' +
 test.questions.map(function (question, index) {
 
-  const questionClass =
-  running.review[question.id] &&
-  running.answers[question.id]
-    ? "warning"
-    : running.answers[question.id]
+const questionClass =
+  running.review[question.id]
     ? "primary"
     : running.skipped[question.id]
     ? "danger"
+    : running.answers[question.id]
+    ? "primary"
     : "light";
 
   return (
@@ -2946,30 +2945,21 @@ document.getElementById("reviewQ").onclick = function () {
       renderRunningTest();
     };
   });
-    document
-      .querySelectorAll(
-        'input[name="answer"]'
-      )
-      .forEach(function (r) {
-    r.onchange =
-  function () {
+   document
+  .querySelectorAll(
+    'input[name="answer"]'
+  )
+  .forEach(function (r) {
+    r.onchange = function () {
 
-    running.answers[
-      q.id
-    ] = r.value;
+      running.answers[
+        q.id
+      ] = r.value;
 
-    delete running.skipped[q.id];
+      delete running.skipped[q.id];
 
-    if (
-      running.index <
-      test.questions.length - 1
-    ) {
-      running.index++;
-    }
-
-    renderRunningTest();
-  };
-    });
+    };
+  });
    document.getElementById(
   "nextQ"
 ).onclick = function () {
