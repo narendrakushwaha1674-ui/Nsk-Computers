@@ -1284,7 +1284,9 @@ if (
 
               "</span> " +
 
-              '<span class="pdf-badge">Result PDF</span>' +
+              '<button class="warning mini-btn" data-pdf="' +
+s.id +
+'">Result PDF</button>'
 
               "</div>" +
 
@@ -2723,6 +2725,8 @@ function startTest(
     testId: testId,
     index: 0,
     answers: {},
+    skipped: {},
+    review: {},
     startedAt: nowText(),
     endsAt:
       Date.now() +
@@ -2747,12 +2751,61 @@ function startTest(
       ];
 
     if (!q) return;
+    const student =
+      studentById(session.studentId);
 
+    const answeredCount =
+      test.questions.filter(function (question) {
+        return !!running.answers[question.id];
+      }).length;
+
+    const skippedCount =
+  Object.keys(running.skipped || {}).length;
     document.getElementById(
       "studentContent"
     ).innerHTML =
+      '<div class="notice" style="margin-bottom:16px;">' +
 
-      '<div class="row-between">' +
+      "<b>Student Name:</b> " +
+      esc(student ? student.name : "Student") +
+
+      " | <b>Answered:</b> " +
+      answeredCount +
+
+      " | <b>Skipped:</b> " +
+      skippedCount +
+"</div>" +
+
+'<div id="questionNumbers" style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 16px;">' +
+
+test.questions.map(function (question, index) {
+
+  const questionClass =
+    running.answers[question.id]
+      ? "primary"
+      : running.skipped[question.id]
+      ? "danger"
+      : "light";
+
+  return (
+    '<button type="button" ' +
+    'class="' +
+    questionClass +
+    '" ' +
+    'style="min-width:38px;" ' +
+    'data-question-number="' +
+    index +
+    '">' +
+    (index + 1) +
+    '</button>'
+  );
+
+}).join("") +
+"</div>" +
+
+'<div class="row-between">' +
+    '<div class="row-between">' +
+"</div>" +
 
       "<div>" +
 
@@ -2833,64 +2886,109 @@ function startTest(
       '<button class="ghost" id="sendHelp">Send Help</button>' +
 
       '<div class="pager">' +
-
+'<button class="warning" id="previewQ" style="background:#facc15;color:#111;border-color:#eab308;">Preview</button> ' +
       '<button class="light" id="prevQ" ' +
       (running.index === 0
         ? "disabled"
         : "") +
       ">Previous</button>" +
 
-      "<div>" +
+    '<div style="margin-left:auto;">' +
 
-      '<button class="light" id="nextQ" ' +
-      (running.index ===
-      test.questions.length - 1
-        ? "disabled"
-        : "") +
-      ">Next</button> " +
+   '<button class="' +
+(running.answers[q.id]
+  ? "primary"
+  : "light") +
+'" id="nextQ" ' +
+(running.index ===
+test.questions.length - 1
+  ? "disabled"
+  : "") +
+">Next</button> " +
+
+'<button type="button" id="reviewQ" style="' +
+(running.review[q.id]
+  ? "background:#16a34a;color:#fff;border-color:#15803d;"
+  : "background:#2563eb;color:#fff;border-color:#1d4ed8;") +
+'">' +
+(running.review[q.id]
+  ? "Remove Review"
+  : "Mark for Review") +
+"</button> " +
 
       '<button class="primary" id="submitTest">Submit</button>' +
 
       "</div>" +
 
       "</div>";
+document.getElementById("reviewQ").onclick = function () {
 
+  if (running.review[q.id]) {
+    delete running.review[q.id];
+  } else {
+    running.review[q.id] = true;
+  }
+
+  renderRunningTest();
+};
+
+    document
+  .querySelectorAll("[data-question-number]")
+  .forEach(function (btn) {
+    btn.onclick = function () {
+      running.index =
+        Number(btn.dataset.questionNumber);
+
+      renderRunningTest();
+    };
+  });
     document
       .querySelectorAll(
         'input[name="answer"]'
       )
       .forEach(function (r) {
-        r.onchange =
-          function () {
-            running.answers[
-              q.id
-            ] = r.value;
+      r.onchange =
+  function () {
+    running.answers[
+      q.id
+    ] = r.value;
 
-            renderRunningTest();
-          };
-      });
+    delete running.skipped[q.id];
 
+    renderRunningTest();
+  };
+    });
     document.getElementById(
-      "prevQ"
-    ).onclick = function () {
-      running.index--;
+  "nextQ"
+).onclick = function () {
 
-      renderRunningTest();
-    };
+  if (!running.answers[q.id]) {
+    running.skipped[q.id] = true;
+  } else {
+    delete running.skipped[q.id];
+  }
 
-    document.getElementById(
-      "nextQ"
-    ).onclick = function () {
-      running.index++;
+  running.index++;
 
-      renderRunningTest();
-    };
+  renderRunningTest();
+};
 
-    document.getElementById(
-      "submitTest"
-    ).onclick =
-      submitRunningTest;
+   
 
+ document.getElementById(
+  "submitTest"
+).onclick = function () {
+  const confirmSubmit = confirm(
+    "क्या आप अपना Test Submit करना चाहते हैं?\n\n" +
+    "Submit करने के बाद आप अपने उत्तर बदल नहीं पाएंगे।"
+  );
+
+  if (!confirmSubmit) {
+    return;
+  }
+
+  submitRunningTest();
+};
     document.getElementById(
       "sendHelp"
     ).onclick = function () {
@@ -3151,7 +3249,9 @@ function tickTimer() {
 
             "</span><br>" +
 
-            '<span class="pdf-badge">Result PDF</span>' +
+           '<button class="warning mini-btn" data-pdf="' +
+s.id +
+'">Result PDF</button>'
 
             "</td>" +
 
@@ -3210,7 +3310,21 @@ function tickTimer() {
         };
       });
   }
+document
+  .querySelectorAll(
+    "[data-pdf]"
+  )
+  .forEach(function (b) {
+    b.onclick = function () {
+      showSubmission(
+        b.dataset.pdf
+      );
 
+      setTimeout(function () {
+        window.print();
+      }, 300);
+    };
+  });
   function showSubmission(
     id
   ) {
