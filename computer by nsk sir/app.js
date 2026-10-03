@@ -1286,7 +1286,7 @@ if (
 
               '<button class="warning mini-btn" data-pdf="' +
 s.id +
-'">Result PDF</button>' +
+'">Result PDF</button>' + +
 
               "</div>" +
 
@@ -3251,7 +3251,7 @@ function tickTimer() {
 
            '<button class="warning mini-btn" data-pdf="' +
 s.id +
-'">Result PDF</button>'
+'">Result PDF</button>' +
 
             "</td>" +
 
