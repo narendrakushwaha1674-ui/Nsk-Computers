@@ -2776,16 +2776,18 @@ function startTest(
       skippedCount +
 "</div>" +
 
-'<div id="questionNumbers" style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 16px;">' +
-
+'<div id="questionNumbers" style="display:grid;grid-template-columns:repeat(10,38px);gap:6px;margin:12px 0 16px;max-height:150px;overflow-y:auto;">' +
 test.questions.map(function (question, index) {
 
   const questionClass =
-    running.answers[question.id]
-      ? "primary"
-      : running.skipped[question.id]
-      ? "danger"
-      : "light";
+  running.review[question.id] &&
+  running.answers[question.id]
+    ? "warning"
+    : running.answers[question.id]
+    ? "primary"
+    : running.skipped[question.id]
+    ? "danger"
+    : "light";
 
   return (
     '<button type="button" ' +
@@ -2802,7 +2804,9 @@ test.questions.map(function (question, index) {
 
 }).join("") +
 "</div>" +
-
+'<div style="display:flex;justify-content:flex-end;position:sticky;bottom:10px;z-index:20;margin:10px 0 16px;">' +
+  '<button class="primary" id="submitTest" style="font-size:18px;padding:12px 28px;">Submit</button>' +
+"</div>" +
 '<div class="row-between">' +
     '<div class="row-between">' +
 "</div>" +
@@ -2886,8 +2890,8 @@ test.questions.map(function (question, index) {
       '<button class="ghost" id="sendHelp">Send Help</button>' +
 
       '<div class="pager">' +
-'<button class="warning" id="previewQ" style="background:#facc15;color:#111;border-color:#eab308;">Preview</button> ' +
-      '<button class="light" id="prevQ" ' +
+
+    '<button class="warning" id="prevQ" ' +
       (running.index === 0
         ? "disabled"
         : "") +
@@ -2906,18 +2910,11 @@ test.questions.length - 1
   : "") +
 ">Next</button> " +
 
-'<button type="button" id="reviewQ" style="' +
-(running.review[q.id]
-  ? "background:#16a34a;color:#fff;border-color:#15803d;"
-  : "background:#2563eb;color:#fff;border-color:#1d4ed8;") +
-'">' +
-(running.review[q.id]
-  ? "Remove Review"
-  : "Mark for Review") +
+'<button type="button" id="reviewQ" style="background:#2563eb;color:#fff;border-color:#1d4ed8;">' +
+"Mark for Review" +
 "</button> " +
 
-      '<button class="primary" id="submitTest">Submit</button>' +
-
+     
       "</div>" +
 
       "</div>";
@@ -2958,17 +2955,23 @@ document.getElementById("reviewQ").onclick = function () {
     renderRunningTest();
   };
     });
-    document.getElementById(
+   document.getElementById(
   "nextQ"
 ).onclick = function () {
 
-  if (!running.answers[q.id]) {
-    running.skipped[q.id] = true;
-  } else {
-    delete running.skipped[q.id];
-  }
+if (!running.answers[q.id]) {
+  running.skipped[q.id] = true;
+} else {
+  delete running.skipped[q.id];
+  delete running.review[q.id];
+}
 
-  running.index++;
+  if (
+    running.index <
+    test.questions.length - 1
+  ) {
+    running.index++;
+  }
 
   renderRunningTest();
 };
