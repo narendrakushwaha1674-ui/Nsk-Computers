@@ -2980,7 +2980,16 @@ if (!running.answers[q.id]) {
 
   renderRunningTest();
 };
+document.getElementById(
+  "prevQ"
+).onclick = function () {
 
+  if (running.index > 0) {
+    running.index--;
+  }
+
+  renderRunningTest();
+};
    
 
  document.getElementById(
