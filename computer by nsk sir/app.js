@@ -2926,6 +2926,13 @@ document.getElementById("reviewQ").onclick = function () {
     running.review[q.id] = true;
   }
 
+  if (
+    running.index <
+    test.questions.length - 1
+  ) {
+    running.index++;
+  }
+
   renderRunningTest();
 };
 
@@ -2944,13 +2951,21 @@ document.getElementById("reviewQ").onclick = function () {
         'input[name="answer"]'
       )
       .forEach(function (r) {
-      r.onchange =
+    r.onchange =
   function () {
+
     running.answers[
       q.id
     ] = r.value;
 
     delete running.skipped[q.id];
+
+    if (
+      running.index <
+      test.questions.length - 1
+    ) {
+      running.index++;
+    }
 
     renderRunningTest();
   };
@@ -3318,15 +3333,24 @@ document
     "[data-pdf]"
   )
   .forEach(function (b) {
-    b.onclick = function () {
-      showSubmission(
-        b.dataset.pdf
-      );
+ b.onclick = function () {
 
-      setTimeout(function () {
-        window.print();
-      }, 300);
-    };
+  const confirmPdf = confirm(
+    "क्या आप Result PDF डाउनलोड करना चाहते हैं?"
+  );
+
+  if (!confirmPdf) {
+    return;
+  }
+
+  showSubmission(
+    b.dataset.pdf
+  );
+
+  setTimeout(function () {
+    window.print();
+  }, 300);
+};
   });
   function showSubmission(
     id
@@ -3477,12 +3501,19 @@ openModal(
 
             "</div>" +
 
-            "<p><b>Your Answer:</b> " +
-            esc(
-              d.given ||
-                "Blank"
-            ) +
-            "</p>" +
+          "<p><b>Your Answer:</b> " +
+(
+  d.given
+    ? esc(d.given) +
+      " - " +
+      esc(
+        q[
+          d.given.toLowerCase()
+        ]
+      )
+    : "Blank"
+) +
+"</p>" +
 
             "<p><b>Correct Answer:</b> " +
             esc(q.correct) +
