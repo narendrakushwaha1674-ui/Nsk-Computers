@@ -2726,8 +2726,7 @@ function startTest(
     index: 0,
     answers: {},
     skipped: {},
-    review: {},
-    startedAt: nowText(),
+       startedAt: nowText(),
     endsAt:
       Date.now() +
       60 * 60 * 1000
@@ -2780,9 +2779,7 @@ function startTest(
 test.questions.map(function (question, index) {
 
 const questionClass =
-  running.review[question.id]
-    ? "primary"
-    : running.skipped[question.id]
+      : running.skipped[question.id]
     ? "danger"
     : running.answers[question.id]
     ? "primary"
@@ -2909,31 +2906,12 @@ test.questions.length - 1
   : "") +
 ">Next</button> " +
 
-'<button type="button" id="reviewQ" style="background:#2563eb;color:#fff;border-color:#1d4ed8;">' +
-"Mark for Review" +
-"</button> " +
+
 
      
       "</div>" +
 
       "</div>";
-document.getElementById("reviewQ").onclick = function () {
-
-  if (running.review[q.id]) {
-    delete running.review[q.id];
-  } else {
-    running.review[q.id] = true;
-  }
-
-  if (
-    running.index <
-    test.questions.length - 1
-  ) {
-    running.index++;
-  }
-
-  renderRunningTest();
-};
 
     document
   .querySelectorAll("[data-question-number]")
@@ -2968,8 +2946,7 @@ if (!running.answers[q.id]) {
   running.skipped[q.id] = true;
 } else {
   delete running.skipped[q.id];
-  delete running.review[q.id];
-}
+ }
 
   if (
     running.index <
