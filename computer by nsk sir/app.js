@@ -2779,7 +2779,7 @@ function startTest(
 test.questions.map(function (question, index) {
 
 const questionClass =
-      : running.skipped[question.id]
+      running.skipped[question.id]
     ? "danger"
     : running.answers[question.id]
     ? "primary"
