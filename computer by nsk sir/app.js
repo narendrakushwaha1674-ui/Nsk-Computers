@@ -2979,32 +2979,7 @@ document.getElementById(
 
   submitRunningTest();
 };
-         if (!text) return;
-
-      const student =
-        studentById(
-          session.studentId
-        );
-
-      if (!student) return;
-
-      state.help.unshift({
-        id: makeId("help"),
-        student:
-          student.name,
-        test:
-          test.name,
-        text: text,
-        time: nowText()
-      });
-
-      saveState();
-
-      alert(
-        "Help request admin ko bhej di gayi hai."
-      );
-    };
-
+        
     tickTimer();
 
 if (timerHandle) {
