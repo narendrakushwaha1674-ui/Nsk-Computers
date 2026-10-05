@@ -2881,11 +2881,7 @@ const questionClass =
 
       "</div>" +
 
-      '<label class="field" style="margin-top:16px;">Help / Wrong Question Report<textarea id="helpText" placeholder="Agar question galat hai to yahan likh kar bhejein"></textarea></label>' +
-
-      '<button class="ghost" id="sendHelp">Send Help</button>' +
-
-      '<div class="pager">' +
+                 '<div class="pager">' +
 
     '<button class="warning" id="prevQ" ' +
       (running.index === 0
@@ -2935,7 +2931,7 @@ test.questions.length - 1
       ] = r.value;
 
       delete running.skipped[q.id];
-
+renderRunningTest();
     };
   });
    document.getElementById(
@@ -2983,13 +2979,7 @@ document.getElementById(
 
   submitRunningTest();
 };
-    document.getElementById(
-      "sendHelp"
-    ).onclick = function () {
-      const text =
-        val("helpText");
-
-      if (!text) return;
+         if (!text) return;
 
       const student =
         studentById(
