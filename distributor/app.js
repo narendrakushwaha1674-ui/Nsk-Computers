@@ -2,6 +2,12 @@ const MAIN_COACHING = "Maa Shitla Computer Center AND Computer Shop";
 const DIRECTOR = "Director - Narendra Kushwaha (Nsk)";
 const MOBILE = "9179424002";
 const EMAIL = "Narendrakushwaha1674@gmail.com";
+const DEFAULT_LOGIN_ID = "nskcomputers4002";
+const DEFAULT_LOGIN_PASSWORD = "Nsk@424002";
+let activeLoginId = localStorage.getItem("distributorLoginId") || DEFAULT_LOGIN_ID;
+let activeLoginPassword = localStorage.getItem("distributorLoginPassword") || DEFAULT_LOGIN_PASSWORD;
+let pendingAdminOtp = "";
+
 const seedInstitutes = [
   {
     institute: "Maa Shitla Digital institute",
@@ -53,6 +59,23 @@ state.institutes = state.institutes.map((item) => ({
   password: item.password === "SPC@7421" ? "MSC@7421" : item.password,
 }));
 
+const elements = {
+  loginGate: document.querySelector("#loginGate"),
+  loginForm: document.querySelector("#loginForm"),
+  loginId: document.querySelector("#loginId"),
+  loginPassword: document.querySelector("#loginPassword"),
+  loginError: document.querySelector("#loginError"),
+  openReset: document.querySelector("#openReset"),
+  resetModal: document.querySelector("#resetModal"),
+  closeReset: document.querySelector("#closeReset"),
+  resetForm: document.querySelector("#resetForm"),
+  resetType: document.querySelector("#resetType"),
+  sendOtp: document.querySelector("#sendOtp"),
+  otpDemo: document.querySelector("#otpDemo"),
+  resetError: document.querySelector("#resetError"),
+  newLoginIdWrap: document.querySelector("#newLoginIdWrap"),
+  newLoginPasswordWrap: document.querySelector("#newLoginPasswordWrap"),
+  adminLogout: document.querySelector("#adminLogout"),
   brandName: document.querySelector("#brandName"),
   footerBrand: document.querySelector("#footerBrand"),
   mainCoaching: document.querySelector("#mainCoaching"),
@@ -353,6 +376,107 @@ elements.saveBrand.addEventListener("click", () => {
   renderCards();
 });
 
+elements.loginForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const loginId = elements.loginId.value.trim();
+  const password = elements.loginPassword.value;
+
+  if (loginId === activeLoginId && password === activeLoginPassword) {
+    sessionStorage.setItem("maaShitlaLoggedIn", "yes");
+    elements.loginGate.classList.add("hidden");
+    elements.loginError.textContent = "";
+    elements.loginForm.reset();
+    return;
+  }
+
+  elements.loginError.textContent = "Login ID ya password galat hai.";
+});
+
+function makeOtp() {
+  return String(Math.floor(100000 + Math.random() * 900000));
+}
+
+function applyResetType() {
+  const type = elements.resetType.value;
+  elements.newLoginIdWrap.classList.toggle("hidden", type !== "id");
+  elements.newLoginPasswordWrap.classList.toggle("hidden", type !== "password");
+  document.querySelector("#newLoginId").value = "";
+  document.querySelector("#newLoginPassword").value = "";
+  document.querySelector("#resetOtp").value = "";
+  pendingAdminOtp = "";
+  elements.otpDemo.classList.add("hidden");
+  elements.otpDemo.innerHTML = "";
+  elements.resetError.textContent = "";
+}
+
+elements.openReset.addEventListener("click", () => {
+  elements.resetModal.classList.remove("hidden");
+  applyResetType();
+});
+
+elements.closeReset.addEventListener("click", () => {
+  elements.resetModal.classList.add("hidden");
+});
+
+elements.resetType.addEventListener("change", applyResetType);
+
+elements.sendOtp.addEventListener("click", () => {
+  pendingAdminOtp = makeOtp();
+  elements.otpDemo.classList.remove("hidden");
+  elements.otpDemo.innerHTML = `
+    <strong>Demo OTP sent to Gmail and Mobile</strong>
+    <span>Gmail: ${EMAIL}</span>
+    <span>Mobile: ${MOBILE}</span>
+    <span>Same OTP: ${pendingAdminOtp}</span>
+    <small>Real Gmail/SMS OTP ke liye backend gateway chahiye.</small>
+  `;
+});
+
+elements.resetForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const resetOtp = document.querySelector("#resetOtp").value.trim();
+  const newLoginId = document.querySelector("#newLoginId").value.trim();
+  const newPassword = document.querySelector("#newLoginPassword").value;
+  const type = elements.resetType.value;
+
+  if (!pendingAdminOtp || resetOtp !== pendingAdminOtp) {
+    elements.resetError.textContent = "OTP galat hai. Reset karne ke liye fresh OTP verify karein.";
+    return;
+  }
+
+  if (type === "id" && !newLoginId) {
+    elements.resetError.textContent = "New admin ID bharna zaruri hai.";
+    return;
+  }
+
+  if (type === "password" && !newPassword) {
+    elements.resetError.textContent = "New admin password bharna zaruri hai.";
+    return;
+  }
+
+  if (type === "id") {
+    activeLoginId = newLoginId;
+  } else {
+    activeLoginPassword = newPassword;
+  }
+
+  localStorage.setItem("distributorLoginId", activeLoginId);
+  localStorage.setItem("distributorLoginPassword", activeLoginPassword);
+  pendingAdminOtp = "";
+  elements.resetError.textContent = type === "id" ? "Admin ID reset ho gaya. Ab nayi ID se login karein." : "Admin password reset ho gaya. Ab naye password se login karein.";
+  setTimeout(() => {
+    elements.resetModal.classList.add("hidden");
+    elements.resetForm.reset();
+    applyResetType();
+  }, 1200);
+});
+
+elements.adminLogout.addEventListener("click", () => {
+  sessionStorage.removeItem("maaShitlaLoggedIn");
+  elements.loginGate.classList.remove("hidden");
+  elements.loginError.textContent = "Admin logout ho gaya. Dobara login karein.";
+});
+
 elements.form.addEventListener("submit", (event) => {
   event.preventDefault();
   const institute = document.querySelector("#instituteName").value.trim();
@@ -377,6 +501,11 @@ elements.form.addEventListener("submit", (event) => {
 });
 
 elements.searchBox.addEventListener("input", renderCards);
+
+if (sessionStorage.getItem("maaShitlaLoggedIn") === "yes") {
+  elements.loginGate.classList.add("hidden");
+}
+
 applyBrand();
 saveState();
 renderCards();
