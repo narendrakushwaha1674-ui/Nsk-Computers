@@ -26,9 +26,33 @@
             </nav>
     
     </header>
-
     <main>
-      <section class="hero" id="home">
+
+      <section class="section" id="admin-login">
+        <div class="panel intro-panel">
+          <p class="eyebrow">Admin Login</p>
+          <h2>Admin Login karein</h2>
+
+          <form id="loginForm">
+            <label>
+              Admin Login ID
+              <input id="loginId" type="text" placeholder="Admin ID" required />
+            </label>
+
+            <label>
+              Password
+              <input id="loginPassword" type="password" placeholder="Password" required />
+            </label>
+
+            <button class="primary-btn full" type="submit">
+              Admin Login
+            </button>
+
+            <p id="loginError" class="hint"></p>
+          </form>
+        </div>
+      </section>
+         <section class="hero" id="home">
         <div class="hero-copy">
           <p class="eyebrow">Online coaching partner portal</p>
           <h1>Maa Shitla Computer center And Computer Shop</h1>
