@@ -10,7 +10,61 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-        <header class="topbar">
+    <div class="login-gate" id="loginGate">
+      <form class="login-box" id="loginForm">
+        <span class="brand-mark login-mark">MS</span>
+        <p class="eyebrow">Secure access</p>
+        <h1>Maa Shitla Computer Center AND Computer Shop</h1>
+        <p class="login-note">Admin panel kholne ke liye apni admin ID aur password dalein.</p>
+        <label>
+          Login ID
+          <input id="loginId" type="text" autocomplete="username" placeholder="Login ID" required />
+        </label>
+        <label>
+          Password
+          <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Password" required />
+        </label>
+        <p class="login-error" id="loginError" role="alert"></p>
+        <button class="primary-btn full" type="submit">Login karein</button>
+        <button class="reset-link" id="openReset" type="button">Admin ID / Password Reset</button>
+      </form>
+    </div>
+
+    <div class="reset-modal hidden" id="resetModal">
+      <form class="reset-box" id="resetForm">
+        <button class="close-form reset-close" id="closeReset" type="button">×</button>
+        <p class="eyebrow">OTP security</p>
+        <h2>Admin ID / Password Reset</h2>
+        <p class="login-note">Har reset ke liye fresh OTP registered Gmail aur mobile dono par jayega. Dono jagah same OTP rahega.</p>
+        <label>Reset Type
+          <select id="resetType">
+            <option value="id">Admin ID Reset</option>
+            <option value="password">Admin Password Reset</option>
+          </select>
+        </label>
+        <label>Registered Email
+          <input id="resetEmail" type="email" value="Narendrakushwaha1674@gmail.com" required />
+        </label>
+        <label>Registered Mobile
+          <input id="resetMobile" type="tel" value="9179424002" required />
+        </label>
+        <button class="secondary-btn full" id="sendOtp" type="button">Send OTP</button>
+        <div class="otp-demo hidden" id="otpDemo"></div>
+        <label>OTP
+          <input id="resetOtp" type="text" placeholder="Email/Mobile par aaya same OTP" />
+        </label>
+        <label id="newLoginIdWrap">New Admin ID
+          <input id="newLoginId" type="text" placeholder="New admin ID" />
+        </label>
+        <label id="newLoginPasswordWrap" class="hidden">New Admin Password
+          <input id="newLoginPassword" type="password" placeholder="New password" />
+        </label>
+        <p class="login-error" id="resetError"></p>
+        <button class="primary-btn full" type="submit">Verify OTP & Reset</button>
+      </form>
+    </div>
+
+    <header class="topbar">
       <a class="brand" href="#home" aria-label="home">
         <span class="brand-mark">MS</span>
         <span>
@@ -19,40 +73,18 @@
         </span>
       </a>
       <nav class="nav-links" aria-label="Primary">
-       <a href="#admin-login">Admin Login</a>
-        <a href="#branch-login">Branch Login</a>
+        <a href="public.html" target="_blank" rel="noopener">Maa Shitla Computer center And Computer Shop</a>
         <a href="#courses">Courses</a>
-               <a href="certificate-requests.html" target="_blank" rel="noopener">Certificate Approval</a>
-            </nav>
-    
+        <a href="#distributor">Distributor</a>
+        <a href="#institutes">Institutes</a>
+        <a href="certificate-requests.html" target="_blank" rel="noopener">Certificate Approval</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <button class="nav-action" id="adminLogout" type="button">Admin Logout</button>
     </header>
+
     <main>
-
-      <section class="section" id="admin-login">
-        <div class="panel intro-panel">
-          <p class="eyebrow">Admin Login</p>
-          <h2>Admin Login karein</h2>
-
-          <form id="loginForm">
-            <label>
-              Admin Login ID
-              <input id="loginId" type="text" placeholder="Admin ID" required />
-            </label>
-
-            <label>
-              Password
-              <input id="loginPassword" type="password" placeholder="Password" required />
-            </label>
-
-            <button class="primary-btn full" type="submit">
-              Admin Login
-            </button>
-
-            <p id="loginError" class="hint"></p>
-          </form>
-        </div>
-      </section>
-         <section class="hero" id="home">
+      <section class="hero" id="home">
         <div class="hero-copy">
           <p class="eyebrow">Online coaching partner portal</p>
           <h1>Maa Shitla Computer center And Computer Shop</h1>
