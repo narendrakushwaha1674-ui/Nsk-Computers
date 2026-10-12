@@ -2404,58 +2404,70 @@ async function saveSubmissionToServer(submission) {
     return false;
   }
 }
+
 function getNextAllowedTestIndex() {
   const submissions = getStudentSubmissions();
 
-  // Student ne abhi tak koi test submit nahi kiya
-  if (submissions.length === 0) {
+  if (!submissions.length) {
     return 0;
   }
 
-  // Sabse recent submission
-  const lastSubmission = submissions[0];
-
-  const lastIndex = state.tests.findIndex(function (t) {
-    return t.id === lastSubmission.testId;
+  // Sirf un submissions ko lein jinka test abhi maujood hai
+  const validSubmissions = submissions.filter(function (s) {
+    return state.tests.some(function (t) {
+      return String(t.id) === String(s.testId);
+    });
   });
 
-  // Agar previous test system me nahi mila
-  if (lastIndex === -1) {
-    return 0;
+  if (!validSubmissions.length) {
+    console.error(
+      "Submission ka testId kisi maujooda test se match nahi hua."
+    );
+    return -1;
   }
 
-  // Agla test ka index
+  // Sabse naya valid submission
+  const lastSubmission = validSubmissions[0];
+
+  const lastIndex = state.tests.findIndex(function (t) {
+    return String(t.id) === String(lastSubmission.testId);
+  });
+
+  if (lastIndex === -1) {
+    return -1;
+  }
+
   const nextIndex = lastIndex + 1;
 
-  // Agar last test complete ho gaya
   if (nextIndex >= state.tests.length) {
     return -1;
   }
 
-  // Submission kis date/time par hua
+  // Submission ki date/time verify karein
   const submittedTime = new Date(
     lastSubmission.submittedAt
   );
 
   if (isNaN(submittedTime.getTime())) {
+    console.error(
+      "Invalid submittedAt:",
+      lastSubmission.submittedAt,
+      lastSubmission
+    );
     return -1;
   }
 
-  // Agli raat 12:00 AM
-  const nextMidnight = new Date(
-    submittedTime
-  );
-
+  // Agli local midnight par unlock
+  const nextMidnight = new Date(submittedTime);
   nextMidnight.setHours(24, 0, 0, 0);
 
-  // Abhi agla test unlock nahi hua
-  if (new Date() < nextMidnight) {
+  if (Date.now() < nextMidnight.getTime()) {
     return -1;
   }
 
-  // Raat 12 ke baad agla test unlock
   return nextIndex;
 }
+
 function studentTests() {
   const nextAllowedIndex =
     getNextAllowedTestIndex();
