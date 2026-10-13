@@ -2425,10 +2425,30 @@ function getNextAllowedTestIndex() {
     );
     return -1;
   }
+  // Sirf Bebi1819 ke liye sabse aage wale submitted test ko dekhein
+  const currentStudent = studentById(session.studentId);
 
-  // Sabse naya valid submission
-  const lastSubmission = validSubmissions[0];
+  let lastSubmission = validSubmissions[0];
 
+  if (
+    currentStudent &&
+    String(currentStudent.userId || "").trim().toLowerCase() === "bebi1819"
+  ) {
+    validSubmissions.sort(function (a, b) {
+      const indexA = state.tests.findIndex(function (t) {
+        return String(t.id) === String(a.testId);
+      });
+
+      const indexB = state.tests.findIndex(function (t) {
+        return String(t.id) === String(b.testId);
+      });
+
+      return indexB - indexA;
+    });
+
+    lastSubmission = validSubmissions[0];
+  }
+ 
   const lastIndex = state.tests.findIndex(function (t) {
     return String(t.id) === String(lastSubmission.testId);
   });
