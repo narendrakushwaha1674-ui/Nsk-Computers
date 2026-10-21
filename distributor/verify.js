@@ -1,5 +1,5 @@
 const CENTER_MOBILE = "9179424002";
-const FALLBACK_CENTER = "Maa Shitla Computer Center AND Computer Shop";
+const FALLBACK_CENTER = "MAA SHITLA COMPUTER CENTER";
 
 const form = document.querySelector("#verifyForm");
 const rollInput = document.querySelector("#verifyRoll");
@@ -107,9 +107,8 @@ function certificateHtml(student) {
         <header class="doc-brand">
           <div class="qr-box">${qrImage(student, "certificate")}</div>
           <div>
-            <h1>Maa Shitla Computer</h1>
-            <strong>Center AND Computer Shop</strong>
-            <p>Learning For New Skills</p>
+            <h1>MAA SHITLA COMPUTER CENTER</h1>
+            <p>LEARING FOR SKILLS</p>
             <small>Director - Narendra Kushwaha (Nsk) | Mob. ${CENTER_MOBILE}</small>
           </div>
           <div class="cp-logo">MS</div>
@@ -146,9 +145,8 @@ function marksheetHtml(student) {
         <p class="iso-text">An ISO 9001:2015 Certified Institute</p>
         <header class="doc-brand compact">
           <div>
-            <h1>Maa Shitla Computer</h1>
-            <strong>Center AND Computer Shop</strong>
-            <p>Learning For New Skills</p>
+            <h1>MAA SHITLA COMPUTER CENTER</h1>
+            <p> LEARNING FOR SKILLS </p>
           </div>
           <div class="cp-logo">MS</div>
         </header>
