@@ -1,4 +1,4 @@
-const MAIN_COACHING = "Maa Shitla Computer Center AND Computer Shop";
+const MAIN_COACHING = "MAA SHITLA COMPUTER CENTER ";
 const DIRECTOR = "Director - Narendra Kushwaha (Nsk)";
 const MOBILE = "9179424002";
 const EMAIL = "Narendrakushwaha1674@gmail.com";
@@ -37,7 +37,7 @@ const state = {
 
 if (
   state.mainCoaching === "Champion Path Coaching" ||
-  state.mainCoaching === "Maa Shitla Computer Center And Computer Shop"
+  state.mainCoaching === "MAA SHITLA COMPUTER CENTER "
 ) {
   state.mainCoaching = MAIN_COACHING;
 }
