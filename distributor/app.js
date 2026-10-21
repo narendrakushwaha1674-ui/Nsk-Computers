@@ -424,12 +424,8 @@ elements.sendOtp.addEventListener("click", () => {
   pendingAdminOtp = makeOtp();
   elements.otpDemo.classList.remove("hidden");
   elements.otpDemo.innerHTML = `
-    <strong>Demo OTP sent to Gmail and Mobile</strong>
-    <span>Gmail: ${EMAIL}</span>
-    <span>Mobile: ${MOBILE}</span>
-    <span>Same OTP: ${pendingAdminOtp}</span>
-    <small>Real Gmail/SMS OTP ke liye backend gateway chahiye.</small>
-  `;
+        <span>Same OTP: ${pendingAdminOtp}</span>
+     `;
 });
 
 elements.resetForm.addEventListener("submit", (event) => {
