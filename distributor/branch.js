@@ -10,7 +10,7 @@ const FALLBACK_INSTITUTES = [
   },
 ];
 
-const CENTER_NAME = "Maa Shitla Computer Center AND Computer Shop";
+const CENTER_NAME = "MAA SHITLA COMPUTER CENTER ";
 const DIRECTOR_NAME = "Director - Narendra Kushwaha (Nsk)";
 const CENTER_MOBILE = "9179424002";
 const SITE_URL = "https://maa-shitla-computer-center.example.com/";
