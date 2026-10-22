@@ -126,11 +126,23 @@ function todayLabel() {
   }).format(new Date());
 }
 
+
 function applyBrand() {
-  elements.brandName.textContent = state.mainCoaching;
-  elements.footerBrand.textContent = state.mainCoaching;
-  elements.mainCoaching.value = state.mainCoaching;
-  elements.distributorName.value = state.distributor;
+  if (elements.brandName) {
+    elements.brandName.textContent = state.mainCoaching;
+  }
+
+  if (elements.footerBrand) {
+    elements.footerBrand.textContent = state.mainCoaching;
+  }
+
+  if (elements.mainCoaching) {
+    elements.mainCoaching.value = state.mainCoaching;
+  }
+
+  if (elements.distributorName) {
+    elements.distributorName.value = state.distributor;
+  }
 }
 
 function credentialText(item) {
@@ -193,8 +205,11 @@ function escapeHtml(value) {
     return map[char];
   });
 }
-
 function renderCards() {
+  if (!elements.searchBox || !elements.cardGrid) {
+    return;
+  }
+
   const query = elements.searchBox.value.trim().toLowerCase();
   const filtered = state.institutes
     .map((item, index) => ({ ...item, index }))
@@ -368,13 +383,17 @@ function renderPaymentRequests() {
   });
 }
 
-elements.saveBrand.addEventListener("click", () => {
-  state.mainCoaching = elements.mainCoaching.value.trim() || MAIN_COACHING;
-  state.distributor = elements.distributorName.value.trim() || DIRECTOR;
-  saveState();
-  applyBrand();
-  renderCards();
-});
+
+if (elements.saveBrand) {
+  elements.saveBrand.addEventListener("click", () => {
+    state.mainCoaching = elements.mainCoaching.value.trim() || MAIN_COACHING;
+    state.distributor = elements.distributorName.value.trim() || DIRECTOR;
+    saveState();
+    applyBrand();
+    renderCards();
+  });
+}
+
 
 elements.loginForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -473,30 +492,36 @@ elements.adminLogout.addEventListener("click", () => {
   elements.loginError.textContent = "Admin logout ho gaya. Dobara login karein.";
 });
 
-elements.form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const institute = document.querySelector("#instituteName").value.trim();
-  const city = document.querySelector("#cityName").value.trim();
-  const mobile = document.querySelector("#mobileNo").value.trim();
-  const course = document.querySelector("#courseAccess").value;
 
-  state.institutes.unshift({
-    institute,
-    city,
-    mobile,
-    course,
-    id: makeCredential(institute),
-    password: makePassword(institute),
-    created: todayLabel(),
+if (elements.form) {
+  elements.form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const institute = document.querySelector("#instituteName").value.trim();
+    const city = document.querySelector("#cityName").value.trim();
+    const mobile = document.querySelector("#mobileNo").value.trim();
+    const course = document.querySelector("#courseAccess").value;
+
+    state.institutes.unshift({
+      institute,
+      city,
+      mobile,
+      course,
+      id: makeCredential(institute),
+      password: makePassword(institute),
+      created: todayLabel(),
+    });
+
+    saveState();
+    renderCards();
+    elements.form.reset();
+    document.querySelector("#institutes")?.scrollIntoView({ behavior: "smooth" });
   });
+}
 
-  saveState();
-  renderCards();
-  elements.form.reset();
-  document.querySelector("#institutes").scrollIntoView({ behavior: "smooth" });
-});
-
-elements.searchBox.addEventListener("input", renderCards);
+if (elements.searchBox) {
+  elements.searchBox.addEventListener("input", renderCards);
+}
 
 if (sessionStorage.getItem("maaShitlaLoggedIn") === "yes") {
   elements.loginGate.classList.add("hidden");
