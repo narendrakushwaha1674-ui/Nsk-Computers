@@ -1,33 +1,10 @@
 const MAIN_COACHING = "MAA SHITLA COMPUTER CENTER ";
-const DIRECTOR = "Director - Narendra Kushwaha (Nsk)";
-const MOBILE = "9179424002";
-const EMAIL = "Narendrakushwaha1674@gmail.com";
+const DIRECTOR = "DIRECTOR - NARENDRA KUSHWAHA (NSK)";
 const DEFAULT_LOGIN_ID = "maashitlapc";
 const DEFAULT_LOGIN_PASSWORD = "Maa@798144";
 let activeLoginId = localStorage.getItem("distributorLoginId") || DEFAULT_LOGIN_ID;
 let activeLoginPassword = localStorage.getItem("distributorLoginPassword") || DEFAULT_LOGIN_PASSWORD;
 let pendingAdminOtp = "";
-
-const seedInstitutes = [
-  {
-    institute: "Maa Shitla Digital institute",
-    city: "Delhi",
-    mobile: "9876543210",
-    course: "All Computer Courses",
-    id: "MS-MAA-1042",
-    password: "MSC@7421",
-    created: "30 Apr 2026",
-  },
-  {
-    institute: "Gupta Computer Academy",
-    city: "Rewa",
-    mobile: "9123456780",
-    course: "DCA",
-    id: "MS-GUPTA-2381",
-    password: "GCA@5284",
-    created: "30 Apr 2026",
-  },
-];
 
 const state = {
   mainCoaching: localStorage.getItem("mainCoaching") || MAIN_COACHING,
