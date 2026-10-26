@@ -426,10 +426,13 @@ function applyResetType() {
   elements.resetError.textContent = "";
 }
 
-elements.openReset.addEventListener("click", () => {
-  elements.resetModal.classList.remove("hidden");
-  applyResetType();
-});
+
+if (elements.openReset && elements.resetModal) {
+  elements.openReset.addEventListener("click", () => {
+    elements.resetModal.classList.remove("hidden");
+    applyResetType();
+  });
+}
 
 elements.closeReset.addEventListener("click", () => {
   elements.resetModal.classList.add("hidden");
