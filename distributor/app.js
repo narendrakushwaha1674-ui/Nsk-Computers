@@ -53,7 +53,7 @@ const elements = {
   resetError: document.querySelector("#resetError"),
   newLoginIdWrap: document.querySelector("#newLoginIdWrap"),
   newLoginPasswordWrap: document.querySelector("#newLoginPasswordWrap"),
-  adminLogout: document.querySelector("#adminLogout"),
+ adminLogout: document.querySelector("#adminlogout"),
   brandName: document.querySelector("#brandName"),
   footerBrand: document.querySelector("#footerBrand"),
   mainCoaching: document.querySelector("#mainCoaching"),
