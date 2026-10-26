@@ -386,6 +386,7 @@ elements.loginForm.addEventListener("submit", (event) => {
   ) {
     sessionStorage.setItem("maaShitlaLoggedIn", "yes");
     elements.loginGate.classList.add("hidden");
+    console.log("ADMIN LOGIN SUCCESS");
     elements.loginError.textContent = "";
     elements.loginForm.reset();
   } else {
