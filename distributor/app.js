@@ -373,41 +373,27 @@ if (elements.saveBrand) {
 }
 
 
-elements.loginForm.addEventListener("submit", async (event) => {
+```javascript
+elements.loginForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const loginId = elements.loginId.value.trim();
   const password = elements.loginPassword.value;
 
-  elements.loginError.textContent = "Login जाँच रहा है...";
-
-  try {
-    const response = await fetch(APPS_SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        action: "adminLogin",
-        loginId: loginId,
-        password: password
-      })
-    });
-
-    const result = await response.json();
-
-    if (result.success === true) {
-      sessionStorage.setItem("maaShitlaLoggedIn", "yes");
-      elements.loginGate.classList.add("hidden");
-      elements.loginError.textContent = "";
-      elements.loginForm.reset();
-    } else {
-      elements.loginError.textContent =
-        "Login ID ya password galat hai.";
-    }
-  } catch (error) {
+  if (
+    loginId === activeLoginId &&
+    password === activeLoginPassword
+  ) {
+    sessionStorage.setItem("maaShitlaLoggedIn", "yes");
+    elements.loginGate.classList.add("hidden");
+    elements.loginError.textContent = "";
+    elements.loginForm.reset();
+  } else {
     elements.loginError.textContent =
-      "Server se connection nahi ho paya. URL aur deployment check karein.";
-    console.error(error);
+      "Login ID ya password galat hai.";
   }
 });
+```
 
 function makeOtp() {
   return String(Math.floor(100000 + Math.random() * 900000));
