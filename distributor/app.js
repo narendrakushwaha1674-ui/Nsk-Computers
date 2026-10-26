@@ -373,7 +373,6 @@ if (elements.saveBrand) {
 }
 
 
-```javascript
 elements.loginForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
