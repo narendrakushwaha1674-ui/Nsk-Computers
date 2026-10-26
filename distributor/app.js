@@ -426,12 +426,11 @@ elements.closeReset.addEventListener("click", () => {
 
 elements.resetType.addEventListener("change", applyResetType);
 
+
 elements.sendOtp.addEventListener("click", () => {
   pendingAdminOtp = makeOtp();
   elements.otpDemo.classList.remove("hidden");
-  elements.otpDemo.innerHTML = `
-        <span>Same OTP: ${pendingAdminOtp}</span>
-     `;
+  elements.otpDemo.textContent = "Same OTP: " + pendingAdminOtp;
 });
 
 elements.resetForm.addEventListener("submit", (event) => {
