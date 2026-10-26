@@ -11,6 +11,7 @@ const FALLBACK_INSTITUTES = [
 ];
 
 const CENTER_NAME = "MAA SHITLA COMPUTER CENTER ";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1H-O6rRRJIySOHpzyvjB3ipocwnQvFj1Bx9ZyYTrBQ0A8wOZz4oKX1uIvIItKNZlJ/exec";
 const SITE_URL = "https://maa-shitla-computer-center.example.com/";
 
 const elements = {
@@ -752,17 +753,53 @@ function on(element, eventName, handler) {
   }
 }
 
-on(elements.form, "submit", (event) => {
+
+on(elements.form, "submit", async (event) => {
   event.preventDefault();
-  const branch = findBranch(elements.userId.value, elements.password.value);
 
-  if (!branch) {
-    elements.error.textContent = "Mobile/Branch ID ya password galat hai.";
-    return;
+  const loginId = elements.userId.value.trim();
+  const password = elements.password.value;
+
+  elements.error.textContent = "Login check ho raha hai...";
+
+  try {
+    const response = await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "branchLogin",
+        loginId: loginId,
+        password: password
+      })
+    });
+
+    const result = await response.json();
+
+    if (!result.success || !result.branch) {
+      elements.error.textContent =
+        result.message || "Branch ID ya Password galat hai.";
+      return;
+    }
+
+    const data = result.branch;
+
+    const branch = {
+      id: String(data.id || ""),
+      institute: String(data.name || ""),
+      mobile: String(data.mobile || ""),
+      city: String(data.city || ""),
+      address: String(data.address || ""),
+      email: String(data.email || ""),
+      course: "All Computer Courses"
+    };
+
+    elements.error.textContent = "";
+    showDashboard(branch);
+
+  } catch (error) {
+    console.error("Branch login error:", error);
+    elements.error.textContent =
+      "Server se connection nahi ho paya. Internet aur Apps Script deployment check karein.";
   }
-
-  elements.error.textContent = "";
-  showDashboard(branch);
 });
 
 function logoutBranch() {
