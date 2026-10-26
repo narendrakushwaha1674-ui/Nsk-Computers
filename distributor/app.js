@@ -1,6 +1,6 @@
 const MAIN_COACHING = "MAA SHITLA COMPUTER CENTER ";
 const DIRECTOR = "DIRECTOR - NARENDRA KUSHWAHA (NSK)";
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1H-O6rRRJIySOHpzyvjB3ipocwnQvFj1Bx9ZyYTrBQ0A8wOZz4oKX1uIvIItKNZlJ/exec";
+const APPS_SCRIPT_URL = "https://maa-shitla-login-api.narendrakushwaha1674.workers.dev";
 const DEFAULT_LOGIN_ID = "maashitlapc";
 const DEFAULT_LOGIN_PASSWORD = "Maa@798144";
 let activeLoginId = localStorage.getItem("distributorLoginId") || DEFAULT_LOGIN_ID;
