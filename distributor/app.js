@@ -1,5 +1,6 @@
 const MAIN_COACHING = "MAA SHITLA COMPUTER CENTER ";
 const DIRECTOR = "DIRECTOR - NARENDRA KUSHWAHA (NSK)";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1H-O6rRRJIySOHpzyvjB3ipocwnQvFj1Bx9ZyYTrBQ0A8wOZz4oKX1uIvIItKNZlJ/exec";
 const DEFAULT_LOGIN_ID = "maashitlapc";
 const DEFAULT_LOGIN_PASSWORD = "Maa@798144";
 let activeLoginId = localStorage.getItem("distributorLoginId") || DEFAULT_LOGIN_ID;
@@ -372,20 +373,40 @@ if (elements.saveBrand) {
 }
 
 
-elements.loginForm.addEventListener("submit", (event) => {
+elements.loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+
   const loginId = elements.loginId.value.trim();
   const password = elements.loginPassword.value;
 
-  if (loginId === activeLoginId && password === activeLoginPassword) {
-    sessionStorage.setItem("maaShitlaLoggedIn", "yes");
-    elements.loginGate.classList.add("hidden");
-    elements.loginError.textContent = "";
-    elements.loginForm.reset();
-    return;
-  }
+  elements.loginError.textContent = "Login जाँच रहा है...";
 
-  elements.loginError.textContent = "Login ID ya password galat hai.";
+  try {
+    const response = await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "adminLogin",
+        loginId: loginId,
+        password: password
+      })
+    });
+
+    const result = await response.json();
+
+    if (result.success === true) {
+      sessionStorage.setItem("maaShitlaLoggedIn", "yes");
+      elements.loginGate.classList.add("hidden");
+      elements.loginError.textContent = "";
+      elements.loginForm.reset();
+    } else {
+      elements.loginError.textContent =
+        "Login ID ya password galat hai.";
+    }
+  } catch (error) {
+    elements.loginError.textContent =
+      "Server se connection nahi ho paya. URL aur deployment check karein.";
+    console.error(error);
+  }
 });
 
 function makeOtp() {
