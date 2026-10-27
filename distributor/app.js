@@ -387,8 +387,7 @@ elements.loginForm.addEventListener("submit", (event) => {
     elements.loginGate.classList.add("hidden");
     console.log("ADMIN LOGIN SUCCESS");
     elements.loginError.textContent = "";
-    elements.loginForm.reset();
-  } else {
+     } else {
     elements.loginError.textContent =
       "Login ID ya password galat hai.";
   }
