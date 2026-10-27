@@ -392,7 +392,6 @@ elements.loginForm.addEventListener("submit", (event) => {
       "Login ID ya password galat hai.";
   }
 });
-```
 
 function makeOtp() {
   return String(Math.floor(100000 + Math.random() * 900000));
