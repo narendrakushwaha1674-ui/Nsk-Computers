@@ -515,3 +515,4 @@ if (sessionStorage.getItem("maaShitlaLoggedIn") === "yes") {
 applyBrand();
 saveState();
 renderCards();
+}
