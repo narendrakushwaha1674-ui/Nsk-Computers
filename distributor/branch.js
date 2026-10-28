@@ -795,11 +795,10 @@ on(elements.form, "submit", async (event) => {
     elements.error.textContent = "";
     showDashboard(branch);
 
-  } catch (error) {
-    console.error("Branch login error:", error);
-    elements.error.textContent =
-      "Server se connection nahi ho paya. Internet aur Apps Script deployment check karein.";
-  }
+ } catch (error) {
+  console.error("Branch login error:", error);
+  elements.error.textContent = "Login nahi ho paya. ID aur password dobara check karein.";
+}
 });
 
 function logoutBranch() {
