@@ -504,7 +504,9 @@ function certificateHtml(student) {
     </p>
     <small>Director - Narendra Kushwaha (Nsk) | Mob. ${CENTER_MOBILE}</small>
   </div>
-  <div class="cp-logo">MS</div>
+ <div class="cp-logo">
+  <img src="https://lh3.googleusercontent.com/gps-cs-s/ANWiy9TVqQORi8wWAbH09-f8359LUGXLlyHfVr0RkYOd2Nac3Wsa0l1EPkwnA1cozufB9rZSZ9gijKNgT-AjKEZ0Q8dGQ9Z3L7Ed--OWY_ZopgFlACkQNFAssoiRxRzNqm-9--wwgZ963jci76iy=s680-w680-h510-rw" alt="Maa Shitla Logo">
+</div>
 </header>
         <div class="doc-title">CERTIFICATE/DIPLOMA</div>
         <div class="doc-line"><span>REGISTRATION NO. : <b>${certNo}</b></span><span>ROLL NO. : <b>${student.roll}</b></span></div>
@@ -551,7 +553,9 @@ function marksheetHtml(student) {
       Corporate Office - (Indergarh) 475675, District - Datia (M.P.)
     </p>
   </div>
-  <div class="cp-logo">MS</div>
+  <div class="cp-logo">
+  <img src="https://lh3.googleusercontent.com/gps-cs-s/ANWiy9TVqQORi8wWAbH09-f8359LUGXLlyHfVr0RkYOd2Nac3Wsa0l1EPkwnA1cozufB9rZSZ9gijKNgT-AjKEZ0Q8dGQ9Z3L7Ed--OWY_ZopgFlACkQNFAssoiRxRzNqm-9--wwgZ963jci76iy=s680-w680-h510-rw" alt="Maa Shitla Logo">
+</div>
 </header>
         <div class="marksheet-photo-row">
           ${studentPhotoHtml(student)}
