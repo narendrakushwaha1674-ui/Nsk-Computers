@@ -490,7 +490,7 @@ function certificateHtml(student) {
   <div class="qr-box">${qrImage(student, "certificate")}</div>
   <div style="text-align:center; flex:1;">
    <h1 style="font-size:30px; font-weight:900; color:#111827; margin:0; text-decoration:underline; text-transform:uppercase;">
-      Maa Shitla Service Private Limited
+   MAA SHITLA COMPUTER CENTER
     </h1>
   <p style="font-size:14px; font-weight:700; margin:5px 0; text-decoration:underline;">
       Registered With : Ministry of Corporate Affairs (Govt. of India)
@@ -501,7 +501,7 @@ function certificateHtml(student) {
   <p style="font-size:13px; font-weight:700; margin:4px 0; text-decoration:underline;">
       Corporate Office - (Indergarh) 475675, District - Datia (M.P.)
     </p>
-    <small>Director - Narendra Kushwaha (Nsk) | Mob. ${CENTER_MOBILE}</small>
+ 
   </div>
  <div class="cp-logo">
   <img src="https://lh3.googleusercontent.com/gps-cs-s/ANWiy9TVqQORi8wWAbH09-f8359LUGXLlyHfVr0RkYOd2Nac3Wsa0l1EPkwnA1cozufB9rZSZ9gijKNgT-AjKEZ0Q8dGQ9Z3L7Ed--OWY_ZopgFlACkQNFAssoiRxRzNqm-9--wwgZ963jci76iy=s680-w680-h510-rw" alt="Maa Shitla Logo">
@@ -540,7 +540,7 @@ function marksheetHtml(student) {
        <header class="doc-brand compact">
   <div style="text-align:center; width:100%;">
    <h1 style="font-size:28px; font-weight:900; color:#111827; margin:0; text-decoration:underline; text-transform:uppercase;">
-      Maa Shitla Service Private Limited
+    MAA SHITLA COMPUTER CENTER
     </h1>
   <p style="font-size:13px; font-weight:700; margin:5px 0; text-decoration:underline;">
       Registered With : Ministry of Corporate Affairs (Govt. of India)
