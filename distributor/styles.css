@@ -2267,6 +2267,17 @@ footer {
   }
 }
 
+
+@page marksheetPage {
+  size: A4 portrait;
+  margin: 5mm;
+}
+
+@page certificatePage {
+  size: A4 landscape;
+  margin: 5mm;
+}
+
 @media print {
   * {
     -webkit-print-color-adjust: exact !important;
@@ -2285,7 +2296,7 @@ footer {
   }
 
   .document-actions {
-    display: none;
+    display: none !important;
   }
 
   .document-modal {
@@ -2297,17 +2308,35 @@ footer {
   }
 
   .document-shell {
+    width: auto;
     margin: 0;
   }
 
-  .print-target,
-  .print-target * {
-    visibility: visible;
+  .marksheet-doc {
+    page: marksheetPage;
+    width: 200mm;
+    height: 287mm;
+    min-height: 0;
+    margin: 0;
+    box-shadow: none;
+    break-after: avoid;
   }
 
-  .print-target {
-    position: absolute;
-    inset: 24px auto auto 24px;
-    width: 520px;
+  .certificate-doc {
+    page: certificatePage;
+    width: 287mm;
+    height: 200mm;
+    min-height: 0;
+    margin: 0;
+    box-shadow: none;
+    break-after: avoid;
+  }
+
+  .doc-inner,
+  .marksheet-doc .doc-inner {
+    min-height: 0;
+    height: 100%;
+    box-sizing: border-box;
   }
 }
+
