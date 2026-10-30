@@ -1510,15 +1510,24 @@ footer {
   position: relative;
   box-sizing: border-box;
   overflow: hidden;
-  width: 1060px;
-  min-height: 740px;
-  padding: 24px;
+  width: 100%;
+  padding: 18px;
   background: #fffdf7;
-  border: 12px solid #173f35;
+  border: 10px solid #173f35;
   outline: 3px solid #c9a44c;
-  outline-offset: -20px;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25);
+  outline-offset: -16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   color: #172c26;
+}
+
+.certificate-doc {
+  width: 100%;
+  min-height: 0;
+}
+
+.marksheet-doc {
+  width: 100%;
+  min-height: 0;
 }
 
 /* MAA SHITLA WATERMARK - CERTIFICATE & MARKSHEET */
@@ -1554,11 +1563,6 @@ footer {
   background: #dce6f6;
 }
 
-.marksheet-doc {
-  width: 585px;
-  min-height: 842px;
-  padding: 18px 24px;
-}
 
 .doc-ribbon {
   position: absolute;
