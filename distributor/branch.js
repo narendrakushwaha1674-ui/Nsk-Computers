@@ -698,12 +698,19 @@ function closeCropModal() {
   elements.studentPhoto.value = "";
 }
 
-function showDashboard(branch) {
+function showDashboard(branch, remember = true) {
   currentBranch = branch;
   syncApprovedCertificates();
   syncApprovedPayments();
   const metrics = branchMetrics(branch);
-  sessionStorage.setItem("activeBranch", JSON.stringify(branch));
+
+  if (remember) {
+    localStorage.setItem("activeBranch", JSON.stringify(branch));
+    sessionStorage.removeItem("activeBranch");
+  } else {
+    sessionStorage.setItem("activeBranch", JSON.stringify(branch));
+    localStorage.removeItem("activeBranch");
+  }
   elements.loginScreen.classList.add("hidden");
   elements.dashboard.classList.remove("hidden");
   elements.sideBranchName.textContent = branch.institute;
@@ -754,13 +761,12 @@ function on(element, eventName, handler) {
 }
 
 
+
 on(elements.form, "submit", async (event) => {
   event.preventDefault();
 
   const loginId = elements.userId.value.trim();
   const password = elements.password.value;
-
-  elements.error.textContent = "Login check ho raha hai...";
 
   try {
     const response = await fetch(APPS_SCRIPT_URL, {
@@ -775,8 +781,7 @@ on(elements.form, "submit", async (event) => {
     const result = await response.json();
 
     if (!result.success || !result.branch) {
-      elements.error.textContent =
-        result.message || "Branch ID ya Password galat hai.";
+      console.warn("Branch ID or Password incorrect");
       return;
     }
 
@@ -792,22 +797,25 @@ on(elements.form, "submit", async (event) => {
       course: "All Computer Courses"
     };
 
-    elements.error.textContent = "";
-    showDashboard(branch);
+    const remember =
+      document.querySelector("#rememberBranch")?.checked ?? true;
 
- } catch (error) {
-  console.error("Branch login error:", error);
-  elements.error.textContent = "Login nahi ho paya. ID aur password dobara check karein.";
-}
+    showDashboard(branch, remember);
+
+  } catch (error) {
+    console.error("Branch login error:", error);
+  }
 });
 
 function logoutBranch() {
+  localStorage.removeItem("activeBranch");
   sessionStorage.removeItem("activeBranch");
+
   elements.dashboard.classList.add("hidden");
   elements.loginScreen.classList.remove("hidden");
   elements.form.reset();
-  elements.error.textContent = "Aap logout ho gaye hain. Dobara login karein.";
 }
+
 
 on(elements.logout, "click", logoutBranch);
 on(elements.topLogout, "click", logoutBranch);
