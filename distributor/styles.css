@@ -2339,4 +2339,46 @@ footer {
     box-sizing: border-box;
   }
 }
+/* MARKSHEET FONT SIZE IMPROVEMENT */
 
+.marksheet-doc .marks-info {
+  font-size: 16px;
+  line-height: 1.5;
+  gap: 7px;
+  margin: 12px 0 16px;
+}
+
+.marksheet-doc h3 {
+  font-size: 16px;
+  margin: 12px 0 6px;
+}
+
+.marksheet-doc .module-text {
+  max-width: 100%;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.marksheet-doc .marks-table {
+  width: 100%;
+  font-size: 15px;
+  margin: 8px auto;
+}
+
+.marksheet-doc .marks-table th,
+.marksheet-doc .marks-table td {
+  padding: 5px 8px;
+}
+
+.marksheet-doc .grade-line {
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.marksheet-doc .doc-title {
+  font-size: 22px;
+}
+
+.marksheet-doc .doc-line {
+  font-size: 15px;
+}
