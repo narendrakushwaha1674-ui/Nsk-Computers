@@ -561,12 +561,15 @@ function marksheetHtml(student) {
           ${studentPhotoHtml(student)}
         </div>
         <div class="doc-title">Marksheet/Grade Card</div>
-        <div class="doc-line"><span>REGISTRATION NO. : <b>${student.certNo || "1182"}</b></span><span>ROLL NO. : <b>${student.roll}</b></span></div>
+      <div class="doc-line">
+  <span>REGISTRATION NO. : <b><u>${student.certNo || "1182"}</u></b></span>
+  <span>ROLL NO. : <b><u>${student.roll}</u></b></span>
+</div>
         <div class="marks-info">
           <b>STUDENT NAME: <u>${escapeHtml(String(student.name || "").toUpperCase())}</u></b>
 <b>S/O,W/O,D/O: <u>${escapeHtml(String(student.father || "").toUpperCase())}</u></b>
-          <b>COURSE NAME: ${escapeHtml(student.course)}</b>
-          <b>COURSE DURATION: 6 MONTHS</b>
+         <b>COURSE NAME: <u>${escapeHtml(student.course)}</u></b>
+<b>COURSE DURATION: <u>6 MONTHS</u></b>
          <b>CENTER NAME: <u>${escapeHtml(String(currentBranch.institute || "").toUpperCase())}</u></b>
         </div>
         <h3>Module Covered</h3>
@@ -580,7 +583,7 @@ function marksheetHtml(student) {
           <tr><td>VIVA</td><td>100</td><td>${marks.viva}</td></tr>
           <tr><td>TOTAL</td><td>400</td><td>${total}</td></tr>
         </table>
-        <p class="grade-line">PERCENTAGE/GRADE: <b>${student.grade}</b></p>
+      <p class="grade-line">PERCENTAGE/GRADE: <b><u>${student.grade}</u></b></p>
         <div class="doc-footer"><div class="qr-box">${qrImage(student, "marksheet")}</div><div><img class="seal-signature small" src="seal-signature.png" alt="Seal and signature" /><b>Authorised Signatory</b></div></div>
       </div>
     </article>
