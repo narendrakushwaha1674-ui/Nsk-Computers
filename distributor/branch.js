@@ -11,6 +11,7 @@ const FALLBACK_INSTITUTES = [
 ];
 
 const CENTER_NAME = "MAA SHITLA COMPUTER CENTER ";
+const CENTER_MOBILE = "9179424002";
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1H-O6rRRJIySOHpzyvjB3ipocwnQvFj1Bx9ZyYTrBQ0A8wOZz4oKX1uIvIItKNZlJ/exec";
 const SITE_URL = "https://maa-shitla-computer-center.example.com/";
 
