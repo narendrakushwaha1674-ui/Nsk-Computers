@@ -1592,10 +1592,12 @@ footer {
 
 .doc-brand h1 {
   margin: 0;
-  color: #0f172a;
-  font-size: 56px;
-  line-height: 0.95;
-  text-transform: uppercase;
+  color: #111827;
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 1.1;
+  text-transform: none;
+  white-space: nowrap;
   letter-spacing: 0;
 }
 
