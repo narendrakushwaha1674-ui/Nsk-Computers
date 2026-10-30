@@ -487,24 +487,32 @@ function certificateHtml(student) {
       <div class="doc-ribbon top"></div>
       <div class="doc-ribbon bottom"></div>
       <div class="doc-inner">
-        <p class="iso-text">An ISO 9001:2015 Certified Institute</p>
         <header class="doc-brand">
-          <div class="qr-box">${qrImage(student, "certificate")}</div>
-          <div>
-            <h1>Maa Shitla Computer Center</h1>
-          
-            <p>Learning For New Skills</p>
-            <small>Director - Narendra Kushwaha (Nsk) | Mob. ${CENTER_MOBILE}</small>
-          </div>
-          <div class="cp-logo">MS</div>
-        </header>
+  <div class="qr-box">${qrImage(student, "certificate")}</div>
+  <div style="text-align:center; flex:1;">
+   <h1 style="font-size:30px; font-weight:900; color:#111827; margin:0; text-decoration:underline; text-transform:uppercase;">
+      Maa Shitla Service Private Limited
+    </h1>
+  <p style="font-size:14px; font-weight:700; margin:5px 0; text-decoration:underline;">
+      Registered With : Ministry of Corporate Affairs (Govt. of India)
+    </p>
+ <p style="font-size:13px; font-weight:700; margin:4px 0; text-decoration:underline;">
+      CIN No. : XXXXXXXXXX
+    </p>
+  <p style="font-size:13px; font-weight:700; margin:4px 0; text-decoration:underline;">
+      Corporate Office - (Indergarh) 475675, District - Datia (M.P.)
+    </p>
+    <small>Director - Narendra Kushwaha (Nsk) | Mob. ${CENTER_MOBILE}</small>
+  </div>
+  <div class="cp-logo">MS</div>
+</header>
         <div class="doc-title">CERTIFICATE/DIPLOMA</div>
         <div class="doc-line"><span>REGISTRATION NO. : <b>${certNo}</b></span><span>ROLL NO. : <b>${student.roll}</b></span></div>
         <p class="certificate-text">
-          This is to Certify that mr/mrs/smt : <b>${escapeHtml(student.name)}</b><br />
-          S/o, W/o, D/o : <b>${escapeHtml(student.father)}</b>, D.O.B : <b>${formatDate(student.dob)}</b><br />
+          This is to Certify that mr/mrs/smt : <b><u>${escapeHtml(String(student.name || "").toUpperCase())}</u></b><br />
+S/o, W/o, D/o : <b><u>${escapeHtml(String(student.father || "").toUpperCase())}</u></b>, D.O.B : <b>${formatDate(student.dob)}</b><br />
           has successfully completed the course of : <b>${escapeHtml(student.course)}</b><br />
-          At: <b>${escapeHtml(currentBranch.institute)}</b> of Duration : <b>6 MONTHS</b>,<br />
+          At: <b style="text-transform:uppercase; text-decoration:underline;">${escapeHtml(String(currentBranch.institute || "").toUpperCase())}</b> of Duration : <b>6 MONTHS</b>,<br />
           and has secured : <b>"${percentage}"</b>, Issued Date : <b>${formatDate(new Date())}</b>
         </p>
         <div class="doc-seal">ISO</div>
@@ -528,26 +536,34 @@ function marksheetHtml(student) {
       <div class="doc-ribbon top"></div>
       <div class="doc-ribbon bottom"></div>
       <div class="doc-inner">
-        <p class="iso-text">An ISO 9001:2015 Certified Institute</p>
-        <header class="doc-brand compact">
-          <div>
-            <h1>Maa Shitla Computer</h1>
-            <strong>Center AND Computer Shop</strong>
-            <p>Learning For New Skills</p>
-          </div>
-          <div class="cp-logo">MS</div>
-        </header>
+       <header class="doc-brand compact">
+  <div style="text-align:center; width:100%;">
+   <h1 style="font-size:28px; font-weight:900; color:#111827; margin:0; text-decoration:underline; text-transform:uppercase;">
+      Maa Shitla Service Private Limited
+    </h1>
+  <p style="font-size:13px; font-weight:700; margin:5px 0; text-decoration:underline;">
+      Registered With : Ministry of Corporate Affairs (Govt. of India)
+    </p>
+  <p style="font-size:12px; font-weight:700; margin:4px 0; text-decoration:underline;">
+      CIN No. : XXXXXXXXXX
+    </p>
+   <p style="font-size:12px; font-weight:700; margin:4px 0; text-decoration:underline;">
+      Corporate Office - (Indergarh) 475675, District - Datia (M.P.)
+    </p>
+  </div>
+  <div class="cp-logo">MS</div>
+</header>
         <div class="marksheet-photo-row">
           ${studentPhotoHtml(student)}
         </div>
         <div class="doc-title">Marksheet/Grade Card</div>
         <div class="doc-line"><span>REGISTRATION NO. : <b>${student.certNo || "1182"}</b></span><span>ROLL NO. : <b>${student.roll}</b></span></div>
         <div class="marks-info">
-          <b>STUDENT NAME: ${escapeHtml(student.name)}</b>
-          <b>S/O,W/O,D/O: ${escapeHtml(student.father)}</b>
+          <b>STUDENT NAME: <u>${escapeHtml(String(student.name || "").toUpperCase())}</u></b>
+<b>S/O,W/O,D/O: <u>${escapeHtml(String(student.father || "").toUpperCase())}</u></b>
           <b>COURSE NAME: ${escapeHtml(student.course)}</b>
           <b>COURSE DURATION: 6 MONTHS</b>
-          <b>CENTER NAME: ${escapeHtml(currentBranch.institute)}</b>
+         <b>CENTER NAME: <u>${escapeHtml(String(currentBranch.institute || "").toUpperCase())}</u></b>
         </div>
         <h3>Module Covered</h3>
         <p class="module-text">DCA: Fundamental, MS-DOS, Windows 10, MS-Word, MS-Excel, Internet, Networking, Multimedia, HTML, System Maintenance.</p>
