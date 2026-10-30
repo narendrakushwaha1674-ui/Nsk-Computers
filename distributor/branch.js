@@ -922,12 +922,16 @@ on(elements.studentForm, "submit", (event) => {
   setView("students");
 });
 
-const activeBranch = sessionStorage.getItem("activeBranch");
+const savedBranch = localStorage.getItem("activeBranch");
+const sessionBranch = sessionStorage.getItem("activeBranch");
+const activeBranch = savedBranch || sessionBranch;
+
 if (activeBranch) {
   try {
-    showDashboard(JSON.parse(activeBranch));
+    showDashboard(JSON.parse(activeBranch), Boolean(savedBranch));
     setView("dashboard");
   } catch {
+    localStorage.removeItem("activeBranch");
     sessionStorage.removeItem("activeBranch");
     elements.dashboard.classList.add("hidden");
     elements.loginScreen.classList.remove("hidden");
