@@ -472,8 +472,7 @@ function verificationUrl(student, type) {
 
 function qrImage(student, type) {
   const data = encodeURIComponent(verificationUrl(student, type));
-  const link = verificationUrl(student, type);
-  return `<img class="qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=${data}" alt="QR code" /><a class="qr-link" href="${link}" target="_blank" rel="noopener">Verify Online</a>`;
+  return `<img class="qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=${data}" alt="QR code" />`;
 }
 
 function certificateHtml(student) {
