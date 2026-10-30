@@ -491,8 +491,8 @@ function certificateHtml(student) {
         <header class="doc-brand">
           <div class="qr-box">${qrImage(student, "certificate")}</div>
           <div>
-            <h1>Maa Shitla Computer</h1>
-            <strong>Center AND Computer Shop</strong>
+            <h1>Maa Shitla Computer Center</h1>
+          
             <p>Learning For New Skills</p>
             <small>Director - Narendra Kushwaha (Nsk) | Mob. ${CENTER_MOBILE}</small>
           </div>
