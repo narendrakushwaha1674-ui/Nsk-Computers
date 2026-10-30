@@ -1919,11 +1919,21 @@ footer {
 .cp-logo {
   width: 82px;
   height: 82px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
   border-radius: 50%;
-  font-size: 28px;
-  color: #fff;
-  background: linear-gradient(135deg, #0f172a, #0f766e);
-  border-color: #d4af37;
+  background: #fff;
+  border: 3px solid #d4af37;
+}
+
+.cp-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 50%;
 }
 
 .doc-title {
