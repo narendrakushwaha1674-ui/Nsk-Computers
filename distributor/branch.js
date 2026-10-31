@@ -501,20 +501,28 @@ function certificateHtml(student) {
   <p style="font-size:13px; font-weight:700; margin:4px 0; text-decoration:underline;">
       Corporate Office - (Indergarh) 475675, District - Datia (M.P.)
     </p>
- 
+ <div class="mca-iso-logos">
+  <img src="mca-iso-logos.png" alt="MCA and ISO Logos">
+</div>
   </div>
  <div class="cp-logo">
   <img src="https://lh3.googleusercontent.com/gps-cs-s/ANWiy9TVqQORi8wWAbH09-f8359LUGXLlyHfVr0RkYOd2Nac3Wsa0l1EPkwnA1cozufB9rZSZ9gijKNgT-AjKEZ0Q8dGQ9Z3L7Ed--OWY_ZopgFlACkQNFAssoiRxRzNqm-9--wwgZ963jci76iy=s680-w680-h510-rw" alt="Maa Shitla Logo">
 </div>
 </header>
         <div class="doc-title">CERTIFICATE/DIPLOMA</div>
-        <div class="doc-line"><span>REGISTRATION NO. : <b>${certNo}</b></span><span>ROLL NO. : <b>${student.roll}</b></span></div>
+       <div class="doc-line">
+  <span>REGISTRATION NO. : <b><u>${certNo}</u></b></span>
+  <span>ROLL NO. : <b><u>${student.roll}</u></b></span>
+</div>
         <p class="certificate-text">
           This is to Certify that mr/mrs/smt : <b><u>${escapeHtml(String(student.name || "").toUpperCase())}</u></b><br />
-S/o, W/o, D/o : <b><u>${escapeHtml(String(student.father || "").toUpperCase())}</u></b>, D.O.B : <b>${formatDate(student.dob)}</b><br />
-          has successfully completed the course of : <b>${escapeHtml(student.course)}</b><br />
-          At: <b style="text-transform:uppercase; text-decoration:underline;">${escapeHtml(String(currentBranch.institute || "").toUpperCase())}</b> of Duration : <b>6 MONTHS</b>,<br />
-          and has secured : <b>"${percentage}"</b>, Issued Date : <b>${formatDate(new Date())}</b>
+S/o, W/o, D/o : <b><u>${escapeHtml(String(student.father || "").toUpperCase())}</u></b>, D.O.B : <b><u>${formatDate(student.dob)}</u></b><br />
+
+has successfully completed the course of : <b><u>${escapeHtml(student.course)}</u></b><br />
+
+At: <b style="text-transform:uppercase; text-decoration:underline;">${escapeHtml(String(currentBranch.institute || "").toUpperCase())}</b> of Duration : <b><u>6 MONTHS</u></b>,<br />
+
+and has secured : <b><u>"${percentage}"</u></b>, Issued Date : <b><u>${formatDate(new Date())}</u></b>
         </p>
         <div class="doc-seal">ISO</div>
         ${studentPhotoHtml(student)}
@@ -551,6 +559,9 @@ function marksheetHtml(student) {
    <p style="font-size:12px; font-weight:700; margin:4px 0; text-decoration:underline;">
       Corporate Office - (Indergarh) 475675, District - Datia (M.P.)
     </p>
+    <div class="mca-iso-logos">
+  <img src="mca-iso-logos.png" alt="MCA and ISO Logos">
+</div>
   </div>
   <div class="cp-logo">
   <img src="https://lh3.googleusercontent.com/gps-cs-s/ANWiy9TVqQORi8wWAbH09-f8359LUGXLlyHfVr0RkYOd2Nac3Wsa0l1EPkwnA1cozufB9rZSZ9gijKNgT-AjKEZ0Q8dGQ9Z3L7Ed--OWY_ZopgFlACkQNFAssoiRxRzNqm-9--wwgZ963jci76iy=s680-w680-h510-rw" alt="Maa Shitla Logo">
