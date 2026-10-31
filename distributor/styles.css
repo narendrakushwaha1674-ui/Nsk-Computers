@@ -2360,23 +2360,23 @@ footer {
 }
 /* MCA AND ISO LOGOS */
 
-
 /* CERTIFICATE SIDE LOGOS */
 
 .certificate-side-logos {
   position: absolute;
   left: 92px;
   bottom: 42px;
-  width: 170px;
+  width: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0;
 }
 
 .certificate-side-logos img {
   display: block;
-  width: 100%;
-  height: auto;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
 }
 /* MARKSHEET FOOTER LOGOS */
@@ -2401,8 +2401,31 @@ footer {
   height: 96px;
 }
 
-/* MARKSHEET SEAL SIZE */
+/* MARKSHEET SEAL AND SIGNATURE SIZE */
+
+.marksheet-doc .doc-footer > div:last-child {
+  width: 140px;
+  flex: 0 0 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  margin-right: 10px;
+}
+
 .marksheet-doc .seal-signature.small {
-  width: 105px;
-  height: 105px;
+  position: static;
+  display: block;
+  width: 125px;
+  height: 125px;
+  margin: 0 auto 4px;
+  object-fit: contain;
+}
+
+.marksheet-doc .doc-footer > div:last-child b {
+  display: block;
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
 }
