@@ -2382,3 +2382,18 @@ footer {
 .marksheet-doc .doc-line {
   font-size: 15px;
 }
+/* MCA AND ISO LOGOS */
+
+.mca-iso-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 6px auto;
+}
+
+.mca-iso-logos img {
+  display: block;
+  width: 170px;
+  height: auto;
+  object-fit: contain;
+}
