@@ -521,8 +521,9 @@ At: <b style="text-transform:uppercase; text-decoration:underline;">${escapeHtml
 
 and has secured : <b><u>"${percentage}"</u></b>, Issued Date : <b><u>${formatDate(new Date())}</u></b>
         </p>
-       <div class="certificate-side-logos">
-  <img src="mca-iso-logos.png" alt="Ministry of Corporate Affairs and ISO Logos">
+    <div class="certificate-side-logos">
+  <img src="https://i0.wp.com/companycsr.com/wp-content/uploads/2020/03/mca.jpg?fit=1056%2C528&ssl=1" alt="MCA Logo">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/ISO_Logo_%28Red_square%29.svg" alt="ISO Logo">
 </div>
         ${studentPhotoHtml(student)}
         <img class="seal-signature" src="seal-signature.png" alt="Seal and signature" />
