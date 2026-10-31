@@ -11,6 +11,7 @@ const FALLBACK_INSTITUTES = [
 ];
 
 const CENTER_NAME = "MAA SHITLA COMPUTER CENTER ";
+const DIRECTOR_NAME = "NSK";
 const CENTER_MOBILE = "9179424002";
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1H-O6rRRJIySOHpzyvjB3ipocwnQvFj1Bx9ZyYTrBQ0A8wOZz4oKX1uIvIItKNZlJ/exec";
 const SITE_URL = "https://maa-shitla-computer-center.example.com/";
@@ -158,25 +159,11 @@ function loadStudents(branchId) {
 }
 
 
+
 function saveStudents(branchId, students) {
   localStorage.setItem(studentKey(branchId), JSON.stringify(students));
-
-  students.forEach((student) => {
-    if (!student.roll || !student.dob || !student.branchId) {
-      return;
-    }
-
-    fetch(APPS_SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        action: "saveStudent",
-        student: student
-      })
-    }).catch((error) => {
-      console.error("Student sync failed:", error);
-    });
-  });
 }
+
 
 function loadPaymentRequests() {
   try {
