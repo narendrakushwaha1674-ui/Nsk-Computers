@@ -157,8 +157,25 @@ function loadStudents(branchId) {
   }
 }
 
+
 function saveStudents(branchId, students) {
   localStorage.setItem(studentKey(branchId), JSON.stringify(students));
+
+  students.forEach((student) => {
+    if (!student.roll || !student.dob || !student.branchId) {
+      return;
+    }
+
+    fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "saveStudent",
+        student: student
+      })
+    }).catch((error) => {
+      console.error("Student sync failed:", error);
+    });
+  });
 }
 
 function loadPaymentRequests() {
@@ -922,7 +939,9 @@ on(elements.studentForm, "submit", (event) => {
   event.preventDefault();
   const students = loadStudents(currentBranch.id);
   const studentData = {
+     branchId: currentBranch.id,
     roll: editingRoll || elements.studentRegNo.value || nextRoll(students),
+    
     regDate: document.querySelector("#regDate").value,
     name: document.querySelector("#studentName").value.trim(),
     father: document.querySelector("#fatherName").value.trim(),
