@@ -501,9 +501,6 @@ function certificateHtml(student) {
   <p style="font-size:13px; font-weight:700; margin:4px 0; text-decoration:underline;">
       Corporate Office - (Indergarh) 475675, District - Datia (M.P.)
     </p>
- <div class="mca-iso-logos">
-  <img src="mca-iso-logos.png" alt="MCA and ISO Logos">
-</div>
   </div>
  <div class="cp-logo">
   <img src="https://lh3.googleusercontent.com/gps-cs-s/ANWiy9TVqQORi8wWAbH09-f8359LUGXLlyHfVr0RkYOd2Nac3Wsa0l1EPkwnA1cozufB9rZSZ9gijKNgT-AjKEZ0Q8dGQ9Z3L7Ed--OWY_ZopgFlACkQNFAssoiRxRzNqm-9--wwgZ963jci76iy=s680-w680-h510-rw" alt="Maa Shitla Logo">
@@ -524,7 +521,9 @@ At: <b style="text-transform:uppercase; text-decoration:underline;">${escapeHtml
 
 and has secured : <b><u>"${percentage}"</u></b>, Issued Date : <b><u>${formatDate(new Date())}</u></b>
         </p>
-        <div class="doc-seal">ISO</div>
+       <div class="certificate-side-logos">
+  <img src="mca-iso-logos.png" alt="Ministry of Corporate Affairs and ISO Logos">
+</div>
         ${studentPhotoHtml(student)}
         <img class="seal-signature" src="seal-signature.png" alt="Seal and signature" />
         <div class="signature-line">Authorised Signatory</div>
