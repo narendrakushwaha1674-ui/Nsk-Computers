@@ -1985,19 +1985,6 @@ footer {
   color: #64748b;
 }
 
-.doc-seal {
-  position: absolute;
-  left: 92px;
-  bottom: 42px;
-  display: grid;
-  width: 92px;
-  height: 64px;
-  place-items: center;
-  color: #0f766e;
-  border: 4px solid #0f766e;
-  font-size: 28px;
-  font-weight: 900;
-}
 
 .signature-line {
   position: absolute;
@@ -2019,13 +2006,6 @@ footer {
   opacity: 1;
 }
 
-.seal-signature.small {
-  position: static;
-  display: block;
-  width: 88px;
-  height: 88px;
-  margin: 0 auto 4px;
-}
 
 .marks-info {
   display: grid;
@@ -2077,10 +2057,6 @@ footer {
   font-size: 12px;
 }
 
-.marksheet-doc .qr-box {
-  width: 76px;
-  height: 76px;
-}
 
 .marksheet-doc .doc-title {
   font-size: 18px;
@@ -2384,19 +2360,7 @@ footer {
 }
 /* MCA AND ISO LOGOS */
 
-.mca-iso-logos {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 6px auto;
-}
 
-.mca-iso-logos img {
-  display: block;
-  width: 170px;
-  height: auto;
-  object-fit: contain;
-}
 /* CERTIFICATE SIDE LOGOS */
 
 .certificate-side-logos {
@@ -2414,4 +2378,31 @@ footer {
   width: 100%;
   height: auto;
   object-fit: contain;
+}
+/* MARKSHEET FOOTER LOGOS */
+
+.marksheet-footer-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 220px;
+}
+
+.marksheet-footer-logos img {
+  width: 48%;
+  height: 65px;
+  object-fit: contain;
+}
+
+/* MARKSHEET QR SIZE */
+.marksheet-doc .qr-box {
+  width: 96px;
+  height: 96px;
+}
+
+/* MARKSHEET SEAL SIZE */
+.marksheet-doc .seal-signature.small {
+  width: 105px;
+  height: 105px;
 }
