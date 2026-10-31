@@ -2397,3 +2397,21 @@ footer {
   height: auto;
   object-fit: contain;
 }
+/* CERTIFICATE SIDE LOGOS */
+
+.certificate-side-logos {
+  position: absolute;
+  left: 92px;
+  bottom: 42px;
+  width: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.certificate-side-logos img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
