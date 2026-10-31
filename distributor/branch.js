@@ -559,10 +559,7 @@ function marksheetHtml(student) {
    <p style="font-size:12px; font-weight:700; margin:4px 0; text-decoration:underline;">
       Corporate Office - (Indergarh) 475675, District - Datia (M.P.)
     </p>
-    <div class="mca-iso-logos">
-  <img src="mca-iso-logos.png" alt="MCA and ISO Logos">
-</div>
-  </div>
+      </div>
   <div class="cp-logo">
   <img src="https://lh3.googleusercontent.com/gps-cs-s/ANWiy9TVqQORi8wWAbH09-f8359LUGXLlyHfVr0RkYOd2Nac3Wsa0l1EPkwnA1cozufB9rZSZ9gijKNgT-AjKEZ0Q8dGQ9Z3L7Ed--OWY_ZopgFlACkQNFAssoiRxRzNqm-9--wwgZ963jci76iy=s680-w680-h510-rw" alt="Maa Shitla Logo">
 </div>
@@ -594,8 +591,18 @@ function marksheetHtml(student) {
           <tr><td>TOTAL</td><td>400</td><td>${total}</td></tr>
         </table>
       <p class="grade-line">PERCENTAGE/GRADE: <b><u>${student.grade}</u></b></p>
-        <div class="doc-footer"><div class="qr-box">${qrImage(student, "marksheet")}</div><div><img class="seal-signature small" src="seal-signature.png" alt="Seal and signature" /><b>Authorised Signatory</b></div></div>
-      </div>
+        <div class="doc-footer">
+  <div class="qr-box">${qrImage(student, "marksheet")}</div>
+  <div class="marksheet-footer-logos">
+    <img src="https://i0.wp.com/companycsr.com/wp-content/uploads/2020/03/mca.jpg?fit=1056%2C528&ssl=1" alt="MCA Logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/ISO_Logo_%28Red_square%29.svg" alt="ISO Logo">
+  </div>
+  <div>
+    <img class="seal-signature small" src="seal-signature.png" alt="Seal and signature" />
+    <b>Authorised Signatory</b>
+  </div>
+</div>
+</div>
     </article>
   `;
 }
